@@ -1,0 +1,41 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    height:100%;
+}
+body {
+    height:100%;
+    min-height:100%;
+    background-color: #eee;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: brown;
+    position: fixed;
+    width: 100%;
+    /* bottom: 0; */
+    height: 2em;
+}
+
+@media screen and (max-width: 600px) {
+
+nav {
+    height: 3em;
+    /* padding-bottom: 3%; */
+}
+}
+
+a {
+    text-decoration: none;
+}
+
+.reqField {
+    color: crimson;
+    margin-left: 2px;
+}
