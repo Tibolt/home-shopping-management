@@ -67,7 +67,7 @@ form :global(.card) {
 }
 </style>
 
-<form action="?/register" method="POST">
+<form method="POST" action="?/register">
     <Card>
         <div class="grid">
             <h1>Register</h1>

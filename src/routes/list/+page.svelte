@@ -1,63 +1,77 @@
 <script lang="ts">
-    import ItemDetails from '../../components/ItemDetails.svelte'
+    import ListDetails from '../../components/listDetails.svelte'
     import Bubble from '../../components/Bubble.svelte';
     import AddModal from '../../components/addModal.svelte';
     import AddItemForm from '../../components/addItemForm.svelte';
-    import type { PageData } from '../$types';
+    import { goto } from '$app/navigation';
+	import type { PageData } from './$types';
+	import { writable } from 'svelte/store';
+    import { redirect } from "@sveltejs/kit";
+	import { item } from '$lib/db/schema';
+	import { setContext } from 'svelte';
+
+    function routeToPage(route: string, replaceState: boolean) {
+        console.log(route)
+        goto(`/${route}`, { replaceState }) 
+    }
+
+    export let data
+
+    // const list_id = writable();
+	// $: list_id.set(data.list_id);
+
 
     let showAddModal = false
-
-    let edit = false
-
-    export let data: PageData;
 
     const toggleAddModal = () => {
         showAddModal = !showAddModal;
     }
 
-    const toggleEdit = () => {
-        edit = !edit;
-    }
-
-    const deleteItem = (id) => {
-        itemCount = itemCount.filter((item) => item.id != id);
-    }
+    // const deleteItem = (id) => {
+    //     itemList = itemList.filter((item) => item.id != id);
+    // }
 
     const addItem = (e) => {
         const item = e.detail;
-        itemCount = [...itemCount, item]
+        itemList = [...itemList, item]
         toggleAddModal()
     }
 
-    let itemCount = data.items;
+    const routeToItems = (id) => {
+        // setContext('list_id', id)
+        routeToPage("items", false)
+    }
+
+    let itemList = data.lists
 </script>
 
 <AddModal showAddModal={showAddModal} on:click={toggleAddModal}>
     <AddItemForm on:addItem={addItem} action="?/create">
-        <h1 >Add New Item </h1>
+        <h1 >Add New List </h1>
         <div class="float">
             <label for="name">name</label>
             <input type="text" name="name" id="name" placeholder="type name of item">
         </div>
         <div class="float">
-            <label for="amount">amount</label>
-            <input type="number" name="amount" id="amount" placeholder="type amount">
+            <label for="content">description</label>
+            <input type="text" name="content" id="content" placeholder="type description">
         </div>
     </AddItemForm>
 </AddModal>
 <div class="parent">
     <h2>lista</h2>
     <div class="grid">
-        {#each itemCount as item}
+        {#each itemList as list}
         <div class="item">
-            <ItemDetails name={item.name} amount={item.amount} on:click={() => deleteItem(item.id)}/>
+            <ListDetails name={list.name} on:click={() => routeToItems(item.id)}>
+            </ListDetails>
         </div>
         {/each}
     </div> 
 
     <div class="bottom">
         <div class="corners">
-            <Bubble><button class="btnUnset" on:click={toggleEdit}>Edit</button></Bubble>
+            <!-- <Bubble><button class="btnUnset">Edit</button></Bubble> -->
             <Bubble><button class="btnUnset" on:click={toggleAddModal}>+</button></Bubble>
         </div>
     </div>
@@ -76,13 +90,13 @@
     }
     .grid {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
         column-gap: 20%;
         padding-top: 2em;
         justify-content: center;
     }
     .item {
-        padding-bottom: 5em;
+        padding-bottom: 1em;
     }
     .bottom {
         position: fixed;

@@ -6,14 +6,14 @@
 
 <style>
     .bubble {
-        background-color: whitesmoke;
+        background-color: var(--btn-bg);
         padding: 10px;
         border-radius: 60px;
-        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
         width: min-content;
     }
     h3 {
-        color: blue;
+        color: var(--btn-text);
     }
 </style>
 

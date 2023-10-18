@@ -5,7 +5,7 @@
 
 <style>
     .card {
-        background-color: whitesmoke;
+        background-color: var(--card-bg);
         padding: 10px;
         border-radius: 5px;
         box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);

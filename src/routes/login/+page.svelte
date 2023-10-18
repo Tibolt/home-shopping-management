@@ -85,17 +85,17 @@ button {
 </style>
 
 
-<form method="post">
+<form method="POST" action="?/login">
     <Card>
         <div class="center">   
             <h1 >Welcome </h1>
             <div class="float">
                 <label for="email">email</label>
-                <input type="email" id="email" placeholder="type your email">
+                <input type="email" id="email" name="email" placeholder="type your email">
             </div>
             <div class="float">
                 <label for="password">password</label>
-                <input type="password" id="password" placeholder="type your password">
+                <input type="password" id="password" name="password" placeholder="type your password">
             </div>
         </div>
         <div class="grid">

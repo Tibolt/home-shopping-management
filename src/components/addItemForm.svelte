@@ -1,10 +1,20 @@
 <script lang="ts">
 	import Card from "./Card.svelte";
+    import { createEventDispatcher } from "svelte";
+
+    export let action = "deafult"
+
+    let dispatch = createEventDispatcher();
 
     let name: String;
     let amount: Int16Array;
     const handleSumbit = () => {
-        console.log(name, amount)
+        const item = {
+            name,
+            amount,
+            id: Math.random()
+        }
+        dispatch("addItem", item);
     }
 </script>
 
@@ -74,18 +84,10 @@
 
 </style>
 
-<form method="post" on:submit|preventDefault={handleSumbit}>
+<form method="POST" action={action}>
     <Card>
-        <div class="center">   
-            <h1 >Add New Item </h1>
-            <div class="float">
-                <label for="name">name</label>
-                <input type="text" id="name" placeholder="type name of item" bind:value={name}>
-            </div>
-            <div class="float">
-                <label for="amount">amount</label>
-                <input type="number" id="amount" placeholder="type amount" bind:value={amount}>
-            </div>
+        <div class="center">
+            <slot></slot>
         </div>
         <div class="grid">
             <h2 >Add</h2>
