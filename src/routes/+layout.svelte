@@ -28,6 +28,7 @@
             <a href="/items">I</a>
             <a href="/store">S</a>
             <a href="/login">L</a>
+            <a href="/log-out">LO</a>
         </div>
     {/if}
     

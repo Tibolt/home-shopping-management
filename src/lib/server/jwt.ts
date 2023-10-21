@@ -1,5 +1,5 @@
 // import { JWT_SECRET } from "$env/static/private";
-import { error } from "@sveltejs/kit";
+import { error, redirect } from "@sveltejs/kit";
 import jwt from "jsonwebtoken";
 
 type JWTPayload = {

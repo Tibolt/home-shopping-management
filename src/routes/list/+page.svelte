@@ -2,7 +2,7 @@
     import ListDetails from '../../components/listDetails.svelte'
     import Bubble from '../../components/Bubble.svelte';
     import AddModal from '../../components/addModal.svelte';
-    import AddItemForm from '../../components/addItemForm.svelte';
+    import AddListForm from '../../components/addListForm.svelte';
     import { goto } from '$app/navigation';
 	import type { PageData } from './$types';
 	import { writable } from 'svelte/store';
@@ -39,14 +39,14 @@
 
     const routeToItems = (id) => {
         // setContext('list_id', id)
-        routeToPage("items", false)
+        routeToPage("list/"+id, false)
     }
 
     let itemList = data.lists
 </script>
 
 <AddModal showAddModal={showAddModal} on:click={toggleAddModal}>
-    <AddItemForm on:addItem={addItem} action="?/create">
+    <AddListForm on:addItem={addItem} action="?/create">
         <h1 >Add New List </h1>
         <div class="float">
             <label for="name">name</label>
@@ -56,15 +56,14 @@
             <label for="content">description</label>
             <input type="text" name="content" id="content" placeholder="type description">
         </div>
-    </AddItemForm>
+    </AddListForm>
 </AddModal>
 <div class="parent">
     <h2>lista</h2>
     <div class="grid">
         {#each itemList as list}
         <div class="item">
-            <ListDetails name={list.name} on:click={() => routeToItems(item.id)}>
-            </ListDetails>
+            <ListDetails name={list.name} on:click={() => routeToItems(list.id)}></ListDetails>
         </div>
         {/each}
     </div> 
