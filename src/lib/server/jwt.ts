@@ -17,7 +17,7 @@ export const cookieJwtAuth = async (token: string) => {
     try {
         const payload: JWTPayload = jwt.verify(token, process.env.JWT_SECRET)
         return payload
-    } catch {
+    } catch(err) {
         console.log("invalid or missing JWT, you are not logged in")
         throw error(401, "invalid or missing JWT, you are not logged in");
     }

@@ -1,7 +1,40 @@
 <script>
 	import Card from "../../components/Card.svelte";
+    import { user } from "../../stores";
 
+    export let data 
+
+    $:clearUser = data?.clearUser
+
+    $:{
+        if(clearUser) {
+            user.set(undefined)
+        }
+    }
 </script>
+
+
+<form method="POST" action="?/login">
+    <Card>
+        <div class="center">   
+            <h1 >Welcome </h1>
+            <div class="float">
+                <label for="email">email</label>
+                <input type="email" id="email" name="email" placeholder="type your email">
+            </div>
+            <div class="float">
+                <label for="password">password</label>
+                <input type="password" id="password" name="password" placeholder="type your password">
+            </div>
+        </div>
+        <div class="grid">
+            <h2 >Login</h2>
+            <button class="float">Login</button>
+            <a href="/register" class="btn" style="">Sign Up</a>
+            <a href="/register" class="btn" style="">Forgot Password</a>
+        </div>
+    </Card>
+</form>
 
 
 <style>
@@ -84,25 +117,3 @@ button {
 
 </style>
 
-
-<form method="POST" action="?/login">
-    <Card>
-        <div class="center">   
-            <h1 >Welcome </h1>
-            <div class="float">
-                <label for="email">email</label>
-                <input type="email" id="email" name="email" placeholder="type your email">
-            </div>
-            <div class="float">
-                <label for="password">password</label>
-                <input type="password" id="password" name="password" placeholder="type your password">
-            </div>
-        </div>
-        <div class="grid">
-            <h2 >Login</h2>
-            <button class="float">Login</button>
-            <a href="/register" class="btn" style="">Sign Up</a>
-            <a href="/register" class="btn" style="">Forgot Password</a>
-        </div>
-    </Card>
-</form>

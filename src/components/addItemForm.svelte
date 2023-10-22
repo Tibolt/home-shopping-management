@@ -55,11 +55,6 @@
             <Sugestion name={suggestion} on:click={() => handleSuggestionClick(suggestion)} on:addItem={trackItems} on:deleteItem={trackItems} on:increaseItem={trackItems} on:subItem={trackItems}/>
         {/each}
     </div>
-    <datalist id="name-suggestions">
-        {#each suggestions as suggestion}
-            <option value={suggestion}></option>
-        {/each}
-    </datalist>
     <form method="POST" action="?/create">
         <Bubble><button on:click>+</button></Bubble>
     </form>

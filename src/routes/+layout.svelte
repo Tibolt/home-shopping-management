@@ -16,19 +16,17 @@
         <h1 on:click={toggleNav}>X</h1>
             <a href="/">Home</a>
             <a href="/list">List</a>
-            <a href="/items">Items</a>
             <a href="/store">Store</a>
             <a href="/login">Login</a>
-            <a href="/log-out">log-out</a>
+            <a data-sveltekit-preload-data="off" href="/log-out">log-out</a>
     {:else}
         <h1 on:click={toggleNav}>Logo</h1>
         <div class="icons">
             <a href="/">H</a>
             <a href="/list">L</a>
-            <a href="/items">I</a>
             <a href="/store">S</a>
             <a href="/login">L</a>
-            <a href="/log-out">LO</a>
+            <a data-sveltekit-preload-data="off" href="/log-out">LO</a>
         </div>
     {/if}
     

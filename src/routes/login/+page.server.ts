@@ -4,17 +4,18 @@ import { user } from "$lib/db/schema";
 import { eq, and, lt, gte, ne, Name } from "drizzle-orm";
 import { goto } from "$app/navigation";
 import bcrypt from "bcrypt";
-import { cookieJwtCreate } from "$lib/server/jwt.js";
+import { cookieJwtCreate, cookieJwtRefresh } from "$lib/server/jwt";
 
 export const load = async (event) => {
     // get the sessionId from the cookie
     const token = event.cookies.get("auth_token");
-  
-    // if there is a token, redirect to the user page
-    if (token && token !== "") {
-      throw redirect(301, "/");
+    
+    if(!token) {
+        return {clearUser: true}
     }
-  };
+    return {clearUser: false}
+    // throw redirect(301, "/");
+}
 
 const login: Action = async (event) => {
     const {email, password} = Object.fromEntries(await event.request.formData()) as {
@@ -61,6 +62,7 @@ const login: Action = async (event) => {
         path: "/",
         httpOnly: true,
         secure: false,
+        maxAge:60 * 60 * 24,
     })
   
     throw redirect(301, "/");
