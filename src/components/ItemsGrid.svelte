@@ -39,9 +39,11 @@
 <style>
     .grid {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
         column-gap: 20%;
+        row-gap: 10%;
         padding-top: 2em;
         justify-content: center;
+        width: 50%;
     }
 </style>

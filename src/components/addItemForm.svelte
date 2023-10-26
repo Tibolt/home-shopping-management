@@ -2,9 +2,13 @@
     import Sugestion from "./Sugestion.svelte";
     import Bubble from "./Bubble.svelte";
 
-    let inputHistory = ["chleb", "mleko", "ser", "piwo", "pietruszka"]
+    let inputHistory = ["chleb", "mleko", "ser", "piwo", "pietruszka", "pomidor", "sałata", "pizza", "arbuz", "ser gouda", "ser mozzarela", "ser biały", "ser zółty", "papryka", "pieczarki", "sok", "woda"]
     let suggestions = inputHistory
-    let tempItems: { name: String, amount: Number }[] = [];
+    let tempItems: { name: string, amount: number }[] = [];
+    let names: string
+    let amounts: number
+
+    export let listId = 0
 
     let inputValue = ""
     
@@ -13,7 +17,7 @@
         suggestions = getSuggestions(inputValue);
     }
 
-    function getSuggestions(input: String) {
+    function getSuggestions(input: string) {
         const typedTextSuggestion = input && !inputHistory.includes(input) ? [input] : [];
         const filteredSuggestions = inputHistory.filter((item) => item.includes(input));
 
@@ -28,8 +32,8 @@
     }
     
     function trackItems(e) {
-        const name: String = e.detail.name
-        const amount: Number = e.detail.amount
+        const name: string = e.detail.name
+        const amount: number = e.detail.amount
         if(amount === 0) {
             tempItems = tempItems.filter((item) => item.name != name)
             return tempItems
@@ -44,10 +48,26 @@
         tempItems = [...tempItems, newItem]
         return tempItems
     }
+
+    let submit
+
+    function handleSubmit() {
+        // Send a POST request to endpoint
+
+        submit = fetch(`/api/create/${listId}`, {
+        method: 'POST',
+        body: JSON.stringify(tempItems),
+        headers: { 'content-type': 'application/json', "Authorization": "333" },
+        })
+        .then((resp) => resp.json())
+        .finally(() => setTimeout(() => (submit = null), 5000))
+
+    }
     
 </script>
 
 <div class="addItem">
+    <Bubble><button on:click>back</button></Bubble>
     <h1 >Add New Item </h1>
     <input type="text" name="name" id="name" placeholder="type name of item" bind:value={inputValue} on:input={handleInput}/>
     <div class="suggestions">
@@ -55,8 +75,11 @@
             <Sugestion name={suggestion} on:click={() => handleSuggestionClick(suggestion)} on:addItem={trackItems} on:deleteItem={trackItems} on:increaseItem={trackItems} on:subItem={trackItems}/>
         {/each}
     </div>
-    <form method="POST" action="?/create">
-        <Bubble><button on:click>+</button></Bubble>
+    <!-- <form method="POST" on:submit|preventDefault={handleSubmit}> -->
+    <form method="POST" action="?/create" on:submit={handleSubmit}>
+        <input type="hidden" hidden value={tempItems} name="tempItems">
+        <!-- <Bubble><button type="submit">add</button></Bubble> -->
+        <button type="submit">add</button>
     </form>
 </div>
 
@@ -69,12 +92,19 @@
         width: 100%;
     }
     form {
+        display: flex;
+        justify-content: center;
         width: 100%;
         padding-top: 50px;
     }
     .suggestions {
         display: flex;
         flex-direction: column;
+        flex-wrap: nowrap;
+        height: 300px;
+        /* display: grid;
+        grid-template-columns: 1fr; */
+        overflow: auto;
     }
     button {
         all: unset

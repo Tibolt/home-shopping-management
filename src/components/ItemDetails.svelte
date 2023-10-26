@@ -5,21 +5,27 @@
     export let amount = 0;
 </script>
 
+
+<Card width={"100%"}>
+    <div class="flex">
+        <h3>{name}</h3>
+        <button on:click|self>X</button>
+    </div>
+    <p>Amount: {amount}</p>
+</Card>
+
 <style>
     button {
         color: var(--red);
-        position: relative;
-        left: 80px;
-        bottom: 40px;
         font-size: 20px;
         border-radius: 5px;
         border-width: 0px;
         background-color: unset;
     }
-</style>
 
-<Card width={"100px"}>
-    <h3>{name}</h3>
-    <p>Amount: {amount}</p>
-    <button on:click|self>X</button>
-</Card>
+    .flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+</style>

@@ -9,6 +9,7 @@
     import { redirect } from "@sveltejs/kit";
 	import { item } from '$lib/db/schema';
 	import { setContext } from 'svelte';
+    import EditListForm from '../../components/editListForm.svelte';
 
     function routeToPage(route: string, replaceState: boolean) {
         console.log(route)
@@ -23,8 +24,14 @@
 
     let showAddModal = false
 
+    let showEditForm = false
+
     const toggleAddModal = () => {
         showAddModal = !showAddModal;
+    }
+
+    const toggleEditForm = () => {
+        showEditForm = !showEditForm;
     }
 
     // const deleteItem = (id) => {
@@ -40,6 +47,11 @@
     const routeToItems = (id) => {
         // setContext('list_id', id)
         routeToPage("list/"+id, false)
+    }
+
+    const editList = (id) => {
+        console.log(id)
+        toggleEditForm()
     }
 
     let itemList = data.lists
@@ -58,14 +70,18 @@
         </div>
     </AddListForm>
 </AddModal>
+<AddModal showAddModal={showEditForm} on:click={toggleEditForm}>
+    <EditListForm></EditListForm>
+</AddModal>
 <div class="parent">
     <h2>lista</h2>
     <div class="grid">
         {#each itemList as list}
         <div class="item">
-            <ListDetails name={list.name} on:click={() => routeToItems(list.id)}></ListDetails>
+            <ListDetails name={list.name} on:route={() => routeToItems(list.id)} on:editList={() => editList(list.id)}></ListDetails>
         </div>
         {/each}
+
     </div> 
 
     <div class="bottom">

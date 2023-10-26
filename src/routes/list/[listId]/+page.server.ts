@@ -27,11 +27,34 @@ export const load = async ({ request, fetch, cookies, params }) => {
   if(params.listId != "manifest.webmanifest")
     id = parseInt(params.listId)
   let items = await db.select().from(item).where(eq(item.list_id, id))
-  return { items }
+  return { items: items, listId: params.listId }
 }
 
 export const actions = {
   create: async ({ request, fetch, cookies, params }) => {
+
+    // const {tempItems} = Object.fromEntries((await request.formData())) as {
+    //   tempItems: { name: String, amount: Number }[]
+    // }
+    
+    let items = []
+    // const tempItems = ((await request.formData()).getAll("tempItems"))
+    const data = await request.formData()
+
+    for (const [key, value] of data.entries()) {
+
+    }
+
+
+
+
+
+    
+    // console.table([...data.entries()])
+
+    // console.log(tempItems)
+    return {success: true}
+
     const {name, amount} = Object.fromEntries(await request.formData()) as {
       name: string
       amount: number

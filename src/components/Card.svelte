@@ -8,7 +8,7 @@
         background-color: var(--card-bg);
         padding: 10px;
         border-radius: 5px;
-        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
         /* margin-bottom: 10em; */
     }
 

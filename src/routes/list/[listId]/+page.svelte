@@ -7,12 +7,13 @@
     import TextAutocomplete from '../../../components/TextAutocomplete.svelte';
     import type { PageData } from '../$types';
     import { enhance } from '$app/forms';
+    import Card from '../../../components/Card.svelte';
 
     let showAddModal = false
 
     let edit = false
 
-    export let data: PageData;
+    export let data
 
     const toggleAddModal = () => {
         showAddModal = !showAddModal;
@@ -39,51 +40,19 @@
     let tempItems = []
 </script>
 
-<AddModal showAddModal={showAddModal} on:click}>
-    <!-- <AddItemForm on:addItem={addItem} action="?/create">
-        <h1 >Add New Item </h1>
-        <div class="float">
-            <label for="name">name</label>
-            <input type="text" name="name" id="name" placeholder="type name of item" list="name-suggestions">
-        </div>
-        <div class="float">
-            <label for="amount">amount</label>
-            <input type="number" name="amount" id="amount" placeholder="type amount">
-        </div>
-        <datalist id="name-suggestions">
-            {#each sugestions as sugestion}
-                <option value={sugestion}></option>
-            {/each}
-        </datalist>
-    </AddItemForm> -->
-    <button on:click={toggleAddModal}>back</button>
-    <AddItemForm on:click={toggleAddModal}></AddItemForm>
-    
-    <!-- <div class="addItem">
-        <h1 >Add New Item </h1>
-        <input type="text" name="name" id="name" placeholder="type name of item" list="name-suggestions">
-        <div class="sugestions">
-            {#each sugestions as sugestion}
-                <Sugestion name={sugestion}/>
-            {/each}
-        </div>
-        <datalist id="name-suggestions">
-            {#each sugestions as sugestion}
-                <option value={sugestion}></option>
-            {/each}
-        </datalist>
-        <form method="POST" action="?/create">
-            <Bubble><button class="btnUnset" on:click={toggleAddModal}>+</button></Bubble>
-        </form>
-    </div> -->
+<AddModal showAddModal={showAddModal} on:click={toggleAddModal}>
+    <Card>
+        <AddItemForm on:click={toggleAddModal} listId={data.listId}></AddItemForm>
+    </Card>
 </AddModal>
+
 <div class="parent">
     <h2>lista</h2>
     <ItemsGrid items={itemCount}/>
     <div class="bottom">
         <div class="corners">
-            <Bubble><button class="btnUnset" on:click={toggleEdit}>Edit</button></Bubble>
-            <Bubble><button class="btnUnset" on:click={toggleAddModal}>+</button></Bubble>
+            <Bubble on:click={toggleEdit}>Edit</Bubble>
+            <Bubble width="30px" on:click={toggleAddModal}>+</Bubble>
         </div>
     </div>
 </div>
@@ -99,16 +68,6 @@
         height: 95%;
         padding-top: 5em;
     }
-    .grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        column-gap: 20%;
-        padding-top: 2em;
-        justify-content: center;
-    }
-    .item {
-        padding-bottom: 5em;
-    }
     .bottom {
         position: fixed;
         bottom: 8%;
@@ -117,43 +76,20 @@
     .corners {
         display: flex;
         flex-direction: row;
-        justify-content: center;
+        justify-content: space-evenly;
+        gap: 50px;
         padding: 0 1em;
+    }
+    .btnUnset {
+        all: unset;
     }
     @media screen and (max-width: 600px) {
 
         .bottom {
             padding: 20px;
             bottom: 3%;
-            display: inline-block;
             border-top: 2px solid #ddd;
         }
     }
-    .btnUnset {
-        all: unset;
-    }
-    .addItem {
-        width: 100%;
-    }
-    
-    .addItem input, p{
-        width: 100%;
-    }
-    form {
-        width: 100%;
-        padding-top: 50px;
-    }
-    
 
-    .center {
-        display: grid;
-        place-items: center;
-        margin: 10% auto;
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr 1fr 1fr;
-    }
-    .sugestions {
-        display: flex;
-        flex-direction: column;
-    }
 </style>

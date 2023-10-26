@@ -52,4 +52,20 @@ export const actions = {
 
     return { success: true };
   },
+  delete: async ({ request, cookies}) => {
+    const {id} = Object.fromEntries(await request.formData()) as {
+      id: number
+    }
+    // ensure the user is logged in
+    const token = cookies.get("auth_token");
+    if (!token) {
+      throw redirect(301, "/sign-in");
+    }
+
+    const userPayload = await cookieJwtAuth(token);
+
+    await db.delete(list).where(eq(list.id, id))
+    console.log("deleted", id)
+    return { success: true };
+  },
 }
