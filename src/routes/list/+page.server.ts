@@ -1,8 +1,8 @@
 import { db } from "$lib/db/config"
 import { item, list } from "$lib/db/schema";
-import { eq, lt, gte, ne, Name } from "drizzle-orm";
+import { eq, lt, gte, ne, Name, asc, desc } from "drizzle-orm";
 import type { PageLoad } from "./$types";
-import { redirect } from "@sveltejs/kit";
+import { fail, redirect } from "@sveltejs/kit";
 import { cookieJwtAuth } from "$lib/server/jwt";
 
 export const load = async ({cookies, fetch}) => {
@@ -25,8 +25,7 @@ export const load = async ({cookies, fetch}) => {
   //   })
   //   .from(todosTable)
   //   .where(eq(todosTable.user_id, userPayload.id));
-  
-  let lists = await db.select().from(list).where(eq(list.user_id, userPayload.id))
+  let lists = await db.select().from(list).where(eq(list.user_id, userPayload.id)).orderBy(list.name);
   return { lists }
 }
 
@@ -52,9 +51,29 @@ export const actions = {
 
     return { success: true };
   },
+  edit: async ({ request, cookies }) => {
+    try {
+      const {name, listId} = Object.fromEntries(await request.formData()) as {
+        name: string
+        listId: number
+      }
+      // ensure the user is logged in
+      const token = cookies.get("auth_token");
+      if (!token) {
+        throw redirect(301, "/sign-in");
+      }
+  
+      await db.update(list).set({name: name}).where(eq(list.id, listId))
+      console.log(name, listId)
+      return { success: true };
+    } catch (err) {
+      console.error(err);
+      return fail(500, { message: 'Could not edit name.' });
+    }
+  },
   delete: async ({ request, cookies}) => {
-    const {id} = Object.fromEntries(await request.formData()) as {
-      id: number
+    const {listId} = Object.fromEntries(await request.formData()) as {
+      listId: number
     }
     // ensure the user is logged in
     const token = cookies.get("auth_token");
@@ -64,8 +83,8 @@ export const actions = {
 
     const userPayload = await cookieJwtAuth(token);
 
-    await db.delete(list).where(eq(list.id, id))
-    console.log("deleted", id)
+    await db.delete(list).where(eq(list.id, listId))
+    console.log("deleted", listId)
     return { success: true };
   },
 }

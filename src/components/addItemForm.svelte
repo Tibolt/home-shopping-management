@@ -61,7 +61,6 @@
         })
         .then((resp) => resp.json())
         .finally(() => setTimeout(() => (submit = null), 5000))
-
     }
     
 </script>

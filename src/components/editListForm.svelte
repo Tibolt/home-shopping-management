@@ -1,7 +1,15 @@
 <script lang="ts">
     import Card from "./Card.svelte";
 
-    
+    export let listId: number
+    export let name: string
+
+    let isEditable = false
+
+    const handleEditName = () => {
+        isEditable = !isEditable
+        console.log(name)
+    }
 </script>
 
 
@@ -41,18 +49,28 @@
             <button>X</button>
         </div>
         <div class="flex-column">
-            <div class="left-side">
-                <i>edit</i>
+
+            <form method="POST" action="?/edit" class="left-side">
+                <i on:click={handleEditName}>edit</i>
                 <p>Edit name</p>
-            </div>
+                {#if isEditable}
+                    <input type="hidden" hidden value={listId} name="listId">
+                    <input type="text" hidden value={name} name="name" placeholder={name}>
+                    <button type="submit">add</button>
+                {/if}
+            </form>
+
             <div class="left-side">
                 <i>share</i>
                 <p>Share list</p>
             </div>
-            <div class="left-side">
-                <i>delete</i>
+            <form method="POST" action="?/delete" class="left-side">
                 <p>Delete list</p>
-            </div>
+                <p>Edit name</p>
+                <input type="hidden" hidden value={listId} name="listId">
+                <button type="submit">delete</button>
+            </form>
+
         </div>
     </Card>
 </div>

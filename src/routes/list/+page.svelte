@@ -26,6 +26,9 @@
 
     let showEditForm = false
 
+    let listId: number
+    let listName: string
+
     const toggleAddModal = () => {
         showAddModal = !showAddModal;
     }
@@ -49,8 +52,10 @@
         routeToPage("list/"+id, false)
     }
 
-    const editList = (id) => {
+    const editList = (id: number, name: string) => {
         console.log(id)
+        listId = id
+        listName = name
         toggleEditForm()
     }
 
@@ -71,14 +76,14 @@
     </AddListForm>
 </AddModal>
 <AddModal showAddModal={showEditForm} on:click={toggleEditForm}>
-    <EditListForm></EditListForm>
+    <EditListForm listId={listId} name={listName}></EditListForm>
 </AddModal>
 <div class="parent">
     <h2>lista</h2>
     <div class="grid">
         {#each itemList as list}
         <div class="item">
-            <ListDetails name={list.name} on:route={() => routeToItems(list.id)} on:editList={() => editList(list.id)}></ListDetails>
+            <ListDetails name={list.name} on:route={() => routeToItems(list.id)} on:editList={() => editList(list.id, list.name)}></ListDetails>
         </div>
         {/each}
 
