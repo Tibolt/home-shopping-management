@@ -38,12 +38,30 @@
 
 <style>
     .grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        column-gap: 20%;
-        row-gap: 10%;
-        padding-top: 2em;
+        display: flexbox;
+        /* grid-template-columns: 1fr; */
+        flex-direction: column;
+        flex-wrap: nowrap;
         justify-content: center;
-        width: 50%;
+        align-items: center;
+        width: 70%;
+        height: 85%;
+        /* padding-bottom: 10em; */
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+    ::-webkit-scrollbar {
+
+    }
+    .item {
+        padding-bottom: 1em;
+        padding-right: 2em;
+    }
+
+    @media screen and (max-width: 600px) {
+
+        .grid {
+           width: 90%;
+        }
     }
 </style>

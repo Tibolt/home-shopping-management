@@ -1,6 +1,7 @@
 <script lang="ts">
     import Sugestion from "./Sugestion.svelte";
     import Bubble from "./Bubble.svelte";
+	import { goto } from "$app/navigation";
 
     let inputHistory = ["chleb", "mleko", "ser", "piwo", "pietruszka", "pomidor", "sałata", "pizza", "arbuz", "ser gouda", "ser mozzarela", "ser biały", "ser zółty", "papryka", "pieczarki", "sok", "woda"]
     let suggestions = inputHistory
@@ -51,16 +52,26 @@
 
     let submit
 
-    function handleSubmit() {
+    function reloadPage() {
+        const thisPage = window.location.pathname;
+
+        console.log('goto ' + thisPage);
+
+        goto('/').then(
+            () => goto(thisPage)
+        );
+    }
+
+    async function handleSubmit() {
         // Send a POST request to endpoint
 
-        submit = fetch(`/api/create/${listId}`, {
+        submit = await fetch(`/api/create/${listId}`, {
         method: 'POST',
         body: JSON.stringify(tempItems),
         headers: { 'content-type': 'application/json', "Authorization": "333" },
         })
         .then((resp) => resp.json())
-        .finally(() => setTimeout(() => (submit = null), 5000))
+        reloadPage()
     }
     
 </script>
@@ -75,10 +86,10 @@
         {/each}
     </div>
     <!-- <form method="POST" on:submit|preventDefault={handleSubmit}> -->
-    <form method="POST" action="?/create" on:submit={handleSubmit}>
+    <form method="POST" action="?/create" on:submit|preventDefault>
         <input type="hidden" hidden value={tempItems} name="tempItems">
         <!-- <Bubble><button type="submit">add</button></Bubble> -->
-        <button type="submit">add</button>
+        <button type="submit" on:click={handleSubmit}>add</button>
     </form>
 </div>
 

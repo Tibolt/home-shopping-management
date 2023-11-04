@@ -101,22 +101,30 @@
     .parent {
         display: flex;
         flex-direction: column;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         align-content: center;
         align-items: center;
         width: 100%;
-        height: 95%;
+        height: 80%;
         padding-top: 5em;
+
     }
     .grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        column-gap: 20%;
-        padding-top: 2em;
+        display: flexbox;
+        /* grid-template-columns: 1fr; */
+        flex-direction: column;
+        flex-wrap: nowrap;
         justify-content: center;
+        align-items: center;
+        width: 70%;
+        height: 85%;
+        /* padding-bottom: 10em; */
+        overflow-y: auto;
+        overflow-x: hidden;
     }
     .item {
         padding-bottom: 1em;
+        padding-right: 2em;
     }
     .bottom {
         position: fixed;
@@ -136,6 +144,9 @@
             bottom: 3%;
             display: inline-block;
             border-top: 2px solid #ddd;
+        }
+        .grid {
+           width: 90%;
         }
     }
     .btnUnset {

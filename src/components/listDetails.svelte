@@ -18,7 +18,7 @@
 
 
 <div class="border" on:click={handleClick}>
-    <Card width={"300px"}>
+    <Card width={"100%"}>
         <div class="flex">
             <h3>{name}</h3>
             <button on:click|stopPropagation={handleEdit}>...</button>

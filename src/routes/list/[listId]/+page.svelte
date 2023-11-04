@@ -65,7 +65,7 @@
         align-content: center;
         align-items: center;
         width: 100%;
-        height: 95%;
+        height: 80%;
         padding-top: 5em;
     }
     .bottom {
@@ -80,15 +80,16 @@
         gap: 50px;
         padding: 0 1em;
     }
-    .btnUnset {
-        all: unset;
-    }
+
     @media screen and (max-width: 600px) {
 
         .bottom {
             padding: 20px;
             bottom: 3%;
             border-top: 2px solid #ddd;
+        }
+        .parent {
+            
         }
     }
 

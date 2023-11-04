@@ -6,6 +6,10 @@ import { item, list } from "$lib/db/schema";
 import { eq, lt, gte, ne, Name } from "drizzle-orm";
 import { cookieJwtAuth } from "$lib/server/jwt";
 
+const insertProducts = async (body) => {
+  
+}
+
 export const POST: RequestHandler = async ({request, cookies, params}) => {
   // Simulate a delay... instead you'd do something interesting here...
   // await new Promise((resolve) => setTimeout(resolve, 500))
