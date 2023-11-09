@@ -5,7 +5,7 @@ import type { PageLoad } from "./$types";
 import { redirect } from "@sveltejs/kit";
 import { cookieJwtAuth } from "$lib/server/jwt";
 import { writable } from "svelte/store";
-import { getContext } from 'svelte';
+import { getContext, tick } from 'svelte';
 import { parse } from "dotenv";
 
 export const load = async ({ request, fetch, cookies, params }) => {
@@ -164,5 +164,25 @@ export const actions = {
     console.log("edited", id, prize)
     return { success: true };
   },
-  
+  ticked: async ({ request, cookies}) => {
+    const {id, ticked} = Object.fromEntries(await request.formData()) as {
+      id: number
+      ticked: string
+    }
+    // ensure the user is logged in
+    const token = cookies.get("auth_token");
+    if (!token) {
+      throw redirect(301, "/sign-in");
+    }
+
+    const userPayload = await cookieJwtAuth(token);
+
+    if(ticked == "false")
+      await db.update(item).set({ticked: true}).where(eq(item.id, id))
+    else
+      await db.update(item).set({ticked: false}).where(eq(item.id, id))
+      
+    console.log("marked", id, ticked)
+    return { success: true };
+  },
 }

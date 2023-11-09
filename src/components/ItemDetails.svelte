@@ -1,7 +1,7 @@
-<script>
+<script lang="ts">
 	import Page from '../routes/+page.svelte';
     import Card from './Card.svelte'
-    import { createEventDispatcher } from 'svelte';
+    import { createEventDispatcher, tick } from 'svelte';
     import DeleteIcon from "~icons/octicon/trash-16"
     import CheckIcon from "~icons/mdi/circle-outline"
 
@@ -10,8 +10,8 @@
     export let amount = 0
     export let unit = ""
     export let prize = 0.0
-    export let itemId
-    export let marked = false
+    export let itemId: number
+    export let ticked: boolean
 
     const handleEdit = () => {
         console.log("clicked edit")
@@ -21,20 +21,21 @@
         console.log("clicked delete")
         dispatch("deleteItem")
     }
-    const handleMarked = () => {
-        marked = !marked
+    const handleTicked= () => {
+        ticked = !ticked
     }
 </script>
 
 
 <div class="border" on:click|stopPropagation={handleEdit}>
-    <Card width={"100%"} marked={marked}>
+    <Card width={"100%"} ticked={ticked}>
         <div class="flex" >
             <div class="flex">
-                <form method="POST" action="?/marked">
+                <form method="POST" action="?/ticked">
                     <input type="hidden" hidden value={itemId} name="id">
+                    <input type="hidden" hidden value={ticked} name="ticked">
                     <div class="check-icon">
-                        <button on:click|stopPropagation={handleMarked} class="mark"><CheckIcon/></button>
+                        <button type="submit" on:click|stopPropagation class="mark"><CheckIcon/></button>
                     </div>
                 </form>
                 <h3>{name}</h3>

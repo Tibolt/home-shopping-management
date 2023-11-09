@@ -60,7 +60,7 @@
         }}>
             <input type="hidden" hidden value={item.id} name="id">
         </form>
-        <ItemDetails name={item.name} amount={item.amount} itemId={item.id} prize={item.prize} unit={item.unit} marked={false} on:deleteItem={() => deleteHandle(item.id)} on:editItem={() => editItem(item.id, item.name, item.amount, item.unit, item.prize)}/>
+        <ItemDetails name={item.name} amount={item.amount} itemId={item.id} prize={item.prize} unit={item.unit} ticked={item.ticked} on:deleteItem={() => deleteHandle(item.id)} on:editItem={() => editItem(item.id, item.name, item.amount, item.unit, item.prize)}/>
     </div>
     {/each}
 </div> 

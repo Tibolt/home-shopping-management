@@ -7,6 +7,8 @@
 
     export let name = "";
     export let listName = "items"
+    export let itemCount = 0
+    export let tickedCount = 0
 
     const handleEdit = () => {
         dispatch("editList")
@@ -24,7 +26,7 @@
             <h3>{name}</h3>
             <button on:click|stopPropagation={handleEdit}><EditIcon/></button>
         </div>
-        <p>2/3</p>
+        <p>{tickedCount}/{itemCount}</p>
     </Card>
 </div>
 

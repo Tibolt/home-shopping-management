@@ -1,7 +1,7 @@
 <script>
 
     export let width = "auto"
-    export let marked = false
+    export let ticked = false
 </script>
 
 <style>
@@ -15,7 +15,7 @@
 
 </style>
 
-{#if marked}
+{#if ticked}
 <div class="card" style="width: {width}; background-color: gray">
     <slot></slot>
 </div>

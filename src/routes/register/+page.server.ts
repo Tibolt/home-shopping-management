@@ -1,6 +1,6 @@
 import { type ActionFailure, redirect, type Actions, type Action, type RequestEvent } from "@sveltejs/kit";
 import { db } from "$lib/db/config"
-import { user } from "$lib/db/schema";
+import { user, storage, list } from "$lib/db/schema";
 import { eq, lt, gte, ne, Name } from "drizzle-orm";
 import { goto } from "$app/navigation";
 import bcrypt from "bcrypt";
@@ -36,12 +36,24 @@ const register: Action = async (event) => {
             email: email.toString(),
             password: hash,
             name: name.toString()
-        })
+        }).returning()
 
         const token = await cookieJwtCreate({
             name: name.toString(),
             email: email.toString(),
-            id: new_user.insertID
+            id: new_user[0].id
+        })
+
+        const new_list = await db.insert(list).values({
+            name: `${new_user[0].name}'s list`,
+            user_id: new_user[0].id,
+            is_main: true,
+        }).returning()
+
+        const new_storage = await db.insert(storage).values({
+            name: `${new_user[0].name}'s storage`,
+            list_id: new_list[0].id,
+            user_id: new_user[0].id,
         })
 
         event.cookies.set("auth_token", token, {

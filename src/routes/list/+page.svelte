@@ -39,13 +39,7 @@
         showEditForm = !showEditForm;
     }
 
-    // const deleteItem = (id) => {
-    //     itemList = itemList.filter((item) => item.id != id);
-    // }
-
-    const addItem = (e) => {
-        const item = e.detail;
-        itemList = [...itemList, item]
+    const addItem = () => {
         toggleAddModal()
     }
 
@@ -61,7 +55,7 @@
         toggleEditForm()
     }
 
-    let itemList = data.lists
+    let listsInfo = data.listsInfo
 </script>
 
 <AddModal showAddModal={showAddModal} on:click={toggleAddModal}>
@@ -83,9 +77,9 @@
 <div class="parent">
     <h2>lista</h2>
     <div class="grid">
-        {#each itemList as list}
+        {#each listsInfo as list}
         <div class="item">
-            <ListDetails name={list.name} on:route={() => routeToItems(list.id)} on:editList={() => editList(list.id, list.name)}></ListDetails>
+            <ListDetails name={list.list.name} itemCount={list.itemsCount} tickedCount={list.tickedItemsCount} on:route={() => routeToItems(list.list.id)} on:editList={() => editList(list.list.id, list.list.name)}></ListDetails>
         </div>
         {/each}
 
