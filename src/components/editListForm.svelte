@@ -1,5 +1,7 @@
 <script lang="ts">
     import Card from "./Card.svelte";
+    import DeleteIcon from "~icons/octicon/trash-16"
+    import EditIcon from "~icons/fe/edit"
 
     export let listId: number
     export let name: string
@@ -40,6 +42,9 @@
         width: 100%;
         gap: 20px;
     }
+    button {
+        all: unset;
+    }
 </style>
 
 <div>
@@ -51,24 +56,19 @@
         <div class="flex-column">
 
             <form method="POST" action="?/edit" class="left-side">
-                <i on:click={handleEditName}>edit</i>
-                <p>Edit name</p>
-                {#if isEditable}
-                    <input type="hidden" hidden value={listId} name="listId">
-                    <input type="text" hidden value={name} name="name" placeholder={name}>
-                    <button type="submit">add</button>
-                {/if}
+                <p>Name</p>
+                <input type="hidden" hidden value={listId} name="listId">
+                <input type="text" hidden value={name} name="name" placeholder={name}>
+                <button type="submit"><EditIcon/> Edit</button>
             </form>
 
             <div class="left-side">
-                <i>share</i>
-                <p>Share list</p>
+                <p>Share</p>
             </div>
             <form method="POST" action="?/delete" class="left-side">
-                <p>Delete list</p>
-                <p>Edit name</p>
+                <p>Delete</p>
                 <input type="hidden" hidden value={listId} name="listId">
-                <button type="submit">delete</button>
+                <button type="submit" style="color: var(--red);"><DeleteIcon/></button>
             </form>
 
         </div>

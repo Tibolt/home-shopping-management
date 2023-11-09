@@ -10,6 +10,8 @@
 	import { item } from '$lib/db/schema';
 	import { setContext } from 'svelte';
     import EditListForm from '../../components/editListForm.svelte';
+    import FixedFooter from '../../components/fixedFooter.svelte';
+    import AddIcon from "~icons/material-symbols/add"
 
     function routeToPage(route: string, replaceState: boolean) {
         console.log(route)
@@ -89,12 +91,10 @@
 
     </div> 
 
-    <div class="bottom">
-        <div class="corners">
+    <FixedFooter>
             <!-- <Bubble><button class="btnUnset">Edit</button></Bubble> -->
-            <Bubble><button class="btnUnset" on:click={toggleAddModal}>+</button></Bubble>
-        </div>
-    </div>
+            <Bubble><button class="btnUnset" on:click={toggleAddModal}><AddIcon/></button></Bubble>
+    </FixedFooter>
 </div>
 
 <style>

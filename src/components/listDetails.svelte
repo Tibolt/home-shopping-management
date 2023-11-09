@@ -1,6 +1,7 @@
 <script lang="ts">
     import Card from './Card.svelte'
     import { createEventDispatcher } from 'svelte';
+    import EditIcon from "~icons/nimbus/edit"
 
     let dispatch = createEventDispatcher()
 
@@ -21,7 +22,7 @@
     <Card width={"100%"}>
         <div class="flex">
             <h3>{name}</h3>
-            <button on:click|stopPropagation={handleEdit}>...</button>
+            <button on:click|stopPropagation={handleEdit}><EditIcon/></button>
         </div>
         <p>2/3</p>
     </Card>

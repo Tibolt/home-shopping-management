@@ -3,7 +3,7 @@ import type { RequestHandler } from "./$types";
 import { API } from "$env/static/private"
 import { db } from "$lib/db/config"
 import { item, list } from "$lib/db/schema";
-import { eq, lt, gte, ne, Name } from "drizzle-orm";
+import { eq, lt, gte, ne, Name, and } from "drizzle-orm";
 import { cookieJwtAuth } from "$lib/server/jwt";
 
 const insertProducts = async (body) => {
@@ -37,12 +37,22 @@ export const POST: RequestHandler = async ({request, cookies, params}) => {
       const { name, amount } = product;
 
       console.log(`Name: ${name}, Amount: ${amount}`);
-      await db.insert(item).values({
-        name: name,
-        amount: amount,
-        list_id: params.listId,
-      });
-      console.log(`Inserted: Name - ${name}, Amount - ${amount}`);
+
+      const existingItem = await db.select().from(item).where(and(eq(item.list_id, params.listId),eq(item.name, name)))
+      if (existingItem[0]) {
+        console.log("exsiting", existingItem[0])
+        const newAmount = existingItem[0].amount + amount
+        await db.update(item).set({name: name, amount: newAmount}).where(eq(item.id, existingItem[0].id))
+        console.log(`updated: Name - ${name}, Amount - ${amount}`);
+      }
+      else {
+        await db.insert(item).values({
+          name: name,
+          amount: amount,
+          list_id: params.listId,
+        });
+        console.log(`Inserted: Name - ${name}, Amount - ${amount}`);
+      }
     }
 
     return new Response(JSON.stringify({ message: "Success" }), { status: 201 });

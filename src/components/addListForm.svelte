@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Card from "./Card.svelte";
     import { createEventDispatcher } from "svelte";
+    import AddIcon from "~icons/gg/add"
 
     export let action = "deafult"
 
@@ -25,7 +26,7 @@
         </div>
         <div class="grid">
             <h2 >Add</h2>
-            <button class="float">+</button>
+            <button class="float"><AddIcon/></button>
         </div>
     </Card>
 </form>
@@ -75,6 +76,7 @@
     }
 
     button {
+        all: unset;
         border-radius: 5 px;
         height: 25px;
         padding: 0 10px;

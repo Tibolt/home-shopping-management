@@ -1,6 +1,7 @@
 <script>
 
     export let width = "auto"
+    export let marked = false
 </script>
 
 <style>
@@ -14,7 +15,12 @@
 
 </style>
 
-
+{#if marked}
+<div class="card" style="width: {width}; background-color: gray">
+    <slot></slot>
+</div>
+{:else}
 <div class="card" style="width: {width};">
     <slot></slot>
 </div>
+{/if}

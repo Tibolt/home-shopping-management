@@ -8,6 +8,8 @@
     import type { PageData } from '../$types';
     import { enhance } from '$app/forms';
     import Card from '../../../components/Card.svelte';
+    import FixedFooter from '../../../components/fixedFooter.svelte';
+    import AddIcon from "~icons/material-symbols/add"
 
     let showAddModal = false
 
@@ -47,14 +49,10 @@
 </AddModal>
 
 <div class="parent">
-    <h2>lista</h2>
-    <ItemsGrid items={itemCount}/>
-    <div class="bottom">
-        <div class="corners">
-            <Bubble on:click={toggleEdit}>Edit</Bubble>
-            <Bubble width="30px" on:click={toggleAddModal}>+</Bubble>
-        </div>
-    </div>
+    <ItemsGrid items={itemCount} listName={data.listName}/>
+    <FixedFooter>
+            <Bubble on:click={toggleAddModal}><AddIcon/></Bubble>
+    </FixedFooter>
 </div>
 
 <style>
@@ -66,7 +64,7 @@
         align-items: center;
         width: 100%;
         height: 80%;
-        padding-top: 5em;
+        /* padding-top: 5em; */
     }
     .bottom {
         position: fixed;

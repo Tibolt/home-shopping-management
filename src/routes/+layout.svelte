@@ -1,5 +1,12 @@
 <script>
     import '../style.css'
+    import CloseIcon from "~icons/ep/back"
+    import HomeIcon from "~icons/clarity/home-line"
+    import ListIcon from "~icons/ep/list"
+    import StoreIcon from "~icons/lucide/box"
+    import LoginIcon from "~icons/tabler/login"
+    import LogoutIcon from "~icons/akar-icons/door"
+
 
     let click = false
 
@@ -13,20 +20,20 @@
 
 <nav class:clicked={click}>
     {#if click == true}
-        <h1 on:click={toggleNav}>X</h1>
-            <a href="/">Home</a>
-            <a href="/list">List</a>
-            <a href="/store">Store</a>
-            <a href="/login">Login</a>
-            <a data-sveltekit-preload-data="off" href="/log-out">log-out</a>
+        <h1 on:click={toggleNav}><CloseIcon/></h1>
+            <a href="/"><HomeIcon/> Home</a>
+            <a href="/list"><ListIcon/> List</a>
+            <a href="/store"><StoreIcon/> Store</a>
+            <a href="/login"><LoginIcon/> Login</a>
+            <a data-sveltekit-preload-data="off" href="/log-out"><LogoutIcon/> Log-out</a>
     {:else}
         <h1 on:click={toggleNav}>Logo</h1>
         <div class="icons">
-            <a href="/">H</a>
-            <a href="/list">L</a>
-            <a href="/store">S</a>
-            <a href="/login">L</a>
-            <a data-sveltekit-preload-data="off" href="/log-out">LO</a>
+            <a href="/"><HomeIcon/></a>
+            <a href="/list"><ListIcon/></a>
+            <a href="/store"><StoreIcon/></a>
+            <a href="/login"><LoginIcon/></a>
+            <a data-sveltekit-preload-data="off" href="/log-out"><LogoutIcon/></a>
         </div>
     {/if}
     

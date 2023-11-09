@@ -26,8 +26,9 @@ export const load = async ({ request, fetch, cookies, params }) => {
   let id: number
   if(params.listId != "manifest.webmanifest")
     id = parseInt(params.listId)
-  let items = await db.select().from(item).where(eq(item.list_id, id))
-  return { items: items, listId: params.listId }
+  let items = await db.select().from(item).where(eq(item.list_id, id)).orderBy(item.name)
+  let listName = await db.select().from(list).where(eq(list.id, params.listId))
+  return { items: items, listId: params.listId, listName: listName[0].name }
 }
 
 export const actions = {
@@ -91,4 +92,77 @@ export const actions = {
     console.log("deleted", id)
     return { success: true };
   },
+  editName: async ({ request, cookies}) => {
+    const {id, name} = Object.fromEntries(await request.formData()) as {
+      id: number
+      name: string
+    }
+    // ensure the user is logged in
+    const token = cookies.get("auth_token");
+    if (!token) {
+      throw redirect(301, "/sign-in");
+    }
+
+    const userPayload = await cookieJwtAuth(token);
+
+    await db.update(item).set({name: name}).where(eq(item.id, id))
+    console.log("edited", id, name)
+    return { success: true };
+  },
+  editAmount: async ({ request, cookies}) => {
+    const {id, amount, unit} = Object.fromEntries(await request.formData()) as {
+      id: number
+      amount: number
+      unit: string
+    }
+    // ensure the user is logged in
+    const token = cookies.get("auth_token");
+    if (!token) {
+      throw redirect(301, "/sign-in");
+    }
+
+    const userPayload = await cookieJwtAuth(token);
+
+    await db.update(item).set({amount: amount, unit: unit}).where(eq(item.id, id))
+    console.log("edited", id, amount, unit)
+    return { success: true };
+  },
+  editPrize: async ({ request, cookies}) => {
+    const {id, prize} = Object.fromEntries(await request.formData()) as {
+      id: number
+      prize: number
+    }
+    // ensure the user is logged in
+    const token = cookies.get("auth_token");
+    if (!token) {
+      throw redirect(301, "/sign-in");
+    }
+
+    const userPayload = await cookieJwtAuth(token);
+
+    await db.update(item).set({prize: prize}).where(eq(item.id, id))
+    console.log("edited", id, prize)
+    return { success: true };
+  },
+  edit: async ({ request, cookies}) => {
+    const {id, name, amount, unit, prize} = Object.fromEntries(await request.formData()) as {
+      id: number
+      name: string
+      amount: number
+      unit: string
+      prize: number
+    }
+    // ensure the user is logged in
+    const token = cookies.get("auth_token");
+    if (!token) {
+      throw redirect(301, "/sign-in");
+    }
+
+    const userPayload = await cookieJwtAuth(token);
+
+    await db.update(item).set({prize: prize, name: name, amount: amount, unit: unit}).where(eq(item.id, id))
+    console.log("edited", id, prize)
+    return { success: true };
+  },
+  
 }
