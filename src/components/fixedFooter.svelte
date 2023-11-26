@@ -18,6 +18,7 @@
     .corners {
         display: flex;
         flex-direction: row;
+        align-items: center;
         justify-content: space-evenly;
         gap: 50px;
         padding: 0 1em;

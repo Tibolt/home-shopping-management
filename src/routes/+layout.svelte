@@ -6,8 +6,8 @@
     import StoreIcon from "~icons/lucide/box"
     import LoginIcon from "~icons/tabler/login"
     import LogoutIcon from "~icons/akar-icons/door"
-
-
+    
+    export let data
     let click = false
 
     const toggleNav = () => {
@@ -16,6 +16,13 @@
     const disableNav = () => {
         click = false
     }
+
+    let auth = false
+    const logout = () => {
+        auth = false
+    }
+    $: auth = data.logged ? true : false
+
 </script>
 
 <nav class:clicked={click}>
@@ -24,16 +31,22 @@
             <a href="/"><HomeIcon/> Home</a>
             <a href="/list"><ListIcon/> List</a>
             <a href="/store"><StoreIcon/> Store</a>
+            {#if auth == false}                
             <a href="/login"><LoginIcon/> Login</a>
-            <a data-sveltekit-preload-data="off" href="/log-out"><LogoutIcon/> Log-out</a>
+            {:else}
+            <a data-sveltekit-preload-data="off" href="/log-out" on:click={logout}><LogoutIcon/> Log-out</a>
+            {/if}
     {:else}
         <h1 on:click={toggleNav}>Logo</h1>
         <div class="icons">
             <a href="/"><HomeIcon/></a>
             <a href="/list"><ListIcon/></a>
             <a href="/store"><StoreIcon/></a>
+            {#if auth == false}
             <a href="/login"><LoginIcon/></a>
-            <a data-sveltekit-preload-data="off" href="/log-out"><LogoutIcon/></a>
+            {:else}
+            <a data-sveltekit-preload-data="off" href="/log-out" on:click={logout}><LogoutIcon/></a>
+            {/if}
         </div>
     {/if}
     

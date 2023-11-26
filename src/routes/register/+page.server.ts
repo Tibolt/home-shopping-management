@@ -12,7 +12,7 @@ export const load = async (event) => {
   
     // if there is a token, redirect to the user page
     if (token) {
-      throw redirect(301, "/");
+        throw redirect(301, "/");
     }
   };
 
@@ -75,7 +75,7 @@ const register: Action = async (event) => {
     }
     else{
         console.log("This account already exists!")
-        return { error: "This account already exists!"}
+        return fail(400, {name, message: "This account already exists!"})
     }
 }
 

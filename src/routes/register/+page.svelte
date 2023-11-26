@@ -74,19 +74,19 @@ form :global(.card) {
             <h1>Register</h1>
             <div class="float">
                 <label for="email">Email<span class="reqField">*</span></label>
-                <input type="email" id="email" name="email" placeholder="Type your email" value={form?.email ?? ""} >
+                <input type="email" id="email" name="email" placeholder="Type your email" value={form?.email ?? ""} required>
             </div>
             <div class="float">
                 <label for="name">Name</label>
-                <input type="text" id="name" name="name" placeholder="Type your name" value={form?.name ?? ""}>
+                <input type="text" id="name" name="name" placeholder="Type your name" value={form?.name ?? ""} required>
             </div>
             <div class="float">
                 <label for="password">Password<span class="reqField">*</span></label>
-                <input type="password" id="password" name="password" placeholder="Type your password">
+                <input type="password" id="password" name="password" placeholder="Type your password" required>
             </div>
             <div class="float">
                 <label for="password">Confirm Password<span class="reqField">*</span></label>
-                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Type your password">
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Type your password" required>
             </div>
             <button>Create Account</button>
         </div>

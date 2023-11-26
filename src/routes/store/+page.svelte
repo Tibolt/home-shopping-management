@@ -1,12 +1,14 @@
 <script>
     import FixedFooter from '../../components/fixedFooter.svelte';
     import AddIcon from "~icons/ph/plus-fill"
+    import AddIconBubble from "~icons/material-symbols/add"
     import MinusIcon from "~icons/ph/minus-fill"
     import DeleteIcon from "~icons/octicon/trash-16"
     import AddModal from '../../components/addModal.svelte';
     import Card from '../../components/Card.svelte';
     import AddItemForm from '../../components/addItemForm.svelte';
     import Bubble from '../../components/Bubble.svelte';
+    // import { swipe } from 'svelte-gestures';
     let count = 0;
 
     function addOne(id) {
@@ -83,7 +85,7 @@
     </div>
     <FixedFooter>
         <a href="/list/{data.listId}">Go to {data.name}</a>
-        <Bubble on:click={toggleAddModal}><AddIcon/></Bubble>
+        <Bubble on:click={toggleAddModal}><AddIconBubble/></Bubble>
     </FixedFooter>
 </div>
 

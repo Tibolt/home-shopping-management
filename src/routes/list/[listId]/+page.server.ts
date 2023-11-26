@@ -46,34 +46,8 @@ export const actions = {
     // }
     
     let items = []
-    // const tempItems = ((await request.formData()).getAll("tempItems"))
     const data = await request.formData()
-
-    
-    // console.table([...data.entries()])
-
-    // console.log(tempItems)
     return {success: true}
-
-    const {name, amount} = Object.fromEntries(await request.formData()) as {
-      name: string
-      amount: number
-    }
-    // ensure the user is logged in
-    const token = cookies.get("auth_token");
-    if (!token) {
-      throw redirect(301, "/sign-in");
-    }
-
-    const userPayload = await cookieJwtAuth(token);
-
-    await db.insert(item).values({
-      name: name,
-      amount: amount,
-      list_id: params.listId
-    })
-
-    return { success: true };
   },
   delete: async ({ request, cookies}) => {
     const {id} = Object.fromEntries(await request.formData()) as {
@@ -82,7 +56,7 @@ export const actions = {
     // ensure the user is logged in
     const token = cookies.get("auth_token");
     if (!token) {
-      throw redirect(301, "/sign-in");
+      throw redirect(301, "/login");
     }
 
     const userPayload = await cookieJwtAuth(token);
@@ -106,7 +80,7 @@ export const actions = {
     // ensure the user is logged in
     const token = cookies.get("auth_token");
     if (!token) {
-      throw redirect(301, "/sign-in");
+      throw redirect(301, "/login");
     }
 
     const userPayload = await cookieJwtAuth(token);
@@ -124,7 +98,7 @@ export const actions = {
     // ensure the user is logged in
     const token = cookies.get("auth_token");
     if (!token) {
-      throw redirect(301, "/sign-in");
+      throw redirect(301, "/login");
     }
 
     const userPayload = await cookieJwtAuth(token);
@@ -141,7 +115,7 @@ export const actions = {
     // ensure the user is logged in
     const token = cookies.get("auth_token");
     if (!token) {
-      throw redirect(301, "/sign-in");
+      throw redirect(301, "/login");
     }
 
     const userPayload = await cookieJwtAuth(token);
@@ -161,7 +135,7 @@ export const actions = {
     // ensure the user is logged in
     const token = cookies.get("auth_token");
     if (!token) {
-      throw redirect(301, "/sign-in");
+      throw redirect(301, "/login");
     }
 
     const userPayload = await cookieJwtAuth(token);
@@ -178,7 +152,7 @@ export const actions = {
     // ensure the user is logged in
     const token = cookies.get("auth_token");
     if (!token) {
-      throw redirect(301, "/sign-in");
+      throw redirect(301, "/login");
     }
 
     const today = new Date().toLocaleDateString("en-GB").toString()
