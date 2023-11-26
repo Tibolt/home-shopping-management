@@ -15,7 +15,6 @@ export const POST: RequestHandler = async ({request, cookies, params}) => {
   // await new Promise((resolve) => setTimeout(resolve, 500))
 
   const token = cookies.get("auth_token")
-  console.log(token)
 
   if (!token) {
     return new Response(
@@ -25,10 +24,8 @@ export const POST: RequestHandler = async ({request, cookies, params}) => {
   }
 
   const authHeader = request.headers.get("Authorization")
-  console.log(authHeader)
 
   const isStorage = request.headers.get("isStorage")
-  console.log(authHeader)
 
   const userPayload = await cookieJwtAuth(token);
 

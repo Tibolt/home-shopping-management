@@ -13,7 +13,6 @@
 
     const handleEditName = () => {
         isNameEditable = !isNameEditable
-        console.log(name)
     }
     const handleEditAmount = () => {
         isAmountEditable = !isAmountEditable

@@ -11,7 +11,6 @@
 
     const handleEditName = () => {
         isEditable = !isEditable
-        console.log(name)
     }
 </script>
 

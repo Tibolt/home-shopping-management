@@ -45,7 +45,6 @@
         if(tempItems.some(item => item.name === name)) {
             let idx = tempItems.findIndex(item => item.name === name)
             tempItems[idx].amount = amount
-            console.log(tempItems)
             return tempItems
         }
         const newItem = name && !tempItems.includes(name) ? {name, amount} : [];
@@ -58,7 +57,6 @@
     function reloadPage() {
         const thisPage = window.location.pathname;
 
-        console.log('goto ' + thisPage);
 
         goto('/').then(
             () => goto(thisPage)
