@@ -4,6 +4,7 @@
     import { createEventDispatcher, tick } from 'svelte';
     import DeleteIcon from "~icons/octicon/trash-16"
     import CheckIcon from "~icons/mdi/circle-outline"
+    import { enhance } from '$app/forms';
 
     let dispatch = createEventDispatcher()
     export let name = ""

@@ -1,4 +1,4 @@
-import { type ActionFailure, redirect, type Actions, type Action, type RequestEvent, error } from "@sveltejs/kit";
+import { type ActionFailure, redirect, type Actions, type Action, type RequestEvent, error, fail } from "@sveltejs/kit";
 import { db } from "$lib/db/config"
 import { user } from "$lib/db/schema";
 import { eq, and, lt, gte, ne, Name } from "drizzle-orm";
@@ -24,7 +24,7 @@ const login: Action = async (event) => {
     }
     
     if(!email || !password) {
-        throw error(400, "must provide an email and password");
+        return fail(400, {email, message: "must provide an email and password"});
     }
 
     console.log({email, password})

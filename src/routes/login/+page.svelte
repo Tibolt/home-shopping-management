@@ -1,8 +1,10 @@
 <script>
+	import { date } from "drizzle-orm/mysql-core";
 	import Card from "../../components/Card.svelte";
     import { user } from "../../stores";
 
-    export let data 
+    export let data  
+    export let form;
 
     $:clearUser = data?.clearUser
 
@@ -16,11 +18,12 @@
 
 <form method="POST" action="?/login">
     <Card>
+        {form?.message || ""}
         <div class="center">   
             <h1 >Welcome </h1>
             <div class="float">
                 <label for="email">email</label>
-                <input type="email" id="email" name="email" placeholder="type your email">
+                <input type="email" id="email" name="email" placeholder="type your email" value={form?.email ?? ""}>
             </div>
             <div class="float">
                 <label for="password">password</label>

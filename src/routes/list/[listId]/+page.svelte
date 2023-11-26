@@ -16,6 +16,7 @@
     let edit = false
 
     export let data
+    export let form
 
     const toggleAddModal = () => {
         showAddModal = !showAddModal;
@@ -48,6 +49,10 @@
     </Card>
 </AddModal>
 
+
+<div class="error">
+    <p>{form?.message || ""}</p>
+</div>
 <div class="parent">
     <ItemsGrid items={itemCount} listName={data.listName}/>
     <FixedFooter>
@@ -77,6 +82,12 @@
         justify-content: space-evenly;
         gap: 50px;
         padding: 0 1em;
+    }
+
+    .error {
+        display: flex;
+        justify-content: center;
+        padding: 10px 100px
     }
 
     @media screen and (max-width: 600px) {

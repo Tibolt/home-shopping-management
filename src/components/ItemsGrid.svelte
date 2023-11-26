@@ -33,6 +33,7 @@
         prizeI = prize
         toggleEditForm()
     }
+    export let data
 </script>
 
 <AddModal showAddModal={showEditForm} on:click={toggleEditForm}>
@@ -41,27 +42,30 @@
 <div class="grid">
     <h2>{listName}</h2>
     {#each items as item}
-    <div class="item">
-        <form method="POST" action="?/delete" use:enhance={({ formElement, formData, action, cancel, submitter }) => {
-            // `formElement` is this `<form>` element
-            // `formData` is its `FormData` object that's about to be submitted
-            // `action` is the URL to which the form is posted
-            // calling `cancel()` will prevent the submission
-            // `submitter` is the `HTMLElement` that caused the form to be submitted
-    
-            return async ({ result, update }) => {
-                // `result` is an `ActionResult` object
-                // `update` is a function which triggers the default logic that would be triggered if this callback wasn't set
-                if(result.type === "success") {
-                    items = items.filter((it) => it.id != item.id);
-                }
-                update();
-            };
-        }}>
-            <input type="hidden" hidden value={item.id} name="id">
-        </form>
-        <ItemDetails name={item.name} amount={item.amount} itemId={item.id} prize={item.prize} unit={item.unit} ticked={item.ticked} on:deleteItem={() => deleteHandle(item.id)} on:editItem={() => editItem(item.id, item.name, item.amount, item.unit, item.prize)}/>
-    </div>
+        {#if item.show_in_list}
+            <div class="item">
+                <form method="POST" action="?/delete" use:enhance={({ formElement, formData, action, cancel, submitter }) => {
+                    // `formElement` is this `<form>` element
+                    // `formData` is its `FormData` object that's about to be submitted
+                    // `action` is the URL to which the form is posted
+                    // calling `cancel()` will prevent the submission
+                    // `submitter` is the `HTMLElement` that caused the form to be submitted
+            
+                    return async ({ result, update }) => {
+                        // `result` is an `ActionResult` object
+                        // `update` is a function which triggers the default logic that would be triggered if this callback wasn't set
+                        if(result.type === "success") {
+                            items = items.filter((it) => it.id != item.id);
+                        }
+                        update();
+                    };
+                }}>
+                    <input type="hidden" hidden value={item.id} name="id">
+                </form>
+
+                    <ItemDetails name={item.name} amount={item.amount} itemId={item.id} prize={item.prize} unit={item.unit} ticked={item.ticked} on:deleteItem={() => deleteHandle(item.id)} on:editItem={() => editItem(item.id, item.name, item.amount, item.unit, item.prize)}/>
+            </div>
+        {/if}
     {/each}
 </div> 
 

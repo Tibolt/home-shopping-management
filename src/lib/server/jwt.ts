@@ -1,5 +1,5 @@
 // import { JWT_SECRET } from "$env/static/private";
-import { error, redirect } from "@sveltejs/kit";
+import { error, fail, redirect } from "@sveltejs/kit";
 import jwt from "jsonwebtoken";
 
 type JWTPayload = {
@@ -19,6 +19,7 @@ export const cookieJwtAuth = async (token: string) => {
         return payload
     } catch(err) {
         console.log("invalid or missing JWT, you are not logged in")
-        throw error(401, "invalid or missing JWT, you are not logged in");
+        redirect(301, "/login")
+        return fail(401, {message: "Session expired"})
     }
 }

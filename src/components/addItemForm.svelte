@@ -12,6 +12,7 @@
     let amounts: number
 
     export let listId = 0
+    export let isStorage = false
 
     let inputValue = ""
     
@@ -66,14 +67,25 @@
 
     async function handleSubmit() {
         // Send a POST request to endpoint
+        if(isStorage){
+            submit = await fetch(`/api/create/${listId}`, {
+            method: 'POST',
+            body: JSON.stringify(tempItems),
+            headers: { 'content-type': 'application/json', "Authorization": "333", "isStorage": "true"},
+            })
+            .then((resp) => resp.json())
+            reloadPage()
+        }
+        else {
+            submit = await fetch(`/api/create/${listId}`, {
+            method: 'POST',
+            body: JSON.stringify(tempItems),
+            headers: { 'content-type': 'application/json', "Authorization": "333" },
+            })
+            .then((resp) => resp.json())
+            reloadPage()
+        }
 
-        submit = await fetch(`/api/create/${listId}`, {
-        method: 'POST',
-        body: JSON.stringify(tempItems),
-        headers: { 'content-type': 'application/json', "Authorization": "333" },
-        })
-        .then((resp) => resp.json())
-        reloadPage()
     }
     
 </script>

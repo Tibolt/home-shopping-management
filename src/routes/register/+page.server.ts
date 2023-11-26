@@ -1,4 +1,4 @@
-import { type ActionFailure, redirect, type Actions, type Action, type RequestEvent } from "@sveltejs/kit";
+import { type ActionFailure, redirect, type Actions, type Action, type RequestEvent, fail } from "@sveltejs/kit";
 import { db } from "$lib/db/config"
 import { user, storage, list } from "$lib/db/schema";
 import { eq, lt, gte, ne, Name } from "drizzle-orm";
@@ -17,15 +17,24 @@ export const load = async (event) => {
   };
 
 const register: Action = async (event) => {
-    const {email, password, name} = Object.fromEntries(await event.request.formData()) as {
+    const {email, password, confirmPassword, name} = Object.fromEntries(await event.request.formData()) as {
         email: string
         password: string
+        confirmPassword: string
         name: string
       }
 
-      console.log({email, password, name})
-      const hash = bcrypt.hashSync(password?.toString(), 10);
-      console.log(hash)
+    if(!email || !password || !name) {
+        return fail(400, {email, name, message: "must provide an email and password"});
+    }
+
+    if(password !== confirmPassword) {
+        return fail(400, {email, name, message: "passwords do not match"})
+    }
+
+    console.log({email, password, name})
+    const hash = bcrypt.hashSync(password?.toString(), 10);
+    console.log(hash)
 
 
     const usr = await db.select().from(user).where(eq(user.email, email.toString()))

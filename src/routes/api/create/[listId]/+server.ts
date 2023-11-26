@@ -27,6 +27,9 @@ export const POST: RequestHandler = async ({request, cookies, params}) => {
   const authHeader = request.headers.get("Authorization")
   console.log(authHeader)
 
+  const isStorage = request.headers.get("isStorage")
+  console.log(authHeader)
+
   const userPayload = await cookieJwtAuth(token);
 
   try {
@@ -38,23 +41,44 @@ export const POST: RequestHandler = async ({request, cookies, params}) => {
 
       console.log(`Name: ${name}, Amount: ${amount}`);
 
-      const existingItem = await db.select().from(item).where(and(eq(item.list_id, params.listId),eq(item.name, name)))
-      if (existingItem[0]) {
-        console.log("exsiting", existingItem[0])
-        const newAmount = existingItem[0].amount + amount
-        await db.update(item).set({name: name, amount: newAmount}).where(eq(item.id, existingItem[0].id))
-        console.log(`updated: Name - ${name}, Amount - ${amount}`);
+      let existingItem
+      if(isStorage) {
+        existingItem = await db.select().from(item).where(and(eq(item.storage_id, params.listId),eq(item.name, name)))
+        if (existingItem[0]) {
+          console.log("exsiting", existingItem[0])
+          const newAmount = existingItem[0].amount + amount
+          await db.update(item).set({name: name, amount_in_storage: newAmount}).where(eq(item.id, existingItem[0].id))
+          console.log(`updated: Name - ${name}, Amount - ${amount}`);
+        }
+        else {
+          await db.insert(item).values({
+            name: name,
+            amount_in_storage: amount,
+            storage_id: params.listId,
+            show_in_list: false,
+          });
+          console.log(`Inserted: Name - ${name}, Amount - ${amount}`);
+        }
       }
-      else {
-        await db.insert(item).values({
-          name: name,
-          amount: amount,
-          list_id: params.listId,
-        });
-        console.log(`Inserted: Name - ${name}, Amount - ${amount}`);
+      else{
+        existingItem = await db.select().from(item).where(and(eq(item.list_id, params.listId),eq(item.name, name)))
+        if (existingItem[0]) {
+          console.log("exsiting", existingItem[0])
+          const newAmount = existingItem[0].amount + amount
+          await db.update(item).set({name: name, amount: newAmount}).where(eq(item.id, existingItem[0].id))
+          console.log(`updated: Name - ${name}, Amount - ${amount}`);
+        }
+        else {
+          await db.insert(item).values({
+            name: name,
+            amount: amount,
+            list_id: params.listId,
+            show_in_list: true,
+          });
+          console.log(`Inserted: Name - ${name}, Amount - ${amount}`);
+        }
       }
     }
-
     return new Response(JSON.stringify({ message: "Success" }), { status: 201 });
   } catch (error) {
     console.error("Error processing request:", error);

@@ -5,6 +5,7 @@
 
     export let listId: number
     export let name: string
+    export let isMain: boolean
 
     let isEditable = false
 
@@ -65,11 +66,15 @@
             <div class="left-side">
                 <p>Share</p>
             </div>
-            <form method="POST" action="?/delete" class="left-side">
-                <p>Delete</p>
-                <input type="hidden" hidden value={listId} name="listId">
-                <button type="submit" style="color: var(--red);"><DeleteIcon/></button>
-            </form>
+            {#if isMain}
+            {:else}
+                <form method="POST" action="?/delete" class="left-side">
+                    <p>Delete</p>
+                    <input type="hidden" hidden value={listId} name="listId">
+                    <input type="hidden" hidden value={isMain} name="isMain">
+                    <button type="submit" style="color: var(--red);"><DeleteIcon/></button>
+                </form>
+            {/if}
 
         </div>
     </Card>

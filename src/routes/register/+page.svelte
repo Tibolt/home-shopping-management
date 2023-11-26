@@ -3,7 +3,7 @@
 
     import type { ActionData } from './$types'
 
-    export let form: ActionData
+    export let form
 </script>
 
 
@@ -69,21 +69,25 @@ form :global(.card) {
 
 <form method="POST" action="?/register">
     <Card>
+        {form?.message || ""}
         <div class="grid">
             <h1>Register</h1>
             <div class="float">
                 <label for="email">Email<span class="reqField">*</span></label>
-                <input type="email" id="email" name="email" placeholder="Type your email">
+                <input type="email" id="email" name="email" placeholder="Type your email" value={form?.email ?? ""} >
+            </div>
+            <div class="float">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" placeholder="Type your name" value={form?.name ?? ""}>
             </div>
             <div class="float">
                 <label for="password">Password<span class="reqField">*</span></label>
                 <input type="password" id="password" name="password" placeholder="Type your password">
             </div>
             <div class="float">
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" placeholder="Type your name">
+                <label for="password">Confirm Password<span class="reqField">*</span></label>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Type your password">
             </div>
-            
             <button>Create Account</button>
         </div>
     </Card>

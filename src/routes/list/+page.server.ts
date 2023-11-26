@@ -28,7 +28,7 @@ export const load = async ({cookies, fetch}) => {
   let lists = await db.select().from(list).where(eq(list.user_id, userPayload.id)).orderBy(list.name)
   let listsInfo = [];
   for (const list of lists) {
-    const allItems = await db.select().from(item).where(eq(item.list_id, list.id))
+    const allItems = await db.select().from(item).where(and(eq(item.list_id, list.id),eq(item.show_in_list, true)))
     const tickedItems = await db.select().from(item).where(and(eq(item.list_id, list.id), eq(item.ticked, true)))
 
     const itemsCount = allItems.length
@@ -81,8 +81,9 @@ export const actions = {
     }
   },
   delete: async ({ request, cookies}) => {
-    const {listId} = Object.fromEntries(await request.formData()) as {
+    const {listId, isMain} = Object.fromEntries(await request.formData()) as {
       listId: number
+      isMain: string
     }
     // ensure the user is logged in
     const token = cookies.get("auth_token");
@@ -92,7 +93,12 @@ export const actions = {
 
     const userPayload = await cookieJwtAuth(token);
 
-    await db.delete(list).where(eq(list.id, listId))
+    if(isMain=="false")
+      await db.delete(list).where(eq(list.id, listId))
+    else {
+      console.log("ERROR cant delete your main list")
+      return { error: true };
+    }
     console.log("deleted", listId)
     return { success: true };
   },

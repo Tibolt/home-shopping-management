@@ -3,6 +3,10 @@
     import AddIcon from "~icons/ph/plus-fill"
     import MinusIcon from "~icons/ph/minus-fill"
     import DeleteIcon from "~icons/octicon/trash-16"
+    import AddModal from '../../components/addModal.svelte';
+    import Card from '../../components/Card.svelte';
+    import AddItemForm from '../../components/addItemForm.svelte';
+    import Bubble from '../../components/Bubble.svelte';
     let count = 0;
 
     function addOne(id) {
@@ -15,16 +19,25 @@
         items[index].amount -= 1
     }
 
-    let items = [
-        {id: 0, name: 'apple', amount: 2, unit: "kg", prize: 5},
-        {id: 1, name: 'bannana', amount: 4, unit: "", prize: 2}
-    ]
-
     export let data
+
+    let items = []
+
+
+    let showAddModal = false
+
+
+    const toggleAddModal = () => {
+        showAddModal = !showAddModal;
+    }
 
 
 </script>
-    
+<AddModal showAddModal={showAddModal} on:click={toggleAddModal}>
+    <Card>
+        <AddItemForm on:click={toggleAddModal} listId={data.storageId} isStorage={true}></AddItemForm>
+    </Card>
+</AddModal>
 
 <div class="center">
     <div class="list">
@@ -34,36 +47,19 @@
                 <th>Name</th>
                 <th>Quantity</th>
                 <th>Prize</th>
+                <th>Purchased date</th>
                 <th>Edit</th>
             </tr>
-            {#each items as item}
-            <tr>
-                <td><h3>{item.name}</h3></td>
-                <td>{item.amount} {item.unit}</td>
-                {#if item.unit == ""}
-                    <td>{item.prize} $</td>
-                {:else}
-                <td>{item.prize} $ per {item.unit}</td>
-                {/if}
-                <td>
-                    <button on:click={() => addOne(item.id)}>
-                        <AddIcon/>
-                    </button>
-                    <button on:click={() => subtractOne(item.id)}>
-                        <MinusIcon/>
-                    </button>
-                </td>
-            </tr>
-            {/each}
             {#each data.items as item }
                 <tr>
                     <td><h3>{item.name}</h3></td>
-                    <td>{item.amount} {item.unit}</td>
+                    <td>{item.amount_in_storage} {item.unit}</td>
                     {#if item.unit == ""}
                         <td>{item.prize} $</td>
                     {:else}
                     <td>{item.prize} $ per {item.unit}</td>
                     {/if}
+                    <td>{item.purchased_date}</td>
                     <td>
                         <div class="flex">
                             <form method="POST" action="?/addOne">
@@ -87,6 +83,7 @@
     </div>
     <FixedFooter>
         <a href="/list/{data.listId}">Go to {data.name}</a>
+        <Bubble on:click={toggleAddModal}><AddIcon/></Bubble>
     </FixedFooter>
 </div>
 
@@ -116,6 +113,10 @@ table {
 }
 button {
     all:unset;
+}
+
+td {
+    text-align: center;
 }
 
 </style>

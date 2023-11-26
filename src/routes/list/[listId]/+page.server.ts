@@ -1,12 +1,13 @@
 import { db } from "$lib/db/config"
-import { item, list } from "$lib/db/schema";
-import { eq, lt, gte, ne, Name } from "drizzle-orm";
+import { item, list, storage } from "$lib/db/schema";
+import { eq, lt, gte, ne, Name, and, inArray } from "drizzle-orm";
 import type { PageLoad } from "./$types";
-import { redirect } from "@sveltejs/kit";
+import { fail, redirect } from "@sveltejs/kit";
 import { cookieJwtAuth } from "$lib/server/jwt";
 import { writable } from "svelte/store";
 import { getContext, tick } from 'svelte';
 import { parse } from "dotenv";
+import { date } from "drizzle-orm/pg-core";
 
 export const load = async ({ request, fetch, cookies, params }) => {
 
@@ -26,9 +27,15 @@ export const load = async ({ request, fetch, cookies, params }) => {
   let id: number
   if(params.listId != "manifest.webmanifest")
     id = parseInt(params.listId)
+
+  // let itemsToUpdate = await db.select().from(item).where(and(eq(item.list_id, id),eq(item.show_in_list, false),eq(item.amount_in_storage, 0), ne(item.storage_id, 0)))
+  // if(itemsToUpdate[0])
+  //   await db.update(item).set({ show_in_list: true }).where(inArray(item.id, itemsToUpdate.map(item => item.id)))
+
   let items = await db.select().from(item).where(eq(item.list_id, id)).orderBy(item.name)
   let listName = await db.select().from(list).where(eq(list.id, params.listId))
-  return { items: items, listId: params.listId, listName: listName[0].name }
+
+  return { items: items, listId: params.listId, listName: listName[0].name}
 }
 
 export const actions = {
@@ -41,14 +48,6 @@ export const actions = {
     let items = []
     // const tempItems = ((await request.formData()).getAll("tempItems"))
     const data = await request.formData()
-
-    for (const [key, value] of data.entries()) {
-
-    }
-
-
-
-
 
     
     // console.table([...data.entries()])
@@ -87,8 +86,15 @@ export const actions = {
     }
 
     const userPayload = await cookieJwtAuth(token);
-
-    await db.delete(item).where(eq(item.id, id))
+    const main_list = await db.select().from(list).where(and(eq(list.user_id, userPayload.id),eq(list.is_main, true))).limit(1)
+    if(main_list[0]) {
+      const deleted = await db.update(item).set({show_in_list: false, ticked: false}).where(and(eq(item.id, id), eq(item.ticked, true)))
+      if (deleted.rowCount == 0) {
+        return fail(400, {message: "You haven't bought this item yet, if you want to delete use edit item page"})
+      }
+    }
+    else
+      await db.delete(item).where(eq(item.id, id))
     console.log("deleted", id)
     return { success: true };
   },
@@ -144,7 +150,7 @@ export const actions = {
     console.log("edited", id, prize)
     return { success: true };
   },
-  edit: async ({ request, cookies}) => {
+  edit: async ({ request, cookiesm}) => {
     const {id, name, amount, unit, prize} = Object.fromEntries(await request.formData()) as {
       id: number
       name: string
@@ -164,7 +170,7 @@ export const actions = {
     console.log("edited", id, prize)
     return { success: true };
   },
-  ticked: async ({ request, cookies}) => {
+  ticked: async ({ request, cookies, params}) => {
     const {id, ticked} = Object.fromEntries(await request.formData()) as {
       id: number
       ticked: string
@@ -175,12 +181,22 @@ export const actions = {
       throw redirect(301, "/sign-in");
     }
 
-    const userPayload = await cookieJwtAuth(token);
+    const today = new Date().toLocaleDateString("en-GB").toString()
 
-    if(ticked == "false")
-      await db.update(item).set({ticked: true}).where(eq(item.id, id))
+    const userPayload = await cookieJwtAuth(token);
+    const main_list = await db.select().from(list).where(and(eq(list.user_id, userPayload.id),eq(list.is_main, true))).limit(1)
+    if(ticked == "false") {
+      if(main_list[0].id == params.listId) {
+        const store = await db.select().from(storage).where(eq(storage.list_id, main_list[0].id))
+        const storageItem = await db.select().from(item).where(eq(item.id, id))
+        const newAmount = storageItem[0].amount + storageItem[0].amount_in_storage
+        await db.update(item).set({ticked: true, amount_in_storage: newAmount, storage_id: store[0].id, purchased_date: today}).where(eq(item.id, id))
+      }
+      else
+        await db.update(item).set({ticked: true, purchased_date: today}).where(eq(item.id, id))
+    }
     else
-      await db.update(item).set({ticked: false}).where(eq(item.id, id))
+      await db.update(item).set({ticked: false, purchased_date: ""}).where(eq(item.id, id))
       
     console.log("marked", id, ticked)
     return { success: true };
