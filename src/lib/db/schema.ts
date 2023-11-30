@@ -1,10 +1,11 @@
-import { pgTable, text, serial, integer, boolean, decimal, real, date,  } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
+import { int } from "drizzle-orm/mysql-core";
+import { pgTable, text, serial, integer, boolean, real  } from "drizzle-orm/pg-core";
 
 export const list = pgTable("list", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
   content: text("content"),
-  user_id: integer("user_id").references(() => user.id, { onDelete: 'cascade' }),
   is_main: boolean("is_main").default(false),
 });
 
@@ -19,7 +20,7 @@ export const item = pgTable("item", {
   storage_id: integer("storage_id").references(() => storage.id, { onDelete: 'cascade' }),
   amount_in_storage: integer("amount_in_storage").default(0),
   show_in_list: boolean("show_in_list").default(false),
-  purchased_date: text("purchased_date").default("")
+  purchased_date: text("purchased_date").default(""),
 });
 
 export const user = pgTable("user", {
@@ -32,6 +33,40 @@ export const user = pgTable("user", {
 export const storage = pgTable("storage", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
-  list_id: integer("list_id").references(() => list.id, { onDelete: 'cascade' }),
-  user_id: integer("user_id").references(() => user.id, { onDelete: 'cascade' }),
-})
+  author: integer("author").default(0),
+});
+
+// many-to-many relations:
+
+export const user_list = pgTable("user_list", {
+  user_id: integer("user_id").references(() => user.id, { onDelete: 'cascade' }).notNull(),
+  list_id: integer("list_id").references(() => list.id, { onDelete: 'cascade' }).notNull(),
+});
+
+export const user_storage = pgTable("user_storage", {
+  user_id: integer("user_id").references(() => user.id, { onDelete: 'cascade' }).notNull(),
+  storage_id: integer("storage_id").references(() => storage.id, { onDelete: 'cascade' }).notNull(),
+});
+
+
+// Drizzle relations for queries:
+
+export const user_relations = relations(user, ({ many }) => ({
+	user_list: many(user_list),
+}));
+
+export const list_relations = relations(list, ({ many }) => ({
+	user_list: many(user_list),
+}));
+
+export const user_to_list_relations = relations(user_list, ({ one }) => ({
+	list: one(list, {
+		fields: [user_list.list_id],
+		references: [list.id],
+	}),
+	user: one(user, {
+		fields: [user_list.user_id],
+		references: [user.id],
+	}),
+}));
+

@@ -1,6 +1,6 @@
 import { db } from "$lib/db/config"
-import { item, list, storage } from "$lib/db/schema";
-import { eq, lt, gte, ne, Name, and } from "drizzle-orm";
+import { item, list, storage, user_list, user_storage, user } from "$lib/db/schema";
+import { eq, lt, gte, ne, Name, and, desc, asc } from "drizzle-orm";
 import type { PageLoad } from "./$types";
 import { redirect } from "@sveltejs/kit";
 import { cookieJwtAuth } from "$lib/server/jwt";
@@ -11,20 +11,22 @@ import { parse } from "dotenv";
 export const load = async ({ request, fetch, cookies, params }) => {
 
 
-  // fetch the current user's todos from the server
-  const token = cookies.get("auth_token");
+    // fetch the current user's todos from the server
+    const token = cookies.get("auth_token");
 
-  if (!token) {
-    throw redirect(301, "/login");
-  }
+    if (!token) {
+        throw redirect(301, "/login");
+    }
 
     const userPayload = await cookieJwtAuth(token);
 
-    let main_list = await db.select().from(list).where(and(eq(list.user_id, userPayload.id),eq(list.is_main, true))).limit(1)
-//   let items = await db.select().from(item).where(eq(item.list_id, main_list[0].id)).orderBy(item.name)
-    let user_store = await db.select().from(storage).where(eq(storage.user_id, userPayload.id))
+    let lists = await db.select({id: list.id, name: list.name, is_main: list.is_main}).from(user_list).leftJoin(list, eq(user_list.list_id, list.id)).where(eq(user_list.user_id, userPayload.id)).orderBy(list.name)
+    console.log(lists)
+    let user_store = await db.select({id: storage.id, name: storage.name, author: storage.author}).from(user_storage).leftJoin(storage, eq(storage.id, user_storage.storage_id)).where(eq(user_storage.user_id, userPayload.id)).orderBy(desc(storage.author))
+    console.log(user_store)
     let items = await db.select().from(item).where(eq(item.storage_id, user_store[0].id)).orderBy(item.name)
-    return { items: items, name: main_list[0].name, listId: main_list[0].id, storageId: user_store[0].id}
+    console.log(items)
+    return { items: items, name: user_store[0].name, listId: lists[0].id, storageId: user_store[0].id}
 }
 
 export const actions = {

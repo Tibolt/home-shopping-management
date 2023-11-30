@@ -1,6 +1,6 @@
 import { type ActionFailure, redirect, type Actions, type Action, type RequestEvent, fail } from "@sveltejs/kit";
 import { db } from "$lib/db/config"
-import { user, storage, list } from "$lib/db/schema";
+import { user, storage, list, shared_lists, user_list, user_storage } from "$lib/db/schema";
 import { eq, lt, gte, ne, Name } from "drizzle-orm";
 import { goto } from "$app/navigation";
 import bcrypt from "bcrypt";
@@ -55,14 +55,22 @@ const register: Action = async (event) => {
 
         const new_list = await db.insert(list).values({
             name: `${new_user[0].name}'s list`,
-            user_id: new_user[0].id,
             is_main: true,
         }).returning()
 
         const new_storage = await db.insert(storage).values({
             name: `${new_user[0].name}'s storage`,
-            list_id: new_list[0].id,
+            author: new_user[0].id,
+        }).returning()
+
+        await db.insert(user_list).values({
             user_id: new_user[0].id,
+            list_id: new_list[0].id,
+        })
+
+        await db.insert(user_storage).values({
+            user_id: new_user[0].id,
+            storage_id: new_storage[0].id,
         })
 
         event.cookies.set("auth_token", token, {

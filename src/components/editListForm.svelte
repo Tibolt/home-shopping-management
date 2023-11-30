@@ -2,10 +2,12 @@
     import Card from "./Card.svelte";
     import DeleteIcon from "~icons/octicon/trash-16"
     import EditIcon from "~icons/fe/edit"
+    import ShareIcon from "~icons/mdi/share"
 
     export let listId: number
     export let name: string
     export let isMain: boolean
+    export let email: string = ""
 
     let isEditable = false
 
@@ -58,13 +60,17 @@
             <form method="POST" action="?/edit" class="left-side">
                 <p>Name</p>
                 <input type="hidden" hidden value={listId} name="listId">
-                <input type="text" hidden value={name} name="name" placeholder={name}>
+                <input type="text" hidden value={name} name="name" placeholder={name} required>
                 <button type="submit"><EditIcon/> Edit</button>
             </form>
 
-            <div class="left-side">
+            <form method="POST" action="?/share" class="left-side">
                 <p>Share</p>
-            </div>
+                <input type="hidden" hidden value={listId} name="listId">
+                <input type="hidden" hidden value={isMain} name="isMain">
+                <input type="text" hidden value={email} name="email" placeholder="test@example.com" required>
+                <button type="submit"><ShareIcon/> Share</button>
+            </form>
             {#if isMain}
             {:else}
                 <form method="POST" action="?/delete" class="left-side">
