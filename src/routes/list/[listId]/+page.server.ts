@@ -49,7 +49,7 @@ export const actions = {
     const data = await request.formData()
     return {success: true}
   },
-  delete: async ({ request, cookies}) => {
+  delete: async ({ request, cookies ,params}) => {
     const {id} = Object.fromEntries(await request.formData()) as {
       id: number
     }
@@ -61,7 +61,7 @@ export const actions = {
 
     const userPayload = await cookieJwtAuth(token);
     const main_list = await db.select().from(list).where(and(eq(list.user_id, userPayload.id),eq(list.is_main, true))).limit(1)
-    if(main_list[0]) {
+    if(main_list[0].id == params.listId) {
       const deleted = await db.update(item).set({show_in_list: false, ticked: false}).where(and(eq(item.id, id), eq(item.ticked, true)))
       if (deleted.rowCount == 0) {
         return fail(400, {message: "You haven't bought this item yet, if you want to delete use edit item page"})
