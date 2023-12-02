@@ -4,7 +4,7 @@ import { user, storage, list, shared_lists, user_list, user_storage } from "$lib
 import { eq, lt, gte, ne, Name } from "drizzle-orm";
 import { goto } from "$app/navigation";
 import bcrypt from "bcrypt";
-import { cookieJwtCreate } from "$lib/server/jwt.js";
+import { cookieJwtCreate, setStoreCookie } from "$lib/server/jwt.js";
 
 export const load = async (event) => {
     // get the token from the cookie
@@ -78,6 +78,16 @@ const register: Action = async (event) => {
             httpOnly: true,
             secure: false,
         })
+
+        const store = await db.select().from(user_storage).where(eq(user_storage.user_id, usr[0].id))
+        if(store.length > 0){
+            event.cookies.set("storageID", store[0].storage_id.toString(), {
+                path: "/",
+                httpOnly: true,
+                secure: false,
+                maxAge:60 * 60 * 24,
+            })
+        }
       
         throw redirect(301, "/");
     }

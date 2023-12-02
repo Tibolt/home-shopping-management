@@ -1,5 +1,5 @@
 import { db } from "$lib/db/config"
-import { item, list, storage } from "$lib/db/schema";
+import { item, list, storage, user_list } from "$lib/db/schema";
 import { eq, lt, gte, ne, Name, and, inArray } from "drizzle-orm";
 import type { PageLoad } from "./$types";
 import { fail, redirect } from "@sveltejs/kit";
@@ -10,8 +10,6 @@ import { parse } from "dotenv";
 import { date } from "drizzle-orm/pg-core";
 
 export const load = async ({ request, fetch, cookies, params }) => {
-
-  console.log(params)
 
   // fetch the current user's todos from the server
   const token = cookies.get("auth_token");
@@ -60,8 +58,8 @@ export const actions = {
     }
 
     const userPayload = await cookieJwtAuth(token);
-    const main_list = await db.select().from(list).where(and(eq(list.user_id, userPayload.id),eq(list.is_main, true))).limit(1)
-    if(main_list[0].id == params.listId) {
+    const mainList = await db.select({id: list.id, name: list.name, is_main: list.is_main}).from(list).where(and(eq(list.is_main, true), eq(list.id, params.listId)))
+    if(mainList.length > 0) {
       const deleted = await db.update(item).set({show_in_list: false, ticked: false}).where(and(eq(item.id, id), eq(item.ticked, true)))
       if (deleted.rowCount == 0) {
         return fail(400, {message: "You haven't bought this item yet, if you want to delete use edit item page"})
@@ -158,10 +156,10 @@ export const actions = {
     const today = new Date().toLocaleDateString("en-GB").toString()
 
     const userPayload = await cookieJwtAuth(token);
-    const main_list = await db.select().from(list).where(and(eq(list.user_id, userPayload.id),eq(list.is_main, true))).limit(1)
+    const mainList = await db.select({id: list.id, name: list.name, is_main: list.is_main}).from(list).where(eq(list.id, params.listId))
     if(ticked == "false") {
-      if(main_list[0].id == params.listId) {
-        const store = await db.select().from(storage).where(eq(storage.list_id, main_list[0].id))
+      if(mainList.length > 0) {
+        const store = await db.select().from(storage).where(eq(storage.list_id, mainList[0].id))
         const storageItem = await db.select().from(item).where(eq(item.id, id))
         const newAmount = storageItem[0].amount + storageItem[0].amount_in_storage
         await db.update(item).set({ticked: true, amount_in_storage: newAmount, storage_id: store[0].id, purchased_date: today}).where(eq(item.id, id))

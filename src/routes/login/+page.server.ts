@@ -1,10 +1,10 @@
 import { type ActionFailure, redirect, type Actions, type Action, type RequestEvent, error, fail } from "@sveltejs/kit";
 import { db } from "$lib/db/config"
-import { user } from "$lib/db/schema";
+import { user, user_storage } from "$lib/db/schema";
 import { eq, and, lt, gte, ne, Name } from "drizzle-orm";
 import { goto } from "$app/navigation";
 import bcrypt from "bcrypt";
-import { cookieJwtCreate, cookieJwtRefresh } from "$lib/server/jwt";
+import { cookieJwtCreate, cookieJwtRefresh, setStoreCookie } from "$lib/server/jwt";
 
 export const load = async (event) => {
     // get the sessionId from the cookie
@@ -64,6 +64,16 @@ const login: Action = async (event) => {
         secure: false,
         maxAge:60 * 60 * 24,
     })
+
+    const store = await db.select().from(user_storage).where(eq(user_storage.user_id, usr[0].id))
+    if(store.length > 0){
+        event.cookies.set("storageID", store[0].storage_id.toString(), {
+            path: "/",
+            httpOnly: true,
+            secure: false,
+            maxAge:60 * 60 * 24,
+        })
+    }
   
     throw redirect(301, "/");
 }

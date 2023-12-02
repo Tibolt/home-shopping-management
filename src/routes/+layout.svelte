@@ -30,7 +30,7 @@
         <h1 on:click={toggleNav}><CloseIcon/></h1>
             <a href="/"><HomeIcon/> Home</a>
             <a href="/list"><ListIcon/> List</a>
-            <a href="/store"><StoreIcon/> Store</a>
+            <a href="/store/{data.storageId}"><StoreIcon/> Store</a>
             {#if auth == false}                
             <a href="/login"><LoginIcon/> Login</a>
             {:else}
@@ -41,7 +41,7 @@
         <div class="icons">
             <a href="/"><HomeIcon/></a>
             <a href="/list"><ListIcon/></a>
-            <a href="/store"><StoreIcon/></a>
+            <a href="/store/{data.storageId}"><StoreIcon/></a>
             {#if auth == false}
             <a href="/login"><LoginIcon/></a>
             {:else}

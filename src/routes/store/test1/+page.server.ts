@@ -22,7 +22,7 @@ export const load = async ({ request, fetch, cookies, params }) => {
 
     let lists = await db.select({id: list.id, name: list.name, is_main: list.is_main}).from(user_list).leftJoin(list, eq(user_list.list_id, list.id)).where(eq(user_list.user_id, userPayload.id)).orderBy(list.name)
     console.log(lists)
-    let user_store = await db.select({id: storage.id, name: storage.name, author: storage.author}).from(user_storage).leftJoin(storage, eq(storage.id, user_storage.storage_id)).where(eq(user_storage.user_id, userPayload.id)).orderBy(desc(storage.author))
+    let user_store = await db.select({id: storage.id, name: storage.name, author: storage.author, listId: storage.list_id}).from(user_storage).leftJoin(storage, eq(storage.id, user_storage.storage_id)).where(eq(user_storage.user_id, userPayload.id)).orderBy(desc(storage.author))
     console.log(user_store)
     let items = await db.select().from(item).where(eq(item.storage_id, user_store[0].id)).orderBy(item.name)
     console.log(items)
@@ -90,20 +90,6 @@ export const actions = {
 
         await db.delete(item).where(eq(item.id, id))
         console.log("deleted", id)
-        return { success: true };
-    },
-    addNewItem: async ({request, cookies}) => {
-        const {id} = Object.fromEntries(await request.formData()) as {
-        id: number
-        }
-        // ensure the user is logged in
-        const token = cookies.get("auth_token");
-        if (!token) {
-        throw redirect(301, "/sign-in");
-        }
-
-        const userPayload = await cookieJwtAuth(token);
-        
         return { success: true };
     },
 }

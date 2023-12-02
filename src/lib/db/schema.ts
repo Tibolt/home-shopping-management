@@ -34,6 +34,7 @@ export const storage = pgTable("storage", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
   author: integer("author").default(0),
+  list_id: integer("list_id").references(() => list.id, { onDelete: 'cascade' }),
 });
 
 // many-to-many relations:
