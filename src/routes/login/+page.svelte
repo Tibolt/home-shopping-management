@@ -20,7 +20,7 @@
     <Card>
         {form?.message || ""}
         <div class="center">   
-            <h1 >Welcome </h1>
+            <h1>Sign-in</h1>
             <div class="float">
                 <label for="email">email</label>
                 <input type="email" id="email" name="email" placeholder="type your email" value={form?.email ?? ""}>
@@ -30,9 +30,11 @@
                 <input type="password" id="password" name="password" placeholder="type your password">
             </div>
         </div>
-        <div class="grid">
-            <h2 >Login</h2>
+        <div class="center-login">
             <button class="float">Login</button>
+
+        </div>
+        <div class="grid">
             <a href="/register" class="btn" style="">Sign Up</a>
             <a href="/register" class="btn" style="">Forgot Password</a>
         </div>
@@ -53,8 +55,8 @@ form {
 .grid {
     display: grid;
     place-items: center;
-    margin: 10% auto;
-    grid-template-rows: 1fr 3fr; 
+    margin: 15% auto;
+    grid-template-rows: 1fr; 
     grid-template-columns: 1fr 1fr; 
 }
 
@@ -64,7 +66,14 @@ form {
     margin: 10% auto;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr 1fr;
-    
+}
+
+.center-login{
+    display: grid;
+    place-items: center;
+    margin: 10% auto;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
 }
 
 
@@ -107,16 +116,29 @@ button {
 .btn {
     display: inline-block;
     text-align: center;
-    line-height: normal;
+    line-height: 30px;
     border: 1px solid;
     border-radius: 5px;
     border-style: outset;
-    height: 25px;
+    height: 30px;
     padding: 0 10px;
     background-color: buttonface;
     color: buttontext;
-    padding-top: 4px;
 }
+
+button {
+        all: unset;
+        display: inline-block;
+        text-align: center;
+        line-height: 30px;
+        border: 1px solid;
+        border-radius: 5px;
+        border-style: outset;
+        height: 30px;
+        padding: 0 10px;
+        background-color: buttonface;
+        color: buttontext;
+    }
 
 </style>
 
