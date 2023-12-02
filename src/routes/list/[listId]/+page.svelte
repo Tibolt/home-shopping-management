@@ -50,10 +50,10 @@
 </AddModal>
 
 
-<div class="error">
-    <p>{form?.message || ""}</p>
-</div>
 <div class="parent">
+    <div class="error">
+        <p>{form?.message || ""}</p>
+    </div>
     <ItemsGrid items={itemCount} listName={data.listName}/>
     <FixedFooter>
             <Bubble on:click={toggleAddModal}><AddIcon/></Bubble>

@@ -12,6 +12,7 @@
     import EditListForm from '../../components/editListForm.svelte';
     import FixedFooter from '../../components/fixedFooter.svelte';
     import AddIcon from "~icons/material-symbols/add"
+    import { _ } from 'svelte-i18n'
 
     function routeToPage(route: string, replaceState: boolean) {
         console.log(route)
@@ -62,14 +63,10 @@
 
 <AddModal showAddModal={showAddModal} on:click={toggleAddModal}>
     <AddListForm on:addItem={addItem} action="?/create">
-        <h1 >Add New List </h1>
+        <h1 >{$_('addNewList')}</h1>
         <div class="float">
-            <label for="name">name</label>
-            <input type="text" name="name" id="name" placeholder="type name of item">
-        </div>
-        <div class="float">
-            <label for="content">description</label>
-            <input type="text" name="content" id="content" placeholder="type description">
+            <label for="name">{$_('name')}</label>
+            <input type="text" name="name" id="name" placeholder={$_('typeItemName')}>
         </div>
     </AddListForm>
 </AddModal>
@@ -77,7 +74,7 @@
     <EditListForm listId={listId} name={listName} isMain={isMain}></EditListForm>
 </AddModal>
 <div class="parent">
-    <h2>lista</h2>
+    <h2>{$_('shoppingLists')}</h2>
     <div class="grid">
         {#each listsInfo as list}
         <div class="item">
@@ -132,6 +129,9 @@
         flex-direction: row;
         justify-content: center;
         padding: 0 1em;
+    }
+    .float {
+        
     }
     @media screen and (max-width: 600px) {
 

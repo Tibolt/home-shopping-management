@@ -2,6 +2,7 @@
 	import Card from "./Card.svelte";
     import { createEventDispatcher } from "svelte";
     import AddIcon from "~icons/gg/add"
+    import { _ } from 'svelte-i18n'
 
     export let action = "deafult"
 
@@ -25,7 +26,7 @@
             <slot></slot>
         </div>
         <div class="grid">
-            <h2 >Add</h2>
+            <h2 >{$_('add')}</h2>
             <button class="float"><AddIcon/></button>
         </div>
     </Card>
@@ -54,7 +55,7 @@
         place-items: center;
         margin: 10% auto;
         grid-template-columns: 1fr;
-        grid-template-rows: 1fr 1fr 1fr;
+        grid-template-rows: 1fr 2fr;
         
     }
 

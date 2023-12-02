@@ -3,6 +3,7 @@
     import DeleteIcon from "~icons/octicon/trash-16"
     import EditIcon from "~icons/fe/edit"
     import ShareIcon from "~icons/mdi/share"
+    import { _ } from 'svelte-i18n'
 
     export let listId: number
     export let name: string
@@ -52,24 +53,24 @@
 <div>
     <Card>
         <div class="flex-row">
-            <h1>Edit list</h1>
+            <h1>{$_('editList')}</h1>
             <button>X</button>
         </div>
         <div class="flex-column">
 
             <form method="POST" action="?/edit" class="left-side">
-                <p>Name</p>
+                <p>{$_('name')}</p>
                 <input type="hidden" hidden value={listId} name="listId">
                 <input type="text" hidden value={name} name="name" placeholder={name} required>
-                <button type="submit"><EditIcon/> Edit</button>
+                <button type="submit"><EditIcon/></button>
             </form>
 
             <form method="POST" action="?/share" class="left-side">
-                <p>Share</p>
+                <p>{$_('share')}</p>
                 <input type="hidden" hidden value={listId} name="listId">
                 <input type="hidden" hidden value={isMain} name="isMain">
                 <input type="text" hidden value={email} name="email" placeholder="test@example.com" required>
-                <button type="submit"><ShareIcon/> Share</button>
+                <button type="submit"><ShareIcon/></button>
             </form>
             {#if isMain}
             {:else}

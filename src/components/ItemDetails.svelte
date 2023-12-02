@@ -5,6 +5,7 @@
     import DeleteIcon from "~icons/octicon/trash-16"
     import CheckIcon from "~icons/mdi/circle-outline"
     import { enhance } from '$app/forms';
+    import { _, locale } from 'svelte-i18n'
 
     let dispatch = createEventDispatcher()
     export let name = ""
@@ -47,9 +48,9 @@
             </form>
         </div>
         <div class="description">
-            <p>Amount: {amount} {unit}</p>
+            <p>{$_('amount')}: {amount} {unit}</p>
             {#if prize != 0.0}
-                <p>{prize} $</p>
+                <p>{prize} {$_('currency')}</p>
             {/if}
         </div>
     </Card>

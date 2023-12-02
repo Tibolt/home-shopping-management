@@ -4,6 +4,7 @@
 	import { goto } from "$app/navigation";
     import CloseIcon from "~icons/ep/back"
     import AddIcon from "~icons/gg/add"
+    import { _ } from 'svelte-i18n'
 
     let inputHistory = ["chleb", "mleko", "ser", "piwo", "pietruszka", "pomidor", "sałata", "pizza", "arbuz", "ser gouda", "ser mozzarela", "ser biały", "ser zółty", "papryka", "pieczarki", "sok", "woda"]
     let suggestions = inputHistory
@@ -90,7 +91,7 @@
 
 <div class="addItem">
     <Bubble><button on:click><CloseIcon/></button></Bubble>
-    <h1 >Add New Item </h1>
+    <h1 >{$_('addNewList')} </h1>
     <input type="text" name="name" id="name" placeholder="type name of item" bind:value={inputValue} on:input={handleInput}/>
     <div class="suggestions">
         {#each suggestions as suggestion (suggestion)}

@@ -14,7 +14,6 @@
 
     if (browser) {
         const lang = localStorage.getItem('locale')
-        console.log(lang)
         if (lang) {
             locale.set(lang)
         }
@@ -47,19 +46,21 @@
     {#if click == true}
         <h1 on:click={toggleNav}><CloseIcon/></h1>
             <a href="/"><HomeIcon/>{$_('home')}</a>
-            <a href="/list"><ListIcon/> List</a>
-            <a href="/store/{data.storageId}"><StoreIcon/> Store</a>
+            <a href="/list"><ListIcon/>{$_('list')}</a>
+            <a href="/store/{data.storageId}"><StoreIcon/>{$_('storage')}</a>
             {#if auth == false}                
-            <a href="/login"><LoginIcon/> Login</a>
+            <a href="/login"><LoginIcon/>{$_('login')}</a>
             {:else}
-            <a data-sveltekit-preload-data="off" href="/log-out" on:click={logout}><LogoutIcon/> Log-out</a>
+            <a data-sveltekit-preload-data="off" href="/log-out" on:click={logout}><LogoutIcon/>{$_('logout')}</a>
             {/if}
-            <select bind:value={$locale}>
-                {#each $locales as locale}
-                    <option value={locale}>{locale}</option>
-                {/each}
-            </select>
-            <button on:click={()=>setLocaleInLocalStorage($locale)}>save</button>
+            <div class="langSelect">
+                <p>{$_('lang')}</p>
+                <select bind:value={$locale} on:change={()=>setLocaleInLocalStorage($locale)}>
+                    {#each $locales as locale}
+                        <option value={locale}>{locale}</option>
+                    {/each}
+                </select>
+            </div>
     {:else}
         <h1 on:click={toggleNav}>Logo</h1>
         <div class="icons">
@@ -73,12 +74,6 @@
             {/if}
             <!-- <button on:click={() => setLocale('en')}>English</button>
             <button on:click={() => setLocale('pl')}>Polski</button> -->
-            <select bind:value={$locale}>
-                {#each $locales as locale}
-                    <option value={locale}>{locale}</option>
-                {/each}
-            </select>
-            <button on:click={()=>setLocaleInLocalStorage($locale)}>save</button>
         </div>
     {/if}
     
@@ -119,6 +114,36 @@
         gap: 20px;
     }
 
+    .langSelect {
+        display: flex;
+        flex-direction: row;
+        margin-top: auto;
+        gap: 20px;
+        padding-bottom: 70px;
+    }
+    .langSelect p {
+        color: var(--special-text);
+    }
+
+    button {
+        all: unset;
+        display: inline-block;
+        text-align: center;
+        line-height: 30px;
+        border: 1px solid;
+        border-radius: 5px;
+        border-style: outset;
+        height: 30px;
+        padding: 0 10px;
+        background-color: buttonface;
+        color: buttontext;
+    }
+
+    select {
+        height: 30px;
+        border-radius: 5px;
+    }
+
     @media screen and (max-width: 600px) {
 
         @keyframes slideInLeft {
@@ -151,6 +176,10 @@
 
         .icons {
             display: none;
+        }
+
+        .langSelect {
+            flex-direction: column;
         }
     }
 </style>

@@ -1,5 +1,6 @@
 <script lang="ts">
     import Card from "../../components/Card.svelte"
+    import { _ } from 'svelte-i18n'
 
     import type { ActionData } from './$types'
 
@@ -10,26 +11,26 @@
     <Card>
         {form?.message || ""}
         <div class="grid">
-            <h1>Sign-up</h1>
+            <h1>{$_('register')}</h1>
             <div class="float">
                 <label for="email">Email<span class="reqField">*</span></label>
-                <input type="email" id="email" name="email" placeholder="Type your email" value={form?.email ?? ""} required>
+                <input type="email" id="email" name="email" placeholder={$_('typeYourEmail')} value={form?.email ?? ""} required>
             </div>
             <div class="float">
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" placeholder="Type your name" value={form?.name ?? ""} required>
+                <label for="name">{$_('personName')}<span class="reqField">*</span></label>
+                <input type="text" id="name" name="name" placeholder={$_('typeYourName')} value={form?.name ?? ""} required>
             </div>
             <div class="float">
-                <label for="password">Password<span class="reqField">*</span></label>
-                <input type="password" id="password" name="password" placeholder="Type your password" required>
+                <label for="password">{$_('password')}<span class="reqField">*</span></label>
+                <input type="password" id="password" name="password" placeholder={$_('typeYourPass')} required>
             </div>
             <div class="float">
-                <label for="password">Confirm Password<span class="reqField">*</span></label>
-                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Type your password" required>
+                <label for="password">{$_('confirmPass')}<span class="reqField">*</span></label>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder={$_('typeYourPass')} required>
             </div>
             <div class="grid-buttons">
-                <a href="/login" class="btn" style="">Sign Up</a>
-                <button>Create Account</button>
+                <a href="/login" class="btn" style="">{$_('login')}</a>
+                <button>{$_('createAccount')}</button>
             </div>
         </div>
     </Card>

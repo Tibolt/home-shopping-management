@@ -2,6 +2,7 @@
 	import { date } from "drizzle-orm/mysql-core";
 	import Card from "../../components/Card.svelte";
     import { user } from "../../stores";
+    import { _ } from 'svelte-i18n'
 
     export let data  
     export let form;
@@ -20,23 +21,23 @@
     <Card>
         {form?.message || ""}
         <div class="center">   
-            <h1>Sign-in</h1>
+            <h1>{$_('login')}</h1>
             <div class="float">
-                <label for="email">email</label>
-                <input type="email" id="email" name="email" placeholder="type your email" value={form?.email ?? ""}>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder={$_('typeYourEmail')} value={form?.email ?? ""}>
             </div>
             <div class="float">
-                <label for="password">password</label>
-                <input type="password" id="password" name="password" placeholder="type your password">
+                <label for="password">{$_('password')}</label>
+                <input type="password" id="password" name="password" placeholder={$_('typeYourPass')}>
             </div>
         </div>
         <div class="center-login">
-            <button class="float">Login</button>
+            <button class="float">{$_('login')}</button>
 
         </div>
         <div class="grid">
-            <a href="/register" class="btn" style="">Sign Up</a>
-            <a href="/register" class="btn" style="">Forgot Password</a>
+            <a href="/register" class="btn" style="">{$_('register')}</a>
+            <a href="/register" class="btn" style="">{$_('forgotPass')}</a>
         </div>
     </Card>
 </form>

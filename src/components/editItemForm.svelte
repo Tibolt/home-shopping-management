@@ -1,5 +1,6 @@
 <script lang="ts">
     import Card from "./Card.svelte";
+    import { _ } from 'svelte-i18n'
 
     export let id: number
     export let name: string
@@ -25,7 +26,7 @@
 <div>
     <Card>
         <div class="flex-row">
-            <h1>Edit list</h1>
+            <h1>{$_('edit')}</h1>
             <button>X</button>
         </div>
         <div class="flex-column">
@@ -35,32 +36,29 @@
                 {#if isNameEditable}
                     <input type="hidden" hidden value={id} name="id">
                     <div>
-                        <p>name</p>
-                        <input type="text" hidden value={name} name="name" placeholder={name}>
-                    </div>
-                    <div>
-                        <input type="radio" hidden>
+                        <p>{$_('name')}</p>
+                        <input type="text" hidden value={name} name="name" placeholder={name} style="width: 250px;">
                     </div>
                 {/if}
                 </div>
                 <div class="left-side">
                     <div>
-                        <p>amount</p>
+                        <p>{$_('amount')}</p>
                         <input type="text" hidden value={amount} name="amount" placeholder={amount.toString()}>
                     </div>
                     <div>
-                        <p>unit</p>
+                        <p>{$_('unit')}</p>
                         <input type="text" hidden value={unit} name="unit" placeholder={unit}>
                     </div>
                 </div>
                 <div class="left-side">
                     <div>
-                        <p>prize</p>
+                        <p>{$_('prize')}</p>
                         <input type="number" hidden value={prize} name="prize" placeholder={prize.toString()}>
                     </div>
                 </div>
                 <div class="submit-div">
-                    <button type="submit">submit</button>
+                    <button type="submit">{$_('submit')}</button>
                 </div>
             </form>
         </div>
@@ -96,6 +94,20 @@
     }
     .submit-div {
         padding-top: 10px;
+    }
+    
+    button {
+        all: unset;
+        display: inline-block;
+        text-align: center;
+        line-height: 30px;
+        border: 1px solid;
+        border-radius: 5px;
+        border-style: outset;
+        height: 30px;
+        padding: 0 10px;
+        background-color: buttonface;
+        color: buttontext;
     }
 </style>
 

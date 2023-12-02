@@ -8,6 +8,7 @@
     import Card from '../../../components/Card.svelte';
     import AddItemForm from '../../../components/addItemForm.svelte';
     import Bubble from '../../../components/Bubble.svelte';
+    import { _ } from 'svelte-i18n'
     // import { swipe } from 'svelte-gestures';
     let count = 0;
 
@@ -46,21 +47,15 @@
         <h1>{data.name}</h1>
         <table>
             <tr>
-                <th>Name</th>
-                <th>Quantity</th>
-                <th>Prize</th>
-                <th>Purchased date</th>
-                <th>Edit</th>
+                <th>{$_('name')}</th>
+                <th>{$_('amount')}</th>
+                <th>{$_('purchased')}</th>
+                <th>{$_('edit')}</th>
             </tr>
             {#each data.items as item }
                 <tr>
                     <td><h3>{item.name}</h3></td>
                     <td>{item.amount_in_storage} {item.unit}</td>
-                    {#if item.unit == ""}
-                        <td>{item.prize} $</td>
-                    {:else}
-                    <td>{item.prize} $ per {item.unit}</td>
-                    {/if}
                     <td>{item.purchased_date}</td>
                     <td>
                         <div class="flex">
@@ -84,7 +79,7 @@
         </table>
     </div>
     <FixedFooter>
-        <a href="/list/{data.listId}">Go to {data.name}</a>
+        <a href="/list/{data.listId}">{$_('goTo')} {data.name}</a>
         <Bubble on:click={toggleAddModal}><AddIconBubble/></Bubble>
     </FixedFooter>
 </div>
