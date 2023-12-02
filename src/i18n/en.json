@@ -1,0 +1,23 @@
+{
+	"Hi": "Hello",
+    "home": "Home",
+    "login": "Zaloguj",
+    "logout": "Wyloguj",
+    "register": "Zarejestruj",
+    "storage": "Magazyn Domowy",
+    "shoppingList": "Lista Zakupów",
+    "editList": "Edytuj Listę",
+    "name": "Nazwa",
+    "share": "Udostępnij",
+    "add": "Dodaj",
+    "delete": "Usuń",
+    "edit": "Edytuj",
+    "addNewList": "Dodaj nową listę",
+    "amount": "Ilość",
+    "unit": "Jednostka",
+    "prize": "Cena",
+    "submit": "Zapisz",
+    "purchased": "Kupione",
+    "goTo": "Otwórz",
+    "typeItemName": "Wpisz nazwę produktu"
+}

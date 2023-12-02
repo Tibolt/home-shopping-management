@@ -13,7 +13,8 @@
 		"format": "prettier --plugin-search-dir . --write .",
 		"generate": "drizzle-kit generate:pg",
 		"push": "drizzle-kit push:pg",
-		"studio": "drizzle-kit studio --host 127.0.0.1"
+		"studio": "drizzle-kit studio --host 127.0.0.1",
+		"typesafe-i18n": "typesafe-i18n"
 	},
 	"devDependencies": {
 		"@iconify-json/akar-icons": "^1.1.20",
@@ -57,6 +58,8 @@
 		"jsonwebtoken": "^9.0.2",
 		"pg": "^8.11.3",
 		"postgres": "^3.3.5",
-		"svelte-device-info": "^1.0.0"
+		"svelte-device-info": "^1.0.0",
+		"svelte-i18n": "^4.0.0",
+		"typesafe-i18n": "^5.26.2"
 	}
 }

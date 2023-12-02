@@ -19,7 +19,6 @@ export const cookieJwtAuth = async (token: string) => {
         return payload
     } catch(err) {
         console.log("invalid or missing JWT, you are not logged in")
-        redirect(301, "/login")
-        return fail(401, {message: "Session expired"})
+        throw redirect(301, "/login")
     }
 }

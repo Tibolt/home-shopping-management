@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import '../style.css'
     import CloseIcon from "~icons/ep/back"
     import HomeIcon from "~icons/clarity/home-line"
@@ -6,7 +6,25 @@
     import StoreIcon from "~icons/lucide/box"
     import LoginIcon from "~icons/tabler/login"
     import LogoutIcon from "~icons/akar-icons/door"
+    import { _ } from 'svelte-i18n'
+    import { locale, locales, waitLocale, init } from 'svelte-i18n'
+
+    import { browser } from '$app/environment'
+    import "../lib/i18n" // Import to initialize. Important :)
+
+    if (browser) {
+        const lang = localStorage.getItem('locale')
+        console.log(lang)
+        if (lang) {
+            locale.set(lang)
+        }
+    }
+
+    const setLocaleInLocalStorage = (locale: string) => {
+        localStorage.setItem('locale', locale)
+    }
     
+ 
     export let data
     let click = false
 
@@ -28,7 +46,7 @@
 <nav class:clicked={click}>
     {#if click == true}
         <h1 on:click={toggleNav}><CloseIcon/></h1>
-            <a href="/"><HomeIcon/> Home</a>
+            <a href="/"><HomeIcon/>{$_('home')}</a>
             <a href="/list"><ListIcon/> List</a>
             <a href="/store/{data.storageId}"><StoreIcon/> Store</a>
             {#if auth == false}                
@@ -36,6 +54,12 @@
             {:else}
             <a data-sveltekit-preload-data="off" href="/log-out" on:click={logout}><LogoutIcon/> Log-out</a>
             {/if}
+            <select bind:value={$locale}>
+                {#each $locales as locale}
+                    <option value={locale}>{locale}</option>
+                {/each}
+            </select>
+            <button on:click={()=>setLocaleInLocalStorage($locale)}>save</button>
     {:else}
         <h1 on:click={toggleNav}>Logo</h1>
         <div class="icons">
@@ -47,6 +71,14 @@
             {:else}
             <a data-sveltekit-preload-data="off" href="/log-out" on:click={logout}><LogoutIcon/></a>
             {/if}
+            <!-- <button on:click={() => setLocale('en')}>English</button>
+            <button on:click={() => setLocale('pl')}>Polski</button> -->
+            <select bind:value={$locale}>
+                {#each $locales as locale}
+                    <option value={locale}>{locale}</option>
+                {/each}
+            </select>
+            <button on:click={()=>setLocaleInLocalStorage($locale)}>save</button>
         </div>
     {/if}
     

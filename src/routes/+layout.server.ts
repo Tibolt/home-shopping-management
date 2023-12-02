@@ -1,4 +1,4 @@
-export async function load({ cookies }) {
+export const load = async ({cookies}) => {
 	// const log = cookies.get('log');
     const token = cookies.get("auth_token");
     let storageId = cookies.get("storageID");
