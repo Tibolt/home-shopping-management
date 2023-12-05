@@ -53,6 +53,7 @@
             {:else}
             <a data-sveltekit-preload-data="off" href="/log-out" on:click={logout}><LogoutIcon/>{$_('logout')}</a>
             {/if}
+            <a data-sveltekit-preload-data="off" href="/log-out" on:click={logout}><LogoutIcon/>{$_('logout')}</a>
             <div class="langSelect">
                 <p>{$_('lang')}</p>
                 <select bind:value={$locale} on:change={()=>setLocaleInLocalStorage($locale)}>
