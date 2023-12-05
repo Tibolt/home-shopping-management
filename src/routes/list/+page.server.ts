@@ -52,7 +52,6 @@ export const actions = {
   create: async ({ request, fetch, cookies }) => {
     const {name, content} = Object.fromEntries(await request.formData()) as {
       name: string
-      content: string
     }
     // ensure the user is logged in
     const token = cookies.get("auth_token");
@@ -65,7 +64,6 @@ export const actions = {
 
     let newList = await db.insert(list).values({
       name: name.toString(),
-      content: content.toString(),
     }).returning()
 
     await db.insert(user_list).values({
