@@ -50,4 +50,4 @@ jobs:
         run: |
          whoami
          ls -l
-         rsync -avz --no-o --no-g --no-perms ./build/ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:${{ secrets.TARGET_DIRECTORY }}
+         rsync -avz --no-o --no-g --no-perms . ${{ secrets.USERNAME }}@${{ secrets.HOST }}:${{ secrets.TARGET_DIRECTORY }}
