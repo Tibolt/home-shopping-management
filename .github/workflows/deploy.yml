@@ -38,7 +38,9 @@ jobs:
         run: npm run build
 
       - name: Create SSH Key File
-        run: echo "${{ secrets.SSH_KEY }}" >> ~/.ssh/deploy_key
+        run: |
+         touch ~/.ssh/deploy_key
+         echo "${{ secrets.SSH_KEY }}" >> ~/.ssh/deploy_key
         shell: bash
 
       - name: Set Permissions for SSH Key
