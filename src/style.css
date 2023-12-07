@@ -1,0 +1,70 @@
+:root {
+    --bg: #F4FAFF;
+    --text: #535657;
+    --card-bg: #DEE7E7;
+    --special-text: #B7ADCF;
+    --btn-bg: #535657;
+    --btn-text: #F4FAFF;
+    --nav: #4F646F;
+    --dark-green: #0F5257;
+    --dark-blue: #0B3142;
+    --rose: #9C92A3;
+    --orange: #FC7753;
+    --blue: #66D7D1;
+    --violet: #403D58;
+    --yellow: #E5F77D;
+    --red: #E63462;
+    --black: #333745;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    height:100%;
+}
+body {
+    height:100%;
+    min-height:100%;
+    background-color: var(--bg);
+    max-width: 100%;
+    overflow-x: hidden;
+    color: var(--text);
+}
+
+a {
+    text-decoration: none;
+    color: var(--special-text);
+}
+
+h1, h2 {
+    color: var(--dark-blue);
+}
+
+h3 {
+    color: var(--dark-green);
+}
+
+.reqField {
+    color: var(--red);
+    margin-left: 2px;
+}
+
+.float {
+    float: left;
+}
+
+label, input {
+    display:block;
+}
+
+input {
+    height: 25px;
+    border-radius: 10px;
+}
+
+input::placeholder {
+    padding-left: 2px;
+}
