@@ -18,7 +18,7 @@ jobs:
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
       JWT: ${{ secrets.JWT }}
-      API: ${{ secrest.API }}
+      API: ${{ secrets.API }}
     steps:
       - name: Checkout Master Branch
         uses: actions/checkout@v3
