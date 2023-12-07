@@ -15,6 +15,10 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      JWT: ${{ secrets.JWT }}
+      API: ${{ secrest.API }}
     steps:
       - name: Checkout Master Branch
         uses: actions/checkout@v3
