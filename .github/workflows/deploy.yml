@@ -16,16 +16,16 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Main Branch
+      - name: Checkout Master Branch
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          ref: main
+          ref: master
 
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "16.x"
+          node-version: "16.2"
 
       - name: Install Dependencies
         run: npm install
