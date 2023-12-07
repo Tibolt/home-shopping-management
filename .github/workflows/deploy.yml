@@ -41,19 +41,10 @@ jobs:
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.SSH_KEY }}
-          known_hosts: "unnecessary"
-
-      - name: Create SSH Key File
-        run: |
-         mkdir -p ~/.ssh
-         echo "${{ secrets.SSH_KEY }}" >> ~/.ssh/deploy_key
-        shell: bash
-
-      - name: Set Permissions for SSH Key
-        run: chmod 600 ~/.ssh/deploy_key
+          known_hosts: "fix_for_error"
 
       - name: Adding Known Hosts
         run: ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy with rsync
-        run: rsync -auvz -e "ssh -i ~/.ssh/deploy_key" . ${{ secrets.USERNAME }}@${{ secrets.HOST }}:${{ secrets.TARGET_DIRECTORY }}
+        run: rsync -auvz . ${{ secrets.USERNAME }}@${{ secrets.HOST }}:${{ secrets.TARGET_DIRECTORY }}
