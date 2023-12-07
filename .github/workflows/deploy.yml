@@ -2,8 +2,15 @@ name: Build and Deploy
  
 on:
   push:
-    branches:
-      - main
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  workflow_dispatch:
+    inputs:
+      deployment-target:
+        description: 'Target for deployment'
+        required: true
+        default: 'production' # Provide a default value or adjust as needed
 
 jobs:
   build-and-deploy:
