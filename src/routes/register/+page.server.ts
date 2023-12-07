@@ -5,6 +5,7 @@ import { eq, lt, gte, ne, Name } from "drizzle-orm";
 import { goto } from "$app/navigation";
 import bcrypt from "bcrypt";
 import { cookieJwtCreate, setStoreCookie } from "$lib/server/jwt.js";
+import { isValidEmail } from "$lib/utils";
 
 export const load = async (event) => {
     // get the token from the cookie
@@ -32,6 +33,11 @@ const register: Action = async (event) => {
         return fail(400, {email, name, message: "passwords do not match"})
     }
 
+    if(!isValidEmail(email)) {
+        console.log("ERROR email is not valid")
+        return fail(500, { message: 'Email is not valid.' });
+    }
+
     console.log({email, password, name})
     const hash = bcrypt.hashSync(password?.toString(), 10);
     console.log(hash)
@@ -54,13 +60,14 @@ const register: Action = async (event) => {
         })
 
         const new_list = await db.insert(list).values({
-            name: `${new_user[0].name}'s list`,
+            name: `${new_user[0].name}`,
             is_main: true,
         }).returning()
 
         const new_storage = await db.insert(storage).values({
-            name: `${new_user[0].name}'s storage`,
+            name: `${new_user[0].name}`,
             author: new_user[0].id,
+            list_id: new_list[0].id,
         }).returning()
 
         await db.insert(user_list).values({
@@ -79,7 +86,7 @@ const register: Action = async (event) => {
             secure: false,
         })
 
-        const store = await db.select().from(user_storage).where(eq(user_storage.user_id, usr[0].id))
+        const store = await db.select().from(user_storage).where(eq(user_storage.user_id, new_user[0].id))
         if(store.length > 0){
             event.cookies.set("storageID", store[0].storage_id.toString(), {
                 path: "/",

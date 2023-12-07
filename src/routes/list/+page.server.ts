@@ -4,12 +4,8 @@ import { eq, lt, gte, ne, Name, asc, desc, and, leftjoin, all} from "drizzle-orm
 import type { PageLoad } from "./$types";
 import { fail, redirect } from "@sveltejs/kit";
 import { cookieJwtAuth } from "$lib/server/jwt";
+import { isValidEmail } from "$lib/utils";
 
-
-function isValidEmail(email: string): boolean {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return email !== '' && emailRegex.test(email);
-}
 
 export const load = async ({cookies, fetch}) => {
   // fetch the current user's todos from the server

@@ -80,6 +80,7 @@
     </div>
     <FixedFooter>
         <a href="/list/{data.listId}">{$_('goTo')} {data.name}</a>
+        <!-- <Bubble on:click={toggleEditModal}>edit</Bubble> -->
         <Bubble on:click={toggleAddModal}><AddIconBubble/></Bubble>
     </FixedFooter>
 </div>

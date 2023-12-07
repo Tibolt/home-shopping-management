@@ -122,7 +122,7 @@ export const actions = {
     console.log("edited", id, prize)
     return { success: true };
   },
-  edit: async ({ request, cookiesm}) => {
+  edit: async ({ request, cookies}) => {
     const {id, name, amount, unit, prize} = Object.fromEntries(await request.formData()) as {
       id: number
       name: string
