@@ -134,5 +134,6 @@
     }
     .add-btn {
         width: 2em;
+        padding: 10px;
     }
 </style>
