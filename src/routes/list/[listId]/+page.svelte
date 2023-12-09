@@ -63,13 +63,12 @@
 <style>
     .parent {
         display: flex;
+        justify-content: center;
         flex-direction: column;
         flex-wrap: wrap;
         align-content: center;
-        align-items: center;
         width: 100%;
-        height: 80%;
-        /* padding-top: 5em; */
+        height: 100%;
     }
     .bottom {
         position: fixed;
@@ -87,7 +86,9 @@
     .error {
         display: flex;
         justify-content: center;
-        padding: 10px 100px
+        align-items: center;
+        padding-top: 20px;
+        color: var(--red)
     }
 
     @media screen and (max-width: 600px) {
@@ -96,9 +97,6 @@
             padding: 20px;
             bottom: 3%;
             border-top: 2px solid #ddd;
-        }
-        .parent {
-            
         }
     }
 

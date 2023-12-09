@@ -62,7 +62,7 @@ export const POST: RequestHandler = async ({request, cookies, params}) => {
         if (existingItem[0]) {
           console.log("exsiting", existingItem[0])
           const newAmount = existingItem[0].amount + amount
-          await db.update(item).set({name: name, amount: newAmount}).where(eq(item.id, existingItem[0].id))
+          await db.update(item).set({name: name, amount: newAmount, show_in_list: true}).where(eq(item.id, existingItem[0].id))
           console.log(`updated: Name - ${name}, Amount - ${amount}`);
         }
         else {

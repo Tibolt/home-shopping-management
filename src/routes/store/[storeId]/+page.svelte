@@ -10,6 +10,7 @@
     import Bubble from '../../../components/Bubble.svelte';
     import { _ } from 'svelte-i18n'
     import EditStorage from '../../../components/editStorage.svelte';
+    import { enhance } from '$app/forms';
     // import { swipe } from 'svelte-gestures';
     let count = 0;
 
@@ -65,15 +66,15 @@
                     <td>{item.purchased_date}</td>
                     <td>
                         <div class="flex">
-                            <form method="POST" action="?/addOne">
+                            <form method="POST" action="?/addOne" use:enhance>
                                 <input type="hidden" hidden value={item.id} name="id">
                                 <button class="options" style="color: var(--dark-green);"><AddIcon/></button>
                             </form>
-                            <form method="POST" action="?/minusOne">
+                            <form method="POST" action="?/minusOne" use:enhance>
                                 <input type="hidden" hidden value={item.id} name="id">
                                 <button class="options" style="color: var(--red);"><MinusIcon/></button>
                             </form>
-                            <form method="POST" action="?/delete">
+                            <form method="POST" action="?/delete" use:enhance>
                                 <input type="hidden" hidden value={item.id} name="id">
                                 <button class="options" style="color: var(--red);"><DeleteIcon/></button>
                             </form>
