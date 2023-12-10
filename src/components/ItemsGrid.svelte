@@ -39,7 +39,7 @@
     <EditItemForm id={itemId} name={itemName} amount={amountI} unit={unitI} prize={prizeI}/>
 </AddModal>
 <div class="grid">
-    <h2>{listName}</h2>
+    <h1>{listName}</h1>
     {#each items as item}
         {#if item.show_in_list}
             <div class="item">
@@ -71,7 +71,7 @@
         padding-bottom: 1em;
         padding-right: 2em;
     }
-    h2 {
+    h1 {
         align-self: center;
     }
 

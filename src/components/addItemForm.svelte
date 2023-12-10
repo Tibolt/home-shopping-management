@@ -91,8 +91,8 @@
 
 <div class="addItem">
     <Bubble><button on:click><CloseIcon/></button></Bubble>
-    <h1 >{$_('addNewList')} </h1>
-    <input type="text" name="name" id="name" placeholder="type name of item" bind:value={inputValue} on:input={handleInput}/>
+    <h1 >{$_('addNewItem')} </h1>
+    <input type="text" name="name" id="name" placeholder={$_('typeItemName')} bind:value={inputValue} on:input={handleInput}/>
     <div class="suggestions">
         {#each suggestions as suggestion (suggestion)}
             <Sugestion name={suggestion} on:click={() => handleSuggestionClick(suggestion)} on:addItem={trackItems} on:deleteItem={trackItems} on:increaseItem={trackItems} on:subItem={trackItems}/>
@@ -102,7 +102,8 @@
     <form method="POST" action="?/create" on:submit|preventDefault>
         <input type="hidden" hidden value={tempItems} name="tempItems">
         <!-- <Bubble><button type="submit">add</button></Bubble> -->
-        <button type="submit" on:click={handleSubmit} class="add-btn"><AddIcon/></button>
+        <!-- <button type="submit" on:click={handleSubmit} class="add-btn"><AddIcon/></button> -->
+        <button type="submit" class="add-btn" on:click={handleSubmit}>{$_('submit')}</button>
     </form>
 </div>
 
@@ -118,7 +119,7 @@
         display: flex;
         justify-content: center;
         width: 100%;
-        padding-top: 50px;
+        padding: 20px 0
     }
     .suggestions {
         display: flex;
@@ -133,8 +134,16 @@
         all: unset;
     }
     .add-btn {
-        width: 2em;
-        padding: 10px;
-        margin-bottom: 10px;
+        all: unset;
+        display: inline-block;
+        text-align: center;
+        line-height: 30px;
+        border: 1px solid;
+        border-radius: 5px;
+        border-style: outset;
+        height: 30px;
+        padding: 0 10px;
+        background-color: buttonface;
+        color: buttontext;
     }
 </style>

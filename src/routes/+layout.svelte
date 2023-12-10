@@ -6,6 +6,7 @@
     import StoreIcon from "~icons/lucide/box"
     import LoginIcon from "~icons/tabler/login"
     import LogoutIcon from "~icons/akar-icons/door"
+    import MenuIcon from "~icons/ion/menu"
     import { _ } from 'svelte-i18n'
     import { locale, locales, waitLocale, init } from 'svelte-i18n'
 
@@ -50,8 +51,8 @@
             <a href="/store/{data.storageId}"><StoreIcon/>{$_('storage')}</a>
             {#if auth == false}                
             <a href="/login"><LoginIcon/>{$_('login')}</a>
-            {:else}
-            <a data-sveltekit-preload-data="off" href="/log-out" on:click={logout}><LogoutIcon/>{$_('logout')}</a>
+            <!-- {:else}
+            <a data-sveltekit-preload-data="off" href="/log-out" on:click={logout}><LogoutIcon/>{$_('logout')}</a> -->
             {/if}
             <a data-sveltekit-preload-data="off" href="/log-out" on:click={logout}><LogoutIcon/>{$_('logout')}</a>
             <div class="langSelect">
@@ -63,7 +64,7 @@
                 </select>
             </div>
     {:else}
-        <h1 on:click={toggleNav}>Logo</h1>
+        <h1 on:click={toggleNav}><MenuIcon/></h1>
         <div class="icons">
             <a href="/"><HomeIcon/></a>
             <a href="/list"><ListIcon/></a>
@@ -73,8 +74,6 @@
             {:else}
             <a data-sveltekit-preload-data="off" href="/log-out" on:click={logout}><LogoutIcon/></a>
             {/if}
-            <!-- <button on:click={() => setLocale('en')}>English</button>
-            <button on:click={() => setLocale('pl')}>Polski</button> -->
         </div>
     {/if}
     
@@ -97,6 +96,7 @@
         padding-right: 20px;
         gap: 20px;
         padding-left: 10px;
+        z-index: 10;
 
     }
 

@@ -3,6 +3,9 @@
     import { createEventDispatcher } from "svelte";
     import AddIcon from "~icons/gg/add"
     import { _ } from 'svelte-i18n'
+    import Bubble from "./Bubble.svelte";
+    import CloseIcon from "~icons/ep/back"
+
 
     export let action = "deafult"
 
@@ -22,12 +25,13 @@
 
 <form method="POST" action={action}>
     <Card>
+        <Bubble><button on:click><CloseIcon/></button></Bubble>
         <div class="center">
             <slot></slot>
         </div>
         <div class="grid">
-            <h2 >{$_('add')}</h2>
-            <button class="float"><AddIcon/></button>
+            <!-- <h2 >{$_('add')}</h2> -->
+            <button type="submit" class="add-btn">{$_('submit')}</button>
         </div>
     </Card>
 </form>
@@ -45,9 +49,9 @@
     .grid {
         display: grid;
         place-items: center;
-        margin: 10% auto;
+        margin-bottom: 5%;
         grid-template-rows: 2fr; 
-        grid-template-columns: 1fr 1fr; 
+        grid-template-columns: 1fr; 
     }
 
     .center {
@@ -59,42 +63,21 @@
         
     }
 
-    .float {
-        float: left;
-    }
-
-    label, input {
-        display:block;
-    }
-
-    input {
-        height: 25px;
-        border-radius: 10px;
-    }
-
-    input::placeholder {
-        padding-left: 2px;
-    }
-
     button {
         all: unset;
-        border-radius: 5 px;
-        height: 25px;
-        padding: 0 10px;
     }
 
-    .btn {
+    .add-btn {
+        all: unset;
         display: inline-block;
         text-align: center;
-        line-height: normal;
+        line-height: 30px;
         border: 1px solid;
         border-radius: 5px;
         border-style: outset;
-        height: 25px;
+        height: 30px;
         padding: 0 10px;
         background-color: buttonface;
         color: buttontext;
-        padding-top: 4px;
     }
-
 </style>

@@ -1,6 +1,8 @@
 <script lang="ts">
     import Card from "./Card.svelte";
     import { _ } from 'svelte-i18n'
+    import CloseIcon from "~icons/ep/back"
+    import Bubble from "./Bubble.svelte";
 
     export let id: number
     export let name: string
@@ -25,9 +27,9 @@
 
 <div>
     <Card>
+        <Bubble><button on:click><CloseIcon/></button></Bubble>
         <div class="flex-row">
             <h1>{$_('edit')}</h1>
-            <button>X</button>
         </div>
         <div class="flex-column">
 
@@ -58,7 +60,7 @@
                     </div>
                 </div>
                 <div class="submit-div">
-                    <button type="submit">{$_('submit')}</button>
+                    <button type="submit" class="add-btn">{$_('submit')}</button>
                 </div>
             </form>
         </div>
@@ -95,8 +97,12 @@
     .submit-div {
         padding-top: 10px;
     }
-    
+
     button {
+        all: unset;
+    }
+    
+    .add-btn {
         all: unset;
         display: inline-block;
         text-align: center;

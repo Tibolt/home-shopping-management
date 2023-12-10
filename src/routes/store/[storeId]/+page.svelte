@@ -32,6 +32,17 @@
         showEditForm = !showEditForm;
     }
 
+    data.stores = [
+        { id: null, name: "test", author: null, listId: null },
+        { id: null, name: "test2", author: null, listId: null },
+        { id: null, name: "test3", author: null, listId: null },
+        { id: null, name: "test4", author: null, listId: null },
+        { id: null, name: "test5", author: null, listId: null },
+        { id: null, name: "test6", author: null, listId: null },
+        { id: null, name: "test7", author: null, listId: null },
+        { id: null, name: "test8", author: null, listId: null }
+    ];
+
 
 </script>
 <AddModal showAddModal={showAddModal} on:click={toggleAddModal}>
@@ -48,7 +59,7 @@
     <h1>{$_('storage')} {data.name}</h1>
     <div class="stores-list">
         {#each data.stores as store}
-            <a href="/store/{store.id}">{store.name}</a>
+            <Card><a href="/store/{store.id}">{store.name}</a></Card>
         {/each}
     </div>
     <div class="list">
@@ -86,18 +97,29 @@
         </table>
     </div>
     <FixedFooter>
-        <a href="/list/{data.listId}">{$_('goTo')}</a>
-        <Bubble on:click={toggleEditModal}>edit</Bubble>
+        <Bubble><a href="/list/{data.listId}" class="a-list">{$_('list')}</a></Bubble>
+        <Bubble on:click={toggleEditModal}>{$_('edit')}</Bubble>
         <Bubble on:click={toggleAddModal}><AddIconBubble/></Bubble>
     </FixedFooter>
 </div>
+<div class="end"></div>
 
 <style>
 
 .center {
-    display: grid;
-    place-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     padding-top: 5em;
+}
+
+h1 {
+    text-align: center;
+}
+
+.end {
+    height: 30vh;
 }
 
 .list {
@@ -124,6 +146,11 @@ button {
 
 a {
     padding: 10px;
+    color: var(--dark-blue);
+}
+
+.a-list {
+    color: var(--btn-text)
 }
 
 th {
@@ -140,10 +167,12 @@ td {
 .stores-list {
     display: flex;
     flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
     gap: 25px;
-    width: 70%;
+    width: 80%;
     align-items: center;
-    justify-content: center;
+    justify-content: fkex-start;
     padding: 10px 0;
 }
 
