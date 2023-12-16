@@ -5,23 +5,27 @@
 	import { browser } from '$app/environment'
 
     let deferredInstallEvent : any
+    let installPrompt : boolean = false
  
     onMount(() => {
         window.addEventListener("beforeinstallprompt", e => {
             e.preventDefault()
             deferredInstallEvent = e
+            installPrompt = true
         })
     })
 
     async function handleInstall() {
-        deferredInstallEvent.prompt()
-        let choice = await deferredInstallEvent.userChoice
-        if (choice.outcome === "accepted") {
-        // User accepted to install the application
-        } else {
-        // User dismissed the prompt
-        }
+        const result = await deferredInstallEvent.prompt()
+        console.log(`Install prompt was: ${result.outcome}`);
+        // let choice = await deferredInstallEvent.userChoice
+        // if (choice.outcome === "accepted") {
+        // // User accepted to install the application
+        // } else {
+        // // User dismissed the prompt
+        // }
         deferredInstallEvent = undefined
+        installPrompt = false
     }
 
     // const clickInstall = () => {
@@ -45,7 +49,7 @@
         <p>{$_('shareDescription')}</p>
         <p>{$_('storageDescription')}</p>
         <p>{$_('installDescription')}</p>
-        {#if deferredInstallEvent}
+        {#if installPrompt==true}
             <button class="install-button" on:click={handleInstall}>Install</button>
         {/if}
     </div>
