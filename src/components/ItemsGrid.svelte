@@ -36,7 +36,7 @@
 </script>
 
 <AddModal showAddModal={showEditForm} on:click={toggleEditForm}>
-    <EditItemForm id={itemId} name={itemName} amount={amountI} unit={unitI} prize={prizeI}/>
+    <EditItemForm id={itemId} name={itemName} amount={amountI} unit={unitI} prize={prizeI} on:click={toggleEditForm}/>
 </AddModal>
 <div class="grid">
     <h1>{listName}</h1>

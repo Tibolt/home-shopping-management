@@ -32,5 +32,9 @@
     "personName": "Name",
     "createAccount": "Create Account",
     "confrimPass": "Confirm password",
-    "forgotPass": "Forgot password?"
+    "forgotPass": "Forgot password?",
+    "description": "This is app to simplify your shopping. You can create shopping lists and add items to them",
+    "shareDescription": "Share your lists with your friends or family and shop together.",
+    "storageDescription": "You can also add items to your storage and system will automatically add them to your shopping list when you run out of them.",
+    "installDescription": "Create account and install app to use it on the go."
 }

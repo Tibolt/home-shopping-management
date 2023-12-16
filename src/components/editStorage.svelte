@@ -4,6 +4,8 @@
     import EditIcon from "~icons/fe/edit"
     import ShareIcon from "~icons/mdi/share"
     import { _ } from 'svelte-i18n'
+    import Bubble from "./Bubble.svelte";
+    import CloseIcon from "~icons/ep/back"
 
     export let storageId: number
     export let name: string
@@ -18,9 +20,9 @@
 
 <div>
     <Card>
+        <Bubble><button on:click><CloseIcon/></button></Bubble>
         <div class="flex-row">
             <h1>{$_('editList')}</h1>
-            <button>X</button>
         </div>
         <div class="flex-column">
 

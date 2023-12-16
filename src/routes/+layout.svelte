@@ -71,15 +71,15 @@
             <a href="/store/{data.storageId}"><StoreIcon/></a>
             {#if auth == false}
             <a href="/login"><LoginIcon/></a>
-            {:else}
-            <a data-sveltekit-preload-data="off" href="/log-out" on:click={logout}><LogoutIcon/></a>
             {/if}
         </div>
     {/if}
     
 </nav>
 <body on:click={disableNav}>
-    <slot></slot>
+    <div class="content" style={click ? 'padding-left: 20%;' : ''}>
+        <slot></slot>
+    </div>
 </body>
 
 <style>
@@ -101,7 +101,7 @@
     }
 
     .clicked {
-        width: 20%;
+        width: 15%;
     }   
 
     nav h1 {
@@ -145,7 +145,13 @@
         border-radius: 5px;
     }
 
-    @media screen and (max-width: 600px) {
+    .content {
+        transition: padding-left 0.3s ease; /* smooth transition effect */
+        height: 100%;
+        /* padding-left: 30px;  */
+    }
+
+    @media screen and (max-width: 650px) {
 
         @keyframes slideInLeft {
             from {

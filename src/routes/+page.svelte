@@ -40,25 +40,47 @@
         <PWAPrompt/>
     {/if}
     <div class="grid-home">
-        <h1>{$_('Hi')}</h1>
-        <p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
-        <a href="/about">about</a>
+        <h1>Grocery Listify</h1>
+        <h3>{$_('description')}</h3>
+        <p>{$_('shareDescription')}</p>
+        <p>{$_('storageDescription')}</p>
+        <p>{$_('installDescription')}</p>
         {#if deferredInstallEvent}
             <button class="install-button" on:click={handleInstall}>Install</button>
         {/if}
     </div>
     <footer>
-        <div class="copyright">Copyright 2023 House Managment App</div>
+        <div class="copyright">Copyright 2023 Grocery Listify</div>
     </footer>
 </main>
 
 <style>
     .grid-home {
         display: grid;
+        gap: 20px;
         place-items: center;
+        text-align: center;
+        padding: 80px;
+        background-color: #f8f9fa;
+    }
+    h1 {
+        font-size: 2.5rem;
+        color: #343a40; /* Dark text color */
+        margin-bottom: 10px;
+    }
+
+    h3 {
+        font-size: 1.5rem;
+        color: #6c757d; /* Medium text color */
+        margin-bottom: 10px;
+    }
+
+    p {
+        font-size: 1rem;
+        color: #6c757d; /* Medium text color */
+        margin-bottom: 15px;
     }
     footer {
-        padding: 20px;
         text-align: center;
         bottom: 0;
         position: absolute;

@@ -32,17 +32,6 @@
         showEditForm = !showEditForm;
     }
 
-    data.stores = [
-        { id: null, name: "test", author: null, listId: null },
-        { id: null, name: "test2", author: null, listId: null },
-        { id: null, name: "test3", author: null, listId: null },
-        { id: null, name: "test4", author: null, listId: null },
-        { id: null, name: "test5", author: null, listId: null },
-        { id: null, name: "test6", author: null, listId: null },
-        { id: null, name: "test7", author: null, listId: null },
-        { id: null, name: "test8", author: null, listId: null }
-    ];
-
 
 </script>
 <AddModal showAddModal={showAddModal} on:click={toggleAddModal}>
@@ -52,7 +41,7 @@
 </AddModal>
 
 <AddModal showAddModal={showEditForm} on:click={toggleEditModal}>
-    <EditStorage storageId={storageId} name={storageName}></EditStorage>
+    <EditStorage storageId={storageId} name={storageName} on:click={toggleEditModal}></EditStorage>
 </AddModal>
 <div class="center">
     {form?.message || ""}
