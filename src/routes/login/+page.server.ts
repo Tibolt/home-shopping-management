@@ -24,7 +24,7 @@ const login: Action = async (event) => {
     }
     
     if(!email || !password) {
-        return fail(400, {email, message: "must provide an email and password"});
+        return fail(401, {email, message: "must provide an email and password"});
     }
 
     console.log({email, password})
@@ -39,14 +39,14 @@ const login: Action = async (event) => {
     console.log(usr.length)
 
     if (usr.length === 0) {
-        throw error(404, "user account not found");
+        return fail(401, {message: "user account not found"});
     }
 
     // check if the password is correct
     const passwordIsRight = await bcrypt.compare(password.toString(), usr[0].password);
 
     if (!passwordIsRight) {
-        throw error(400, "incorrect password...");
+        return fail(401, {message: "incorrect password..."});
     }
 
     
