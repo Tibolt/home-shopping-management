@@ -146,6 +146,9 @@
     }
 
     .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         transition: padding-left 0.3s ease; /* smooth transition effect */
         height: 100%;
         /* padding-left: 30px;  */

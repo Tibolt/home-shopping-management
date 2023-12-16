@@ -1,5 +1,5 @@
 {
-    "short_name": "Grocery Listify",
+    "short_name": "GroceryListify",
     "name": "Grocery Listify",
     "start_url": "/",
     "icons": [
@@ -9,12 +9,12 @@
         "sizes": "512x512"
       },
       {
-        "src": "f15.png",
+        "src": "favicon.png",
         "type": "image/png",
-        "sizes": "192x192"
+        "sizes": "128x128"
       }
     ],
     "display": "standalone",
-    "scope": "/",
+    "orientation": "portrait-primary",
     "description": "App to make shopping lists easy"
 }

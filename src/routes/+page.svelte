@@ -6,7 +6,7 @@
 
     let deferredInstallEvent : any
     let installPrompt : boolean = false
- 
+
     onMount(() => {
         window.addEventListener("beforeinstallprompt", e => {
             e.preventDefault()
@@ -49,9 +49,9 @@
         <p>{$_('shareDescription')}</p>
         <p>{$_('storageDescription')}</p>
         <p>{$_('installDescription')}</p>
-        <!-- {#if installPrompt==true} -->
+        {#if installPrompt==true}
             <button class="install-button" on:click={handleInstall}>Install</button>
-        <!-- {/if} -->
+        {/if}
     </div>
     <footer>
         <div class="copyright">Copyright 2023 Grocery Listify</div>
@@ -59,6 +59,9 @@
 </main>
 
 <style>
+    main {
+        height: 90%;
+    }
     .grid-home {
         display: grid;
         gap: 20px;
@@ -89,9 +92,6 @@
         bottom: 0;
         position: absolute;
         width: 100%;
-    }
-    main {
-        padding-top: 5em;
     }
     .copyright {
         color: #aaa;

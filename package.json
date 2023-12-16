@@ -48,7 +48,8 @@
 		"tslib": "^2.4.1",
 		"typescript": "^5.0.0",
 		"unplugin-icons": "^0.17.3",
-		"vite": "^4.4.2"
+		"vite": "^4.4.2",
+		"workbox-precaching": "^7.0.0"
 	},
 	"type": "module",
 	"dependencies": {
