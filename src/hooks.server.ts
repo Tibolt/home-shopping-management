@@ -3,9 +3,25 @@ import jwt from "jsonwebtoken";
 import { cookieJwtAuth, cookieJwtCreate } from '$lib/server/jwt';
 import { db } from '$lib/db/config';
 import { eq } from 'drizzle-orm';
-import { user, user_storage } from "$lib/db/schema";
+import { user } from "$lib/db/schema";
+import { locale } from 'svelte-i18n'
 
 async function firstHandle ({event, resolve}) {
+    const lang = event.request.headers.get('accept-language')?.split(',')[0]
+	if (lang) {
+		locale.set(lang)
+	}
+
+    if (event.url.pathname.startsWith('/forgot-password')) {
+		return await resolve(event);
+	}
+    if (event.url.pathname.startsWith('/login')) {
+        return await resolve(event);
+    }
+    if (event.url.pathname.startsWith('/register')) {
+        return await resolve(event);
+    }
+
     const token = event.cookies.get("auth_token")
     try {
         if(!token) event.locals.authedUser = undefined;
@@ -27,6 +43,16 @@ async function firstHandle ({event, resolve}) {
 }
 
 async function secondHandle({event, resolve}) {
+    if (event.url.pathname.startsWith('/forgot-password')) {
+		return await resolve(event);
+	}
+    if (event.url.pathname.startsWith('/login')) {
+        return await resolve(event);
+    }
+    if (event.url.pathname.startsWith('/register')) {
+        return await resolve(event);
+    }
+
     if(!event.locals.authedUser){
         const refreshToken = event.cookies.get('refresh_token');
         try{

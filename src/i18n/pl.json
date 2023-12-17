@@ -36,5 +36,8 @@
     "description": "Ta aplikacja pozwala na tworzenie list zakupowych, dzięki którym nie zapomnisz o żadnym produkcie.",
     "shareDescription": "Udostepniaj swoje listy innym i wspólnie róbcie zakupy.",
     "storageDescription": "W magazynie możesz przechowywać produkty, które często kupujesz, dzięki czemu nie musisz ich dodawać do listy za każdym razem.",
-    "installDescription": "Stwórz konto i zainstaluj aplikacje aby miec szybki dostęp do swoich list."
+    "installDescription": "Stwórz konto i zainstaluj aplikacje aby miec szybki dostęp do swoich list.",
+    "forgotPassword": "Zresetuj Hasło",
+    "send": "Wyślij",
+    "tokenExpired": "Token wygasł"
 }
