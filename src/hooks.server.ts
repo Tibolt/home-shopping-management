@@ -1,21 +1,23 @@
 import { sequence } from '@sveltejs/kit/hooks';
 import jwt from "jsonwebtoken";
-import { cookieJwtAuth } from '$lib/server/jwt';
+import { cookieJwtAuth, cookieJwtCreate } from '$lib/server/jwt';
+import { db } from '$lib/db/config';
+import { eq } from 'drizzle-orm';
+import { user, user_storage } from "$lib/db/schema";
 
 async function firstHandle ({event, resolve}) {
     const token = event.cookies.get("auth_token")
     try {
         if(!token) event.locals.authedUser = undefined;
 
-        const claims = jwt.verify(token, process.env.JWT_SECRET)
+        const claims = await cookieJwtAuth(token)
         if(!claims) event.locals.authedUser = undefined;
 
         if(token && claims){
-            // conect to db
-
-            // find user
-            event.locals.authedUser = cookieJwtAuth(token)
-
+            
+            const usr = await db.select().from(user).where(eq(user.id, claims.id))
+            const {password, ...userMinusPass} = usr[0]
+            event.locals.authedUser = userMinusPass     
         }
     }
     finally{
@@ -30,18 +32,17 @@ async function secondHandle({event, resolve}) {
         try{
             if(!refreshToken) event.locals.authedUser = undefined;
     
-            const claims = jwt.verify(refreshToken, process.env.JWT_SECRET);
+            const claims = await cookieJwtAuth(refreshToken)
             if(!claims) event.locals.authedUser = undefined;
     
             if(refreshToken && claims){
-                // conect to db
+                // find user in db
+                const usr = await db.select().from(user).where(eq(user.id, claims.id))
+                const {password, ...userMinusPass} = usr[0]
+                event.locals.authedUser = userMinusPass
 
-                // find user
-                const user = cookieJwtAuth(refreshToken)
-                event.locals.authedUser = user
-                const authToken = jwt.sign({user},process.env.JWT_SECRET,{expiresIn:"1h"});
-                event.cookies.set('auth_token',authToken,{httpOnly: true,maxAge:60 * 60 * 24,sameSite: 'strict'});
-    
+                const authToken = await cookieJwtCreate(userMinusPass)
+                event.cookies.set('auth_token',authToken,{httpOnly: true,maxAge:60 * 60 * 2,sameSite: 'strict'});
             }
         }
         finally{
@@ -54,7 +55,6 @@ async function secondHandle({event, resolve}) {
         const response = await resolve(event);
         return response;
     }
-
 }
 
 export const handle = sequence(firstHandle, secondHandle);

@@ -4,7 +4,7 @@ import { user, user_storage } from "$lib/db/schema";
 import { eq, and, lt, gte, ne, Name } from "drizzle-orm";
 import { goto } from "$app/navigation";
 import bcrypt from "bcrypt";
-import { cookieJwtCreate, cookieJwtRefresh, setStoreCookie } from "$lib/server/jwt";
+import { cookieJwtCreate, cookieJwtRefresh } from "$lib/server/jwt";
 
 export const load = async (event) => {
     // get the sessionId from the cookie
@@ -27,16 +27,12 @@ const login: Action = async (event) => {
         return fail(401, {email, message: "must provide an email and password"});
     }
 
-    console.log({email, password})
-
-
     const usr = await db
         .select()
         .from(user)
         .where(eq(user.email, email.toString()))
         .limit(1)
 
-    console.log(usr.length)
 
     if (usr.length === 0) {
         return fail(401, {message: "user account not found"});
@@ -46,23 +42,33 @@ const login: Action = async (event) => {
     const passwordIsRight = await bcrypt.compare(password.toString(), usr[0].password);
 
     if (!passwordIsRight) {
-        return fail(401, {message: "incorrect password..."});
+        return fail(401, {message: "incorrect password"});
     }
-
-    
 
     const token = await cookieJwtCreate({
         name: usr[0].name,
         email: usr[0].email,
         id: usr[0].id
     })
-    console.log(token)
 
     event.cookies.set("auth_token", token, {
         path: "/",
         httpOnly: true,
         secure: false,
-        maxAge:60 * 60 * 24,
+        maxAge:60 * 60 * 2,
+    })
+
+    const refreshToken = await cookieJwtRefresh({
+        name: usr[0].name,
+        email: usr[0].email,
+        id: usr[0].id
+    })
+
+    event.cookies.set("refresh_token", refreshToken, {
+        path: "/",
+        httpOnly: true,
+        secure: false,
+        maxAge:60 * 60 * 24 * 30,
     })
 
     const store = await db.select().from(user_storage).where(eq(user_storage.user_id, usr[0].id))
@@ -71,7 +77,6 @@ const login: Action = async (event) => {
             path: "/",
             httpOnly: true,
             secure: false,
-            maxAge:60 * 60 * 24,
         })
     }
   

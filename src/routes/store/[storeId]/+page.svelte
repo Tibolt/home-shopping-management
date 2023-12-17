@@ -120,7 +120,7 @@ h1 {
 }
 table {
     width: 100%;
-    /* border-collapse: separate; */
+    border-collapse: collapse;
     /* border-spacing: 20px 0; */
 }
 
@@ -145,6 +145,7 @@ a {
 th {
     background-color: #4287f5;
     color: white;
+    border: 1px solid black;
 }
 
 td {

@@ -4,7 +4,7 @@ import { user, storage, list, shared_lists, user_list, user_storage } from "$lib
 import { eq, lt, gte, ne, Name } from "drizzle-orm";
 import { goto } from "$app/navigation";
 import bcrypt from "bcrypt";
-import { cookieJwtCreate, setStoreCookie } from "$lib/server/jwt.js";
+import { cookieJwtCreate, cookieJwtRefresh } from "$lib/server/jwt.js";
 import { isValidEmail } from "$lib/utils";
 
 export const load = async (event) => {
@@ -34,18 +34,15 @@ const register: Action = async (event) => {
     }
 
     if(!isValidEmail(email)) {
-        console.log("ERROR email is not valid")
         return fail(500, { message: 'Email is not valid.' });
     }
 
-    console.log({email, password, name})
-    const hash = bcrypt.hashSync(password?.toString(), 10);
-    console.log(hash)
+    const salt = await bcrypt.genSalt();
+    const hash = bcrypt.hashSync(password?.toString(), salt);
 
 
     const usr = await db.select().from(user).where(eq(user.email, email.toString()))
 
-    console.log(usr.length)
     if (usr.length == 0) {
         const new_user = await db.insert(user).values({
             email: email.toString(),
@@ -84,6 +81,20 @@ const register: Action = async (event) => {
             path: "/",
             httpOnly: true,
             secure: false,
+            maxAge:60 * 60 * 2,
+        })
+
+        const refreshToken = await cookieJwtRefresh({
+            name: usr[0].name,
+            email: usr[0].email,
+            id: usr[0].id
+        })
+    
+        event.cookies.set("refresh_token", refreshToken, {
+            path: "/",
+            httpOnly: true,
+            secure: false,
+            maxAge:60 * 60 * 24 * 30,
         })
 
         const store = await db.select().from(user_storage).where(eq(user_storage.user_id, new_user[0].id))
@@ -92,14 +103,12 @@ const register: Action = async (event) => {
                 path: "/",
                 httpOnly: true,
                 secure: false,
-                maxAge:60 * 60 * 24,
             })
         }
       
         throw redirect(301, "/");
     }
     else{
-        console.log("This account already exists!")
         return fail(400, {name, message: "This account already exists!"})
     }
 }

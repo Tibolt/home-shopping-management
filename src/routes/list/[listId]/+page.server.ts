@@ -23,8 +23,14 @@ export const load = async ({ request, fetch, cookies, params }) => {
   // const list_id = getContext('list_id');
   // console.log(list_id)
   let id: number
-  if(params.listId != "manifest.webmanifest")
+  if(params.listId != "manifest.webmanifest") {
     id = parseInt(params.listId)
+  }
+
+  const userLists = await db.select().from(user_list).where(and(eq(user_list.user_id, userPayload.id),eq(user_list.list_id, id)))
+  if (userLists.length == 0) {
+    throw redirect(301, "/list");
+  }
 
   // let itemsToUpdate = await db.select().from(item).where(and(eq(item.list_id, id),eq(item.show_in_list, false),eq(item.amount_in_storage, 0), ne(item.storage_id, 0)))
   // if(itemsToUpdate[0])
