@@ -20,6 +20,7 @@
     }
 
     export let data
+    export let form
 
     // const list_id = writable();
 	// $: list_id.set(data.list_id);
@@ -74,6 +75,9 @@
     <EditListForm listId={listId} name={listName} isMain={isMain} on:click={toggleEditForm}></EditListForm>
 </AddModal>
 <div class="parent">
+    <div class="error">
+        <p>{form?.message || ""}</p>
+    </div>
     <h1>{$_('shoppingLists')}</h1>
     <div class="grid">
         {#each listsInfo as list}
@@ -130,8 +134,12 @@
         justify-content: center;
         padding: 0 1em;
     }
-    .float {
-        
+    .error {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 20px;
+        color: var(--red)
     }
     @media screen and (max-width: 600px) {
 

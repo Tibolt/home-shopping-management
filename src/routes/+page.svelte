@@ -64,11 +64,11 @@
     }
     .grid-home {
         display: grid;
-        gap: 20px;
         place-items: center;
         text-align: center;
         padding: 80px;
         background-color: #f8f9fa;
+        height: 80%;
     }
     h1 {
         font-size: 2.5rem;

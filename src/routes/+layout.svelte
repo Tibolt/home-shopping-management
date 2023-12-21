@@ -46,23 +46,23 @@
 <nav class:clicked={click}>
     {#if click == true}
         <h1 on:click={toggleNav}><CloseIcon/></h1>
-            <a href="/"><HomeIcon/>{$_('home')}</a>
-            <a href="/list"><ListIcon/>{$_('list')}</a>
-            <a href="/store/{data.storageId}"><StoreIcon/>{$_('storage')}</a>
+            <a on:click={toggleNav} href="/"><HomeIcon/>{$_('home')}</a>
+            <a on:click={toggleNav} href="/list"><ListIcon/>{$_('list')}</a>
+            <a on:click={toggleNav} href="/store/{data.storageId}"><StoreIcon/>{$_('storage')}</a>
             {#if auth == false}                
-            <a href="/login"><LoginIcon/>{$_('login')}</a>
+            <a on:click={toggleNav} href="/login"><LoginIcon/>{$_('login')}</a>
             <!-- {:else}
             <a data-sveltekit-preload-data="off" href="/log-out" on:click={logout}><LogoutIcon/>{$_('logout')}</a> -->
             {/if}
-            <a data-sveltekit-preload-data="off" href="/log-out" on:click={logout}><LogoutIcon/>{$_('logout')}</a>
             <div class="langSelect">
                 <p>{$_('lang')}</p>
                 <select bind:value={$locale} on:change={()=>setLocaleInLocalStorage($locale)}>
                     {#each $locales as locale}
-                        <option value={locale}>{locale}</option>
+                    <option value={locale}>{locale}</option>
                     {/each}
                 </select>
             </div>
+            <a class="logout" data-sveltekit-preload-data="off" href="/log-out" on:click={logout}><LogoutIcon/>{$_('logout')}</a>
     {:else}
         <h1 on:click={toggleNav}><MenuIcon/></h1>
         <div class="icons">
@@ -153,6 +153,9 @@
         transition: padding-left 0.3s ease; /* smooth transition effect */
         height: 100%;
         /* padding-left: 30px;  */
+    }
+    .logout {
+        padding-bottom: 30px;
     }
 
     @media screen and (max-width: 650px) {

@@ -46,17 +46,25 @@
                 <div class="left-side">
                     <div>
                         <p>{$_('amount')}</p>
-                        <input type="text" hidden value={amount} name="amount" placeholder={amount.toString()}>
+                        <input type="number" hidden value={amount} name="amount" placeholder={amount.toString()}>
                     </div>
                     <div>
                         <p>{$_('unit')}</p>
-                        <input type="text" hidden value={unit} name="unit" placeholder={unit}>
+                        <select name="unit">
+                                <option value=""></option>
+                                <option value="g">g</option>
+                                <option value="dag">dag</option>
+                                <option value="kg">kg</option>
+                                <option value="ml">ml</option>
+                                <option value="l">l</option>
+                        </select>
+                        <!-- <input type="text" hidden value={unit} name="unit" placeholder={unit}> -->
                     </div>
                 </div>
                 <div class="left-side">
                     <div>
                         <p>{$_('prize')}</p>
-                        <input type="number" hidden value={prize} name="prize" placeholder={prize.toString()}>
+                        <input type="number" hidden value={prize} name="prize" placeholder={prize.toString()} step="0.01">
                     </div>
                 </div>
                 <div class="submit-div">
