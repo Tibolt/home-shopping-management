@@ -5,8 +5,20 @@
     import CloseIcon from "~icons/ep/back"
     import AddIcon from "~icons/gg/add"
     import { _ } from 'svelte-i18n'
+    import { locale } from 'svelte-i18n'
 
-    let inputHistory = ["chleb", "mleko", "ser", "piwo", "pietruszka", "pomidor", "sałata", "pizza", "arbuz", "ser gouda", "ser mozzarela", "ser biały", "ser zółty", "papryka", "pieczarki", "sok", "woda"]
+    console.log($locale)
+
+    let inputHistory = []
+
+    if($locale === "pl") {
+        inputHistory = ["wędliny","jabłka","pomarancze","czekolada","mąka","drożdże","pieczywo","makaron","papier toaletowy","koncentrat pomidorowy","ketchup","ryż","ziemniaki","cebula","czosnek","mięso", "mleko", "piwo", "pietruszka","szczypiorek", "pomidory", "sałata", "arbuz","melon", "ser biały", "ser zółty", "papryka", "pieczarki", "sok", "woda"]
+    }
+    else {
+        inputHistory = ["sausages","apples","oranges","chocolate","flour","yeast","bread","pasta","toilet paper","tomato concentrate","ketchup","rice","potatoes","onion","garlic","meat", "milk", "beer", "parsley","chives", "tomatoes", "lettuce", "watermelon","melon", "white cheese", "yellow cheese", "pepper", "mushrooms", "juice", "water"]
+    }
+
+
     let suggestions = inputHistory
     let tempItems: { name: string, amount: number }[] = [];
     let names: string

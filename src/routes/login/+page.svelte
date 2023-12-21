@@ -125,6 +125,8 @@ button {
     padding: 0 10px;
     background-color: buttonface;
     color: buttontext;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 button {

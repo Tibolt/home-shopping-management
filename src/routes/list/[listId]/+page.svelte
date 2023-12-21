@@ -38,9 +38,6 @@
     }
 
     let itemCount = data.items;
-
-    let sugestions = ["chleb", "mleko", "ser", "piwo"]
-    let tempItems = []
 </script>
 
 <AddModal showAddModal={showAddModal} on:click={toggleAddModal}>
