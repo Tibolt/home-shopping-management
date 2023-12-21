@@ -87,11 +87,11 @@
         color: #6c757d; /* Medium text color */
         margin-bottom: 15px;
     }
+
     footer {
         text-align: center;
-        bottom: 0;
-        position: absolute;
         width: 100%;
+        margin-top: auto;
     }
     .copyright {
         color: #aaa;
