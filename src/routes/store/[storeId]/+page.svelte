@@ -119,6 +119,7 @@
     justify-content: center;
     align-items: center;
     padding-top: 5em;
+    /* width: 100%; */
 }
 
 h1 {
@@ -126,7 +127,7 @@ h1 {
 }
 
 .end {
-    height: 30vh;
+    height: 40vh;
 }
 
 .list {

@@ -22,8 +22,7 @@
 
     const setLocaleInLocalStorage = (locale: string) => {
         localStorage.setItem('locale', locale)
-    }
-    
+    }    
  
     export let data
     let click = false
@@ -47,9 +46,11 @@
     {#if click == true}
         <h1 on:click={toggleNav}><CloseIcon/></h1>
             <a on:click={toggleNav} href="/"><HomeIcon/>{$_('home')}</a>
+            {#if auth == true}
             <a on:click={toggleNav} href="/list"><ListIcon/>{$_('list')}</a>
             <a on:click={toggleNav} href="/store/{data.storageId}"><StoreIcon/>{$_('storage')}</a>
-            {#if auth == false}                
+            {/if}
+            {#if auth == false}
             <a on:click={toggleNav} href="/login"><LoginIcon/>{$_('login')}</a>
             <!-- {:else}
             <a data-sveltekit-preload-data="off" href="/log-out" on:click={logout}><LogoutIcon/>{$_('logout')}</a> -->
@@ -151,7 +152,7 @@
         justify-content: center;
         align-items: center;
         transition: padding-left 0.3s ease; /* smooth transition effect */
-        height: 100%;
+        min-height: 100%;
         /* padding-left: 30px;  */
     }
     .logout {

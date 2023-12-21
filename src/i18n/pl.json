@@ -41,5 +41,6 @@
     "send": "Wyślij",
     "tokenExpired": "Token wygasł",
     "editRestock": "Edytuj wartość kiedy uzupełnić",
-    "minNumber": "Minimalna wartość"
+    "minNumber": "Minimalna wartość",
+    "500Error": "Wystąpił błąd serwera, sprawdź połączenie z internetem i spróbuj ponownie później."
 }

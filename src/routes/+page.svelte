@@ -52,10 +52,10 @@
         {#if installPrompt==true}
             <button class="install-button" on:click={handleInstall}>Install</button>
         {/if}
+        <footer>
+            <div class="copyright">Copyright 2023 Grocery Listify</div>
+        </footer>
     </div>
-    <footer>
-        <div class="copyright">Copyright 2023 Grocery Listify</div>
-    </footer>
 </main>
 
 <style>
@@ -66,9 +66,11 @@
         display: grid;
         place-items: center;
         text-align: center;
+        overflow: scroll;
         padding: 80px;
+        padding-bottom: 10px;
         background-color: #f8f9fa;
-        height: 80%;
+        height: 100%;
     }
     h1 {
         font-size: 2.5rem;

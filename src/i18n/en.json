@@ -41,5 +41,6 @@
     "send": "Send",
     "tokenExpired": "Token expired",
     "editRestock": "Edit value when to restock",
-    "minNumber": "Min number"
+    "minNumber": "Min number",
+    "500Error": "Server error, check your internet connection and try again later"
 }

@@ -8,6 +8,7 @@ export const load = async ({cookies}) => {
     const token = cookies.get("auth_token");
     let storageId = cookies.get("storageID");
     
+
     if(!token) {
        return {logged: false};
     }
