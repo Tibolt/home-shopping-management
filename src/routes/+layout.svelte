@@ -6,6 +6,7 @@
     import StoreIcon from "~icons/lucide/box"
     import LoginIcon from "~icons/tabler/login"
     import LogoutIcon from "~icons/akar-icons/door"
+    import MenuIcon from "~icons/ion/menu"
     import { _ } from 'svelte-i18n'
     import { locale, locales, waitLocale, init } from 'svelte-i18n'
 
@@ -50,8 +51,8 @@
             <a href="/store/{data.storageId}"><StoreIcon/>{$_('storage')}</a>
             {#if auth == false}                
             <a href="/login"><LoginIcon/>{$_('login')}</a>
-            {:else}
-            <a data-sveltekit-preload-data="off" href="/log-out" on:click={logout}><LogoutIcon/>{$_('logout')}</a>
+            <!-- {:else}
+            <a data-sveltekit-preload-data="off" href="/log-out" on:click={logout}><LogoutIcon/>{$_('logout')}</a> -->
             {/if}
             <a data-sveltekit-preload-data="off" href="/log-out" on:click={logout}><LogoutIcon/>{$_('logout')}</a>
             <div class="langSelect">
@@ -63,24 +64,22 @@
                 </select>
             </div>
     {:else}
-        <h1 on:click={toggleNav}>Logo</h1>
+        <h1 on:click={toggleNav}><MenuIcon/></h1>
         <div class="icons">
             <a href="/"><HomeIcon/></a>
             <a href="/list"><ListIcon/></a>
             <a href="/store/{data.storageId}"><StoreIcon/></a>
             {#if auth == false}
             <a href="/login"><LoginIcon/></a>
-            {:else}
-            <a data-sveltekit-preload-data="off" href="/log-out" on:click={logout}><LogoutIcon/></a>
             {/if}
-            <!-- <button on:click={() => setLocale('en')}>English</button>
-            <button on:click={() => setLocale('pl')}>Polski</button> -->
         </div>
     {/if}
     
 </nav>
 <body on:click={disableNav}>
-    <slot></slot>
+    <div class="content" style={click ? 'padding-left: 20%;' : ''}>
+        <slot></slot>
+    </div>
 </body>
 
 <style>
@@ -97,11 +96,12 @@
         padding-right: 20px;
         gap: 20px;
         padding-left: 10px;
+        z-index: 10;
 
     }
 
     .clicked {
-        width: 20%;
+        width: 15%;
     }   
 
     nav h1 {
@@ -145,7 +145,16 @@
         border-radius: 5px;
     }
 
-    @media screen and (max-width: 600px) {
+    .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        transition: padding-left 0.3s ease; /* smooth transition effect */
+        height: 100%;
+        /* padding-left: 30px;  */
+    }
+
+    @media screen and (max-width: 650px) {
 
         @keyframes slideInLeft {
             from {

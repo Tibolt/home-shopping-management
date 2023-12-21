@@ -14,7 +14,7 @@ export const load = async ({cookies}) => {
     
     if(!storageId) {
         const userPayload = await cookieJwtAuth(token);
-        let userStores = await db.select({id: storage.id}).where(eq(user_storage.user_id, userPayload.id)).orderBy(desc(storage.author))
+        let userStores = await db.select({id: user_storage.storage_id}).from(user_storage).where(eq(user_storage.user_id, userPayload.id))
         storageId = userStores[0].id
     }
     

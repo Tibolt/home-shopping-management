@@ -2,11 +2,12 @@ import { db } from "$lib/db/config"
 import { item, list, storage, user_list, user_storage, user } from "$lib/db/schema";
 import { eq, lt, gte, ne, Name, and, desc, asc } from "drizzle-orm";
 import type { PageLoad } from "./$types";
-import { redirect } from "@sveltejs/kit";
+import { fail, redirect } from "@sveltejs/kit";
 import { cookieJwtAuth } from "$lib/server/jwt";
 import { writable } from "svelte/store";
 import { getContext } from 'svelte';
 import { parse } from "dotenv";
+import { isValidEmail } from "$lib/utils";
 
 export const load = async ({ request, fetch, cookies, params }) => {
 
@@ -41,8 +42,7 @@ export const load = async ({ request, fetch, cookies, params }) => {
     let lists = await db.select({id: list.id, name: list.name, is_main: list.is_main}).from(user_list).leftJoin(list, eq(user_list.list_id, list.id)).where(eq(user_list.user_id, userPayload.id)).orderBy(list.name)
     let items = await db.select().from(item).where(eq(item.storage_id, userStore[0].id)).orderBy(item.name)
 
-    const stores = userStores.map(store => {store.id, store.name})
-    return { items: items, name: userStore[0].name, listId: userStore[0].listId, storageId: userStore[0].id, stores: stores}
+    return { items: items, name: userStore[0].name, listId: userStore[0].listId, storageId: userStore[0].id, stores: userStores}
 }
 
 export const actions = {
@@ -108,4 +108,62 @@ export const actions = {
         console.log("deleted", id)
         return { success: true };
     },
+    share: async ({ request, cookies, params}) => {
+        const {storageId, email} = Object.fromEntries(await request.formData()) as {
+            storageId: number
+            email: string
+          }
+          // ensure the user is logged in
+          const token = cookies.get("auth_token");
+          if (!token) {
+            throw redirect(301, "/sign-in");
+          }
+      
+          const userPayload = await cookieJwtAuth(token);
+
+          // check if email is not empy sting and if it is email
+          if(!isValidEmail(email)) {
+            console.log("ERROR email is not valid")
+            return fail(500, { message: 'Email is not valid.' });
+          }
+      
+          // check if user with this email exists
+          const usr = await db.select().from(user).where(eq(user.email, email))
+      
+          if(usr.length == 0) {
+            console.log("ERROR user with this email does not exist")
+            return fail(500, { message: 'User with this email does not exist.' });
+          }
+      
+          // check if user already has this list
+          const shared = await db.select().from(user_storage).where(and(eq(user_storage.user_id, usr[0].id), eq(user_storage.storage_id, storageId)))
+          if(shared.length > 0) {
+            console.log("ERROR user already has this storage")
+            return fail(500, { message: 'User already has this storage.' });
+          }
+      
+          await db.insert(user_storage).values({user_id: usr[0].id, storage_id: storageId})
+      
+          console.log("shared list", storageId)
+          return { success: true, message: "List shared to user " + usr[0].name };
+    },
+    edit: async ({ request, cookies }) => {
+        try {
+          const {name, storageId} = Object.fromEntries(await request.formData()) as {
+            name: string
+            storageId: number
+          }
+          // ensure the user is logged in
+          const token = cookies.get("auth_token");
+          if (!token) {
+            throw redirect(301, "/sign-in");
+          }
+      
+          await db.update(storage).set({name: name}).where(eq(storage.id, storageId))
+          return { success: true };
+        } catch (err) {
+          console.error(err);
+          return fail(500, { message: 'Could not edit name.' });
+        }
+    }
 }

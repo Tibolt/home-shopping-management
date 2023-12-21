@@ -9,7 +9,12 @@ type JWTPayload = {
 };
 
 export const cookieJwtCreate = async (data: JWTPayload) => {
-    const token: string = await jwt.sign(data, process.env.JWT_SECRET, {expiresIn: "1h"})
+    const token: string = await jwt.sign(data, process.env.JWT_SECRET, {expiresIn: "2h"})
+    return token
+}
+
+export const cookieJwtRefresh = async (data: JWTPayload) => {
+    const token: string = await jwt.sign(data, process.env.JWT_SECRET, {expiresIn: "30d"})
     return token
 }
 
@@ -18,7 +23,7 @@ export const cookieJwtAuth = async (token: string) => {
         const payload: JWTPayload = jwt.verify(token, process.env.JWT_SECRET)
         return payload
     } catch(err) {
-        console.log("invalid or missing JWT, you are not logged in")
+        console.log(err)
         throw redirect(301, "/login")
     }
 }

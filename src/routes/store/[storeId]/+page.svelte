@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import FixedFooter from '../../../components/fixedFooter.svelte';
     import AddIcon from "~icons/ph/plus-fill"
     import AddIconBubble from "~icons/material-symbols/add"
@@ -9,29 +9,27 @@
     import AddItemForm from '../../../components/addItemForm.svelte';
     import Bubble from '../../../components/Bubble.svelte';
     import { _ } from 'svelte-i18n'
+    import EditStorage from '../../../components/editStorage.svelte';
+    import { enhance } from '$app/forms';
     // import { swipe } from 'svelte-gestures';
     let count = 0;
 
-    function addOne(id) {
-        let index = items.findIndex((item) => item.id == id)
-        items[index].amount += 1
-    }
-
-    function subtractOne(id) {
-        let index = items.findIndex((item) => item.id == id)
-        items[index].amount -= 1
-    }
-
     export let data
+    export let form
 
-    let items = []
-
+    let storageId: number = data.storageId
+    let storageName: string = data.name
 
     let showAddModal = false
+    let showEditForm = false
 
 
     const toggleAddModal = () => {
         showAddModal = !showAddModal;
+    }
+
+    const toggleEditModal = () => {
+        showEditForm = !showEditForm;
     }
 
 
@@ -42,9 +40,18 @@
     </Card>
 </AddModal>
 
+<AddModal showAddModal={showEditForm} on:click={toggleEditModal}>
+    <EditStorage storageId={storageId} name={storageName} on:click={toggleEditModal}></EditStorage>
+</AddModal>
 <div class="center">
+    {form?.message || ""}
+    <h1>{$_('storage')} {data.name}</h1>
+    <div class="stores-list">
+        {#each data.stores as store}
+            <Card><a href="/store/{store.id}">{store.name}</a></Card>
+        {/each}
+    </div>
     <div class="list">
-        <h1>{data.name}</h1>
         <table>
             <tr>
                 <th>{$_('name')}</th>
@@ -59,17 +66,17 @@
                     <td>{item.purchased_date}</td>
                     <td>
                         <div class="flex">
-                            <form method="POST" action="?/addOne">
+                            <form method="POST" action="?/addOne" use:enhance>
                                 <input type="hidden" hidden value={item.id} name="id">
-                                <button style="color: var(--dark-green);"><AddIcon/></button>
+                                <button class="options" style="color: var(--dark-green);"><AddIcon/></button>
                             </form>
-                            <form method="POST" action="?/minusOne">
+                            <form method="POST" action="?/minusOne" use:enhance>
                                 <input type="hidden" hidden value={item.id} name="id">
-                                <button style="color: var(--red);"><MinusIcon/></button>
+                                <button class="options" style="color: var(--red);"><MinusIcon/></button>
                             </form>
-                            <form method="POST" action="?/delete">
+                            <form method="POST" action="?/delete" use:enhance>
                                 <input type="hidden" hidden value={item.id} name="id">
-                                <button style="color: var(--red);"><DeleteIcon/></button>
+                                <button class="options" style="color: var(--red);"><DeleteIcon/></button>
                             </form>
                         </div>
 
@@ -79,18 +86,29 @@
         </table>
     </div>
     <FixedFooter>
-        <a href="/list/{data.listId}">{$_('goTo')} {data.name}</a>
-        <!-- <Bubble on:click={toggleEditModal}>edit</Bubble> -->
+        <Bubble><a href="/list/{data.listId}" class="a-list">{$_('list')}</a></Bubble>
+        <Bubble on:click={toggleEditModal}>{$_('edit')}</Bubble>
         <Bubble on:click={toggleAddModal}><AddIconBubble/></Bubble>
     </FixedFooter>
 </div>
+<div class="end"></div>
 
 <style>
 
 .center {
-    display: grid;
-    place-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     padding-top: 5em;
+}
+
+h1 {
+    text-align: center;
+}
+
+.end {
+    height: 30vh;
 }
 
 .list {
@@ -102,6 +120,8 @@
 }
 table {
     width: 100%;
+    border-collapse: collapse;
+    /* border-spacing: 20px 0; */
 }
 
 .flex {
@@ -113,8 +133,41 @@ button {
     all:unset;
 }
 
+a {
+    padding: 10px;
+    color: var(--dark-blue);
+}
+
+.a-list {
+    color: var(--btn-text)
+}
+
+th {
+    background-color: #4287f5;
+    color: white;
+    border: 1px solid black;
+}
+
 td {
     text-align: center;
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.stores-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 25px;
+    width: 80%;
+    align-items: center;
+    justify-content: fkex-start;
+    padding: 10px 0;
+}
+
+.options {
+    padding: 10px;
 }
 
 </style>

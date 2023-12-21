@@ -62,19 +62,19 @@
 </script>
 
 <AddModal showAddModal={showAddModal} on:click={toggleAddModal}>
-    <AddListForm on:addItem={addItem} action="?/create">
+    <AddListForm on:addItem={addItem} action="?/create" on:click={toggleAddModal}>
         <h1 >{$_('addNewList')}</h1>
         <div class="float">
             <label for="name">{$_('name')}</label>
-            <input type="text" name="name" id="name" placeholder={$_('typeItemName')}>
+            <input type="text" name="name" id="name" placeholder={$_('typeItemName')} required>
         </div>
     </AddListForm>
 </AddModal>
 <AddModal showAddModal={showEditForm} on:click={toggleEditForm}>
-    <EditListForm listId={listId} name={listName} isMain={isMain}></EditListForm>
+    <EditListForm listId={listId} name={listName} isMain={isMain} on:click={toggleEditForm}></EditListForm>
 </AddModal>
 <div class="parent">
-    <h2>{$_('shoppingLists')}</h2>
+    <h1>{$_('shoppingLists')}</h1>
     <div class="grid">
         {#each listsInfo as list}
         <div class="item">

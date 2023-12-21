@@ -4,6 +4,8 @@
     import EditIcon from "~icons/fe/edit"
     import ShareIcon from "~icons/mdi/share"
     import { _ } from 'svelte-i18n'
+    import Bubble from "./Bubble.svelte";
+    import CloseIcon from "~icons/ep/back"
 
     export let listId: number
     export let name: string
@@ -38,13 +40,21 @@
         padding: 20px;
     }
     .left-side {
-        display: flex;
-        flex-direction: row;
-        justify-content: start;
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
         align-items: center;
-        width: 100%;
+        justify-items: start;
         gap: 20px;
     }
+
+    .left-side-delete {
+        display: grid;
+        grid-template-columns: 7fr 1fr;
+        align-items: center;
+        justify-items: start;
+        width: 100%;
+    }
+
     button {
         all: unset;
     }
@@ -52,9 +62,9 @@
 
 <div>
     <Card>
+        <Bubble><button on:click><CloseIcon/></button></Bubble>
         <div class="flex-row">
             <h1>{$_('editList')}</h1>
-            <button>X</button>
         </div>
         <div class="flex-column">
 
@@ -62,7 +72,7 @@
                 <p>{$_('name')}</p>
                 <input type="hidden" hidden value={listId} name="listId">
                 <input type="text" hidden value={name} name="name" placeholder={name} required>
-                <button type="submit"><EditIcon/></button>
+                <Bubble><button type="submit"><EditIcon/></button></Bubble>
             </form>
 
             <form method="POST" action="?/share" class="left-side">
@@ -70,15 +80,15 @@
                 <input type="hidden" hidden value={listId} name="listId">
                 <input type="hidden" hidden value={isMain} name="isMain">
                 <input type="text" hidden value={email} name="email" placeholder="test@example.com" required>
-                <button type="submit"><ShareIcon/></button>
+                <Bubble><button type="submit"><ShareIcon/></button></Bubble>
             </form>
             {#if isMain}
             {:else}
-                <form method="POST" action="?/delete" class="left-side">
+                <form method="POST" action="?/delete" class="left-side-delete">
                     <p>Delete</p>
                     <input type="hidden" hidden value={listId} name="listId">
                     <input type="hidden" hidden value={isMain} name="isMain">
-                    <button type="submit" style="color: var(--red);"><DeleteIcon/></button>
+                    <Bubble><button type="submit" style="color: var(--red);"><DeleteIcon/></button></Bubble>
                 </form>
             {/if}
 

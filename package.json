@@ -26,6 +26,7 @@
 		"@iconify-json/lucide": "^1.1.141",
 		"@iconify-json/material-symbols": "^1.1.61",
 		"@iconify-json/mdi": "^1.1.55",
+		"@iconify-json/mynaui": "^1.1.4",
 		"@iconify-json/nimbus": "^1.1.8",
 		"@iconify-json/octicon": "^1.1.49",
 		"@iconify-json/ph": "^1.1.6",
@@ -42,15 +43,17 @@
 		"eslint-plugin-svelte": "^2.30.0",
 		"prettier": "^2.8.0",
 		"prettier-plugin-svelte": "^2.10.1",
-		"svelte": "^4.0.5",
+		"svelte": "^3.59.2",
 		"svelte-check": "^3.4.3",
 		"tslib": "^2.4.1",
 		"typescript": "^5.0.0",
 		"unplugin-icons": "^0.17.3",
-		"vite": "^4.4.2"
+		"vite": "^4.4.2",
+		"workbox-precaching": "^7.0.0"
 	},
 	"type": "module",
 	"dependencies": {
+		"@sendgrid/mail": "^8.1.0",
 		"bcrypt": "^5.1.1",
 		"dotenv": "^16.3.1",
 		"drizzle-orm": "^0.28.6",
@@ -60,6 +63,7 @@
 		"postgres": "^3.3.5",
 		"svelte-device-info": "^1.0.0",
 		"svelte-i18n": "^4.0.0",
+		"svelte-ios-pwa-prompt": "^0.0.4",
 		"typesafe-i18n": "^5.26.2"
 	}
 }

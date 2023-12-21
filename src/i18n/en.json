@@ -13,8 +13,8 @@
     "add": "Add",
     "delete": "Delete",
     "edit": "Edit",
-    "addNewList": "Add new list",
-    "addNewItem": "Add new item",
+    "addNewList": "Add New List",
+    "addNewItem": "Add New Item",
     "amount": "Amount",
     "unit": "Unit",
     "prize": "Prize",
@@ -32,5 +32,12 @@
     "personName": "Name",
     "createAccount": "Create Account",
     "confrimPass": "Confirm password",
-    "forgotPass": "Forgot password?"
+    "forgotPass": "Forgot password?",
+    "description": "This is app to simplify your shopping. You can create shopping lists and add items to them",
+    "shareDescription": "Share your lists with your friends or family and shop together.",
+    "storageDescription": "You can also add items to your storage and system will automatically add them to your shopping list when you run out of them.",
+    "installDescription": "Create account and install app to use it on the go.",
+    "forgotPassword": "Reset Password",
+    "send": "Send",
+    "tokenExpired": "Token expired"
 }

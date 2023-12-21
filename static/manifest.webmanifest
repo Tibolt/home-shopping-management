@@ -1,17 +1,20 @@
 {
-    "short_name": "svelte-pwa",
-    "name": "svelte-test-pwa",
+    "short_name": "GroceryListify",
+    "name": "Grocery Listify",
     "start_url": "/",
     "icons": [
       {
         "src": "f15.png",
         "type": "image/png",
         "sizes": "512x512"
+      },
+      {
+        "src": "favicon.png",
+        "type": "image/png",
+        "sizes": "128x128"
       }
     ],
-    "background_color": "#3367D6",
     "display": "standalone",
-    "scope": "/",
-    "theme_color": "#3367D6",
-    "description": "Lofi to lofi beats, while using the scratchpad to list down tasks and thoughts"
+    "orientation": "portrait-primary",
+    "description": "App to make shopping lists easy"
 }

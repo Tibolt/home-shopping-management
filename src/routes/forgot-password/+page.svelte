@@ -4,40 +4,28 @@
     import { user } from "../../stores";
     import { _ } from 'svelte-i18n'
 
-    export let data  
     export let form;
 
-    $:clearUser = data?.clearUser
-
-    $:{
-        if(clearUser) {
-            user.set(undefined)
-        }
-    }
 </script>
 
 
-<form method="POST" action="?/login">
+<form method="POST">
     <Card>
         {form?.message || ""}
         <div class="center">   
-            <h1>{$_('login')}</h1>
+            <h1>{$_('forgotPassword')}</h1>
             <div class="float">
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" placeholder={$_('typeYourEmail')} value={form?.email ?? ""} required>
             </div>
-            <div class="float">
-                <label for="password">{$_('password')}</label>
-                <input type="password" id="password" name="password" placeholder={$_('typeYourPass')} required>
-            </div>
         </div>
         <div class="center-login">
-            <button class="float">{$_('login')}</button>
+            <button class="float">{$_('send')}</button>
 
         </div>
         <div class="grid">
+            <a href="/login" class="btn" style="">{$_('login')}</a>
             <a href="/register" class="btn" style="">{$_('register')}</a>
-            <a href="/forgot-password" class="btn" style="">{$_('forgotPass')}</a>
         </div>
     </Card>
 </form>
@@ -66,7 +54,7 @@ form {
     place-items: center;
     margin: 10% auto;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
 }
 
 .center-login{
@@ -125,8 +113,6 @@ button {
     padding: 0 10px;
     background-color: buttonface;
     color: buttontext;
-    white-space: nowrap;
-    overflow: hidden;
 }
 
 button {

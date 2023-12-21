@@ -4,7 +4,7 @@
     import { createEventDispatcher, tick } from 'svelte';
     import DeleteIcon from "~icons/octicon/trash-16"
     import CheckIcon from "~icons/mdi/circle-outline"
-    import { enhance } from '$app/forms';
+    import { applyAction, enhance } from '$app/forms';
     import { _, locale } from 'svelte-i18n'
 
     let dispatch = createEventDispatcher()
@@ -26,6 +26,25 @@
     const handleTicked= () => {
         ticked = !ticked
     }
+    function handleEnhanceTicked({ formElement, formData, action, cancel }) {
+        return async ({ result, update }) => {
+            if(result.type === "success") {
+                handleTicked()
+            }
+            update();
+            applyAction(result, formElement, formData);
+        }
+    }
+    function handleEnhanceDelete({ formElement, formData, action, cancel }) {
+        return async ({ result, update }) => {
+            if(result.type === "success") {
+                handleDelete()
+            }
+
+            update();
+            applyAction(result, formElement, formData);
+        }
+    }
 </script>
 
 
@@ -33,18 +52,18 @@
     <Card width={"100%"} ticked={ticked}>
         <div class="flex" >
             <div class="flex">
-                <form method="POST" action="?/ticked">
+                <form method="POST" action="?/ticked" 	use:enhance={handleEnhanceTicked}>
                     <input type="hidden" hidden value={itemId} name="id">
                     <input type="hidden" hidden value={ticked} name="ticked">
                     <div class="check-icon">
-                        <button type="submit" on:click|stopPropagation class="mark"><CheckIcon/></button>
+                        <button type="submit" style="padding: 5px;" on:click|stopPropagation class="mark"><CheckIcon/></button>
                     </div>
                 </form>
                 <h3>{name}</h3>
             </div>
-            <form method="POST" action="?/delete">
+            <form method="POST" action="?/delete" use:enhance={handleEnhanceDelete}>
                 <input type="hidden" hidden value={itemId} name="id">
-                <button on:click|stopPropagation={handleDelete}><DeleteIcon/></button>
+                <button type="submit" on:click|stopPropagation><DeleteIcon/></button>
             </form>
         </div>
         <div class="description">

@@ -9,5 +9,8 @@ export default defineConfig({
 		compiler: 'svelte',
 		autoInstall: true,
 		})
-	]
+	],
+	define: {
+		'proccess.env.NODE_ENV': '"production"'
+	}
 })

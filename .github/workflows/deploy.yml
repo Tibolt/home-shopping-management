@@ -11,21 +11,29 @@ on:
         description: 'Target for deployment'
         required: true
         default: 'production' # Provide a default value or adjust as needed
+      branch:
+        description: 'Branch to deploy'
+        required: false
+        default: 'master' # Provide a default branch if not specified
 
 jobs:
   build-and-deploy:
-    runs-on: fedora-latest
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      JWT: ${{ secrets.JWT }}
+      API: ${{ secrets.API }}
     steps:
-      - name: Checkout Main Branch
+      - name: Checkout Master Branch
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          ref: main
+          ref: ${{ github.event.inputs.branch }}
 
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "16.x"
+          node-version: "18"
 
       - name: Install Dependencies
         run: npm install
@@ -37,10 +45,10 @@ jobs:
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.SSH_KEY }}
-          known_hosts: "unnecessary"
- 
+          known_hosts: "fix_for_error"
+
       - name: Adding Known Hosts
         run: ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy with rsync
-        run: rsync -avz --delete . ${{ secrets.USERNAME }}@${{ secrets.HOST }}:${{ secrets.TARGET_DIRECTORY }}
+        run: rsync -avz . ${{ secrets.USERNAME }}@${{ secrets.HOST }}:${{ secrets.TARGET_DIRECTORY }}
