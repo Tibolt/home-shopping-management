@@ -31,7 +31,6 @@ export const POST: RequestHandler = async ({request, cookies, params}) => {
 
   try {
     const body = await request.json();
-    console.log(body);
 
     for (const product of body) {
       const { name, amount } = product;

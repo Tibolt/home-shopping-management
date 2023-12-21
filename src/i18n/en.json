@@ -39,5 +39,7 @@
     "installDescription": "Create account and install app to use it on the go.",
     "forgotPassword": "Reset Password",
     "send": "Send",
-    "tokenExpired": "Token expired"
+    "tokenExpired": "Token expired",
+    "editRestock": "Edit value when to restock",
+    "minNumber": "Min number"
 }

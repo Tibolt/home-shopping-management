@@ -21,6 +21,7 @@ export const item = pgTable("item", {
   amount_in_storage: integer("amount_in_storage").default(0),
   show_in_list: boolean("show_in_list").default(false),
   purchased_date: text("purchased_date").default(""),
+  restock_number: integer("restock_number").default(0),
 });
 
 export const user = pgTable("user", {

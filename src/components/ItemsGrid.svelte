@@ -25,7 +25,6 @@
     }
 
     const editItem = (id: number, name: string, amount: number, unit: string, prize: number) => {
-        console.log(id)
         itemId = id
         itemName = name
         amountI = amount

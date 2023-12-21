@@ -39,5 +39,7 @@
     "installDescription": "Stwórz konto i zainstaluj aplikacje aby miec szybki dostęp do swoich list.",
     "forgotPassword": "Zresetuj Hasło",
     "send": "Wyślij",
-    "tokenExpired": "Token wygasł"
+    "tokenExpired": "Token wygasł",
+    "editRestock": "Edytuj wartość kiedy uzupełnić",
+    "minNumber": "Minimalna wartość"
 }
