@@ -67,9 +67,9 @@
         place-items: center;
         text-align: center;
         overflow: scroll;
+        gap: 20px;
         padding: 80px;
         padding-bottom: 10px;
-        background-color: #f8f9fa;
         height: 100%;
     }
     h1 {

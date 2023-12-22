@@ -85,9 +85,9 @@ const register: Action = async (event) => {
         })
 
         const refreshToken = await cookieJwtRefresh({
-            name: usr[0].name,
-            email: usr[0].email,
-            id: usr[0].id
+            name: new_user[0].name,
+            email: new_user[0].email,
+            id: new_user[0].id
         })
     
         event.cookies.set("refresh_token", refreshToken, {
