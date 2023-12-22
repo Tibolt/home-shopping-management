@@ -38,7 +38,14 @@
     const logout = () => {
         auth = false
     }
-    auth = data.logged ? true : false
+
+    $:isLoggedIn = data?.logged
+
+    $:{
+        if(isLoggedIn) {
+            auth = true
+        }
+    }
 
 </script>
 
