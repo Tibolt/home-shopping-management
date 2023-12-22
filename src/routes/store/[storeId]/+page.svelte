@@ -11,6 +11,7 @@
     import { _ } from 'svelte-i18n'
     import EditStorage from '../../../components/editStorage.svelte';
     import { enhance } from '$app/forms';
+    import EditStorageResuply from '../../../components/editStorageResuply.svelte';
     // import { swipe } from 'svelte-gestures';
     let count = 0;
 
@@ -19,9 +20,12 @@
 
     let storageId: number = data.storageId
     let storageName: string = data.name
+    let itemId: number
+    let resuplyNumber: number
 
     let showAddModal = false
     let showEditForm = false
+    let showEditResuply = false
 
 
     const toggleAddModal = () => {
@@ -30,6 +34,16 @@
 
     const toggleEditModal = () => {
         showEditForm = !showEditForm;
+    }
+
+    const toggleEditResuply = () => {
+        showEditResuply = !showEditResuply;
+    }
+
+    const handleResuplyEdit = (id, number) => {
+        itemId = id
+        resuplyNumber = number
+        toggleEditResuply()
     }
 
 
@@ -42,6 +56,10 @@
 
 <AddModal showAddModal={showEditForm} on:click={toggleEditModal}>
     <EditStorage storageId={storageId} name={storageName} on:click={toggleEditModal}></EditStorage>
+</AddModal>
+
+<AddModal showAddModal={showEditResuply} on:click={toggleEditResuply}>
+    <EditStorageResuply itemId={itemId} resuplyNumber={resuplyNumber} on:click={toggleEditResuply}></EditStorageResuply>
 </AddModal>
 <div class="center">
     {form?.message || ""}
@@ -61,7 +79,7 @@
             </tr>
             {#each data.items as item }
                 <tr>
-                    <td><h3>{item.name}</h3></td>
+                    <td><button class="resuply-btn" on:click={() => handleResuplyEdit(item.id, item.restock_number)}><h3>{item.name}</h3></button></td>
                     <td>{item.amount_in_storage} {item.unit}</td>
                     <td>{item.purchased_date}</td>
                     <td>
@@ -101,6 +119,15 @@
     justify-content: center;
     align-items: center;
     padding-top: 5em;
+    /* width: 100%; */
+}
+
+h1 {
+    text-align: center;
+}
+
+.end {
+    height: 40vh;
 }
 
 h1 {
@@ -168,6 +195,12 @@ td {
 
 .options {
     padding: 10px;
+}
+
+.resuply-btn {
+    all: unset;
+    cursor: pointer;
+    padding: 5px;
 }
 
 </style>

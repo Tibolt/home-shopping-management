@@ -26,7 +26,6 @@ export const load = async ({ request, fetch, cookies, params }) => {
     if(params.storeId != "manifest.webmanifest")
     {
         id = parseInt(params.storeId)
-        console.log(id)
     }
     if (id > 0) {
         userStore = await db.select({id: storage.id, name: storage.name, author: storage.author, listId: storage.list_id}).from(user_storage).leftJoin(storage, eq(storage.id, user_storage.storage_id)).where(and(eq(user_storage.user_id, userPayload.id), eq(user_storage.storage_id, id)))
@@ -34,8 +33,6 @@ export const load = async ({ request, fetch, cookies, params }) => {
     else {
         userStore = userStores
     }
-    console.log("User store: ", userStore)
-    console.log("User stores: ", userStores)
 
     
 
@@ -80,10 +77,10 @@ export const actions = {
         const existingItem = await db.select().from(item).where(eq(item.id, id))
         if (existingItem[0]) {
             let newAmount = existingItem[0].amount_in_storage - 1
-            if (newAmount < 0) newAmount = 0
-            if (newAmount == 0) {
-                await db.update(item).set({show_in_list: true, amount: 1, amount_in_storage: 0, list_id: main_list[0].list_id}).where(eq(item.id, id))
-                console.log("0 product, add to list", id)
+            if (newAmount <= existingItem[0].restock_number || newAmount < 0) {
+              newAmount = existingItem[0].restock_number
+              await db.update(item).set({show_in_list: true, amount: 1, amount_in_storage: newAmount, list_id: main_list[0].list_id, ticked: false}).where(eq(item.id, id))
+              console.log("0 product, add to list", id)
             }
             else {
                 await db.update(item).set({amount_in_storage: newAmount}).where(eq(item.id, id))
@@ -165,5 +162,27 @@ export const actions = {
           console.error(err);
           return fail(500, { message: 'Could not edit name.' });
         }
-    }
+    },
+    editRestock: async ({ request, cookies }) => {
+      try {
+        const {resuplyNumber, itemId} = Object.fromEntries(await request.formData()) as {
+          resuplyNumber: number
+          itemId: number
+        }
+        // ensure the user is logged in
+        const token = cookies.get("auth_token");
+        if (!token) {
+          throw redirect(301, "/sign-in");
+        }
+
+        console.log("resuplyNumber", resuplyNumber, "itemId", itemId)
+    
+        await db.update(item).set({restock_number: resuplyNumber}).where(eq(item.id, itemId))
+        console.log("edited restock", itemId, resuplyNumber)
+        return { success: true };
+      } catch (err) {
+        console.error(err);
+        return fail(500, { message: 'Could not edit restock number.' });
+      }
+  }
 }

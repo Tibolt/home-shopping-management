@@ -65,13 +65,15 @@ export const actions = {
 
     const userPayload = await cookieJwtAuth(token);
     const mainList = await db.select({id: list.id, name: list.name, is_main: list.is_main}).from(list).where(and(eq(list.is_main, true), eq(list.id, params.listId)))
-    if(mainList.length > 0) {
-      const deleted = await db.update(item).set({show_in_list: false, ticked: false}).where(and(eq(item.id, id), eq(item.ticked, true)))
-      if (deleted.rowCount == 0) {
-        return fail(400, {message: "You haven't bought this item yet, if you want to delete use edit item page"})
-      }
-    }
-    else
+    
+    // TODO: ASK IF USER WANTS TO DELETE FROM MAIN LIST OR JUST MARK AS NOT BOUGHT
+    // if(mainList.length > 0) {
+    //   const deleted = await db.update(item).set({show_in_list: false, ticked: false}).where(and(eq(item.id, id), eq(item.ticked, true)))
+    //   if (deleted.rowCount == 0) {
+    //     return fail(400, {message: "You haven't bought this item yet, if you want to delete use edit item page"})
+    //   }
+    // }
+    // else
       await db.delete(item).where(eq(item.id, id))
     console.log("deleted", id)
     return { success: true };
@@ -162,12 +164,14 @@ export const actions = {
     const today = new Date().toLocaleDateString("en-GB").toString()
 
     const userPayload = await cookieJwtAuth(token);
-    const mainList = await db.select({id: list.id, name: list.name, is_main: list.is_main}).from(list).where(eq(list.id, params.listId))
+    const mainList = await db.select({id: list.id, name: list.name, is_main: list.is_main}).from(list).where(and(eq(list.id, params.listId),eq(list.is_main, true)))
+    console.log("mainList", mainList)
     if(ticked == "false") {
       if(mainList.length > 0) {
         const store = await db.select().from(storage).where(eq(storage.list_id, mainList[0].id))
         const storageItem = await db.select().from(item).where(eq(item.id, id))
         const newAmount = storageItem[0].amount + storageItem[0].amount_in_storage
+        console.log(store)
         await db.update(item).set({ticked: true, amount_in_storage: newAmount, storage_id: store[0].id, purchased_date: today}).where(eq(item.id, id))
       }
       else

@@ -34,10 +34,13 @@
     "confirmPass": "Potwierdź hasło",
     "forgotPass": "Zapomniałeś hasła?",
     "description": "Ta aplikacja pozwala na tworzenie list zakupowych, dzięki którym nie zapomnisz o żadnym produkcie.",
-    "shareDescription": "Udostepniaj swoje listy innym i wspólnie róbcie zakupy.",
-    "storageDescription": "W magazynie możesz przechowywać produkty, które często kupujesz, dzięki czemu nie musisz ich dodawać do listy za każdym razem.",
+    "shareDescription": "Udostepniaj swoje listy innym i wspólnie róbcie zakupy. Listy możesz edytować klikajac odpowiednią ikone. Aby dodać produkty do listy kliknij na karte danej listy i kliknij przycisk plus.",
+    "storageDescription": "W magazynie możesz przechowywać produkty, które często kupujesz, dzięki czemu nie musisz ich dodawać do listy za każdym razem. Twój magazyn automatycznie zostanie dodany wraz z listą zakupowa powiązaną z nim. Nazwy są domyśle, ale zawsze możesz je zmienić.",
     "installDescription": "Stwórz konto i zainstaluj aplikacje aby miec szybki dostęp do swoich list.",
     "forgotPassword": "Zresetuj Hasło",
     "send": "Wyślij",
-    "tokenExpired": "Token wygasł"
+    "tokenExpired": "Token wygasł",
+    "editRestock": "Edytuj wartość kiedy uzupełnić",
+    "minNumber": "Minimalna wartość",
+    "500Error": "Wystąpił błąd serwera, sprawdź połączenie z internetem i spróbuj ponownie później."
 }
