@@ -130,6 +130,14 @@ h1 {
     height: 40vh;
 }
 
+h1 {
+    text-align: center;
+}
+
+.end {
+    height: 30vh;
+}
+
 .list {
     display: flex;
     flex-direction: column;

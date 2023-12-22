@@ -64,6 +64,7 @@
     }
     .grid-home {
         display: grid;
+        gap: 20px;
         place-items: center;
         text-align: center;
         overflow: scroll;
@@ -71,7 +72,6 @@
         padding: 80px;
         padding-bottom: 10px;
         height: 100%;
-    }
     h1 {
         font-size: 2.5rem;
         color: #343a40; /* Dark text color */
