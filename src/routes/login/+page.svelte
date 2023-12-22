@@ -3,6 +3,7 @@
 	import Card from "../../components/Card.svelte";
     import { user } from "../../stores";
     import { _ } from 'svelte-i18n'
+    import { enhance } from "$app/forms";
 
     export let data  
     export let form;
@@ -17,7 +18,7 @@
 </script>
 
 
-<form method="POST" action="?/login">
+<form method="POST" action="?/login" use:enhance>
     <Card>
         {form?.message || ""}
         <div class="center">   

@@ -3,9 +3,12 @@
     import { onMount } from 'svelte'
     import PWAPrompt from 'svelte-ios-pwa-prompt'
 	import { browser } from '$app/environment'
+	import { invalidateAll } from '$app/navigation';
 
     let deferredInstallEvent : any
     let installPrompt : boolean = false
+
+    export let data;
 
     onMount(() => {
         window.addEventListener("beforeinstallprompt", e => {
@@ -28,14 +31,10 @@
         installPrompt = false
     }
 
-    // const clickInstall = () => {
-    //     if (!installPrompt) {
-    //         return;
-    //     }
-    //     const result = await installPrompt.prompt();
-    //     console.log(`Install prompt was: ${result.outcome}`);
-    //     disableInAppInstallPrompt();
-    // }
+    if(data.storageId === undefined && browser) {
+        invalidateAll();
+    }
+
 
 </script>
 

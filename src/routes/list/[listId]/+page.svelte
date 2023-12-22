@@ -61,7 +61,7 @@
     .parent {
         display: flex;
         justify-content: center;
-        flex-direction: row;
+        flex-direction: column;
         flex-wrap: wrap;
         align-content: center;
         width: 100%;

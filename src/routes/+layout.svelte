@@ -12,6 +12,7 @@
 
     import { browser } from '$app/environment'
     import "../lib/i18n" // Import to initialize. Important :)
+	import { invalidateAll } from '$app/navigation';
 
     if (browser) {
         const lang = localStorage.getItem('locale')
@@ -38,13 +39,17 @@
     const logout = () => {
         auth = false
     }
-
+    
     $:isLoggedIn = data?.logged
-
+    
     $:{
         if(isLoggedIn) {
             auth = true
         }
+    }
+    
+    if(data.storageId == undefined && browser) {
+        invalidateAll();
     }
 
 </script>
@@ -53,8 +58,10 @@
     {#if click == true}
         <h1 on:click={toggleNav}><CloseIcon/></h1>
             <a on:click={toggleNav} href="/"><HomeIcon/>{$_('home')}</a>
+            {#if auth == true}
             <a on:click={toggleNav} href="/list"><ListIcon/>{$_('list')}</a>
             <a on:click={toggleNav} href="/store/{data.storageId}"><StoreIcon/>{$_('storage')}</a>
+            {/if}
             {#if auth == false}
             <a on:click={toggleNav} href="/login"><LoginIcon/>{$_('login')}</a>
             <!-- {:else}

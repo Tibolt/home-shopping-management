@@ -1,13 +1,14 @@
 <script lang="ts">
     import Card from "../../components/Card.svelte"
     import { _ } from 'svelte-i18n'
+    import { enhance } from "$app/forms";
 
     import type { ActionData } from './$types'
 
     export let form
 </script>
 
-<form method="POST" action="?/register">
+<form method="POST" action="?/register" use:enhance>
     <Card>
         {form?.message || ""}
         <div class="grid">
