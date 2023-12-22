@@ -4,12 +4,12 @@
     "start_url": "/",
     "icons": [
       {
-        "src": "f15.png",
+        "src": "ShoppingIcon512.png",
         "type": "image/png",
         "sizes": "512x512"
       },
       {
-        "src": "favicon.png",
+        "src": "ShoppingIcon128.png",
         "type": "image/png",
         "sizes": "128x128"
       }
