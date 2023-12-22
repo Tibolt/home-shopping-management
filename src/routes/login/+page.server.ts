@@ -4,7 +4,7 @@ import { user, user_storage } from "$lib/db/schema";
 import { eq, and, lt, gte, ne, Name } from "drizzle-orm";
 import { goto } from "$app/navigation";
 import bcrypt from "bcrypt";
-import { cookieJwtCreate, cookieJwtRefresh } from "$lib/server/jwt";
+import { cookieJwtAuth, cookieJwtCreate, cookieJwtRefresh } from "$lib/server/jwt";
 
 export const load = async (event) => {
     // get the sessionId from the cookie
@@ -13,8 +13,10 @@ export const load = async (event) => {
     if(!token) {
         return {clearUser: true}
     }
-    return {clearUser: false}
-    // throw redirect(301, "/");
+    
+    const user = await cookieJwtAuth(token);
+    throw redirect(301, "/");
+    // return {clearUser: false}
 }
 
 const login: Action = async (event) => {
