@@ -38,7 +38,7 @@
     const logout = () => {
         auth = false
     }
-    $: auth = data.logged ? true : false
+    auth = data.logged ? true : false
 
 </script>
 
