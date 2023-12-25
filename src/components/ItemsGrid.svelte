@@ -62,6 +62,7 @@
         overflow-y: auto;
         overflow-x: hidden;
         padding-top: 5em;
+        padding-bottom: 100px;
     }
     ::-webkit-scrollbar {
 

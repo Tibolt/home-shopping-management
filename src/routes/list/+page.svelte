@@ -118,6 +118,7 @@
         /* padding-bottom: 10em; */
         overflow-y: auto;
         overflow-x: hidden;
+        padding-bottom: 100px;
     }
     .item {
         padding-bottom: 1em;
