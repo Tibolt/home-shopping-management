@@ -67,13 +67,13 @@ export const actions = {
     const mainList = await db.select({id: list.id, name: list.name, is_main: list.is_main}).from(list).where(and(eq(list.is_main, true), eq(list.id, params.listId)))
     
     // TODO: ASK IF USER WANTS TO DELETE FROM MAIN LIST OR JUST MARK AS NOT BOUGHT
-    // if(mainList.length > 0) {
-    //   const deleted = await db.update(item).set({show_in_list: false, ticked: false}).where(and(eq(item.id, id), eq(item.ticked, true)))
-    //   if (deleted.rowCount == 0) {
-    //     return fail(400, {message: "You haven't bought this item yet, if you want to delete use edit item page"})
-    //   }
-    // }
-    // else
+    if(mainList.length > 0) {
+      const deleted = await db.update(item).set({show_in_list: false, ticked: false, amount: 0}).where(eq(item.id, id))
+      // if (deleted.rowCount == 0) {
+      //   return fail(400, {message: "You haven't bought this item yet, if you want to delete use edit item page"})
+      // }
+    }
+    else
       await db.delete(item).where(eq(item.id, id))
     console.log("deleted", id)
     return { success: true };

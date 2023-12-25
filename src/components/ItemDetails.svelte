@@ -4,6 +4,8 @@
     import { createEventDispatcher, tick } from 'svelte';
     import DeleteIcon from "~icons/octicon/trash-16"
     import CheckIcon from "~icons/mdi/circle-outline"
+    // import CheckedIcon from "~icons/mdi/circle"
+    import CheckedIcon from "~icons/icons8/checked"
     import { applyAction, enhance } from '$app/forms';
     import { _, locale } from 'svelte-i18n'
 
@@ -56,7 +58,11 @@
                     <input type="hidden" hidden value={itemId} name="id">
                     <input type="hidden" hidden value={ticked} name="ticked">
                     <div class="check-icon">
-                        <button type="submit" style="padding: 5px;" on:click|stopPropagation class="mark"><CheckIcon/></button>
+                        {#if ticked}
+                            <button type="submit" style="padding: 5px;" on:click|stopPropagation class="mark"><CheckedIcon/></button>
+                        {:else}
+                            <button type="submit" style="padding: 5px;" on:click|stopPropagation class="mark"><CheckIcon/></button>
+                        {/if}
                     </div>
                 </form>
                 <h3>{name}</h3>

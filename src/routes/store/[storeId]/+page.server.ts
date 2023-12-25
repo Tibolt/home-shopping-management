@@ -9,6 +9,18 @@ import { getContext } from 'svelte';
 import { parse } from "dotenv";
 import { isValidEmail } from "$lib/utils";
 
+
+async function checkStoreId(storeId: number, token: string) {
+    console.log("storeIdFunc", storeId)
+    if (storeId === undefined || isNaN(storeId)) {
+      const userPayload = await cookieJwtAuth(token);
+      const store = await db.select({id: storage.id}).from(storage).where(eq(storage.author, userPayload.id))
+      storeId = store[0].id
+    }
+    return storeId
+  }
+
+
 export const load = async ({ request, fetch, cookies, params }) => {
 
 
@@ -27,6 +39,7 @@ export const load = async ({ request, fetch, cookies, params }) => {
     {
         id = parseInt(params.storeId)
     }
+
     if (id > 0) {
         userStore = await db.select({id: storage.id, name: storage.name, author: storage.author, listId: storage.list_id}).from(user_storage).leftJoin(storage, eq(storage.id, user_storage.storage_id)).where(and(eq(user_storage.user_id, userPayload.id), eq(user_storage.storage_id, id)))
     }
@@ -73,7 +86,10 @@ export const actions = {
         }
 
         const userPayload = await cookieJwtAuth(token);
-        const main_list = await db.select().from(storage).where(eq(storage.id, params.storeId))
+        const storeId = await checkStoreId(parseInt(params.storeId), token)
+        console.log("storeId", storeId)
+
+        const main_list = await db.select().from(storage).where(eq(storage.id, storeId))
         const existingItem = await db.select().from(item).where(eq(item.id, id))
         if (existingItem[0]) {
             let newAmount = existingItem[0].amount_in_storage - 1
