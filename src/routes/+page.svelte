@@ -52,7 +52,7 @@
             <button class="install-button" on:click={handleInstall}>Install</button>
         {/if}
         <footer>
-            <div class="copyright">Copyright 2023 Grocery Listify</div>
+            <div class="copyright">Copyright 2023 Grocery Listify <a href="/privacy-policy">Privacy Policy</a></div>
         </footer>
     </div>
 </main>
@@ -95,6 +95,11 @@
         width: 100%;
         margin-top: auto;
     }
+
+    footer a {
+        color: #6c757d;
+    }
+
     .copyright {
         color: #aaa;
         font-size: 14px;
